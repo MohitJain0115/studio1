@@ -258,15 +258,16 @@ export default function CompulsiveBuyingImpactCalculator() {
 
             <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">What is Compulsive Buying Disorder (CBD)?</h2>
             <p>Compulsive Buying Disorder, also known as oniomania, is a behavioral addiction characterized by an obsession with shopping and buying, and an inability to control these urges. While this calculator is a tool for anyone who struggles with impulse spending, understanding the clinical definition sheds light on the powerful psychological forces at play. It’s not just a "bad habit"; for many, it's a deeply ingrained behavioral pattern used to cope with negative emotions like anxiety, depression, or low self-esteem.</p>
-            <p>The pattern typically involves a cycle:
-                <ol className="list-decimal ml-6 mt-2 space-y-2">
-                    <li><strong className="font-semibold text-foreground">Anticipation:</strong> An intense preoccupation with buying a specific item or simply the act of shopping.</li>
-                    <li><strong className="font-semibold text-foreground">Preparation:</strong> Researching products, planning shopping trips, and experiencing a growing excitement.</li>
-                    <li><strong className="font-semibold text-foreground">Shopping:</strong> A thrilling, euphoric "high" experienced at the moment of purchase. This is the peak of the emotional cycle.</li>
-                    <li><strong className="font-semibold text-foreground">Spending:</strong> The culmination of the urge, often leading to financial outlays that are not planned for or affordable.</li>
-                    <li><strong className="font-semibold text-foreground">Post-Purchase Disappointment:</strong> The initial high quickly fades, replaced by feelings of guilt, shame, anxiety, and regret over the financial consequences. This emotional crash often triggers the cycle to begin again as a way to self-medicate the new negative feelings.</li>
-                </ol>
-            </p>
+            <div>
+              <p>The pattern typically involves a cycle:</p>
+              <ol className="list-decimal ml-6 mt-2 space-y-2">
+                  <li><strong className="font-semibold text-foreground">Anticipation:</strong> An intense preoccupation with buying a specific item or simply the act of shopping.</li>
+                  <li><strong className="font-semibold text-foreground">Preparation:</strong> Researching products, planning shopping trips, and experiencing a growing excitement.</li>
+                  <li><strong className="font-semibold text-foreground">Shopping:</strong> A thrilling, euphoric "high" experienced at the moment of purchase. This is the peak of the emotional cycle.</li>
+                  <li><strong className="font-semibold text-foreground">Spending:</strong> The culmination of the urge, often leading to financial outlays that are not planned for or affordable.</li>
+                  <li><strong className="font-semibold text-foreground">Post-Purchase Disappointment:</strong> The initial high quickly fades, replaced by feelings of guilt, shame, anxiety, and regret over the financial consequences. This emotional crash often triggers the cycle to begin again as a way to self-medicate the new negative feelings.</li>
+              </ol>
+            </div>
             <p>Recognizing that compulsive spending is often a symptom of a deeper emotional need is the first step toward addressing it. It's not about a lack of willpower; it's about a misaligned coping mechanism.</p>
 
             <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">The Financial Devastation of Opportunity Cost</h2>
