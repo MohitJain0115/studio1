@@ -9,10 +9,14 @@ import {
 } from '@/components/ui/sidebar';
 import {
   Shield,
+  HeartPulse,
+  Stethoscope,
 } from 'lucide-react';
 
 const menuItems = [
-  { href: '/insurance', label: 'Insurance', icon: Shield },
+  { href: '/insurance-affordability-calculator', label: 'Insurance Affordability', icon: Shield },
+  { href: '/out-of-pocket-health-cost-calculator', label: 'Out-of-Pocket Health Cost', icon: HeartPulse },
+  { href: '/medical-bill-estimator', label: 'Medical Bill Estimator', icon: Stethoscope },
 ];
 
 export default function NavigationMenu() {
