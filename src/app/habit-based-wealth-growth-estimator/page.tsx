@@ -59,9 +59,9 @@ export default function HabitBasedWealthGrowthEstimator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      habits: [{ name: 'Morning Coffee', amount: 5, frequency: 'daily' }],
-      annualReturnRate: 8,
-      investmentPeriodYears: 10,
+      habits: [{ name: '', amount: undefined, frequency: 'daily' }],
+      annualReturnRate: undefined,
+      investmentPeriodYears: undefined,
     },
   });
 
@@ -141,7 +141,10 @@ export default function HabitBasedWealthGrowthEstimator() {
                                 <FormItem>
                                 <FormLabel>Amount</FormLabel>
                                 <FormControl>
-                                    <Input type="number" placeholder="e.g., 5" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                                  <div className="relative">
+                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
+                                    <Input type="number" className="pl-7" placeholder="e.g., 5" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
