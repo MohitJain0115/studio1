@@ -13,9 +13,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { calculateMortgage } from '@/lib/calculators';
-import { Calculator } from 'lucide-react';
+import { Calculator, Home } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
-export default function MortgageCalculator() {
+function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState('300000');
   const [interestRate, setInterestRate] = useState('5.0');
   const [loanTerm, setLoanTerm] = useState('30');
@@ -38,72 +45,97 @@ export default function MortgageCalculator() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-headline flex items-center gap-2">
-            <Calculator className="w-6 h-6 text-primary" />
-            Mortgage Calculator
-          </CardTitle>
-          <CardDescription>
-            Estimate your monthly mortgage payments.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="loan-amount">Loan Amount ($)</Label>
-              <Input
-                id="loan-amount"
-                type="number"
-                value={loanAmount}
-                onChange={(e) => setLoanAmount(e.target.value)}
-                placeholder="e.g., 300000"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="interest-rate">Interest Rate (%)</Label>
-              <Input
-                id="interest-rate"
-                type="number"
-                value={interestRate}
-                onChange={(e) => setInterestRate(e.target.value)}
-                placeholder="e.g., 5.0"
-              />
-            </div>
-          </div>
+    <>
+      <CardHeader>
+        <DialogTitle className="text-2xl font-headline flex items-center gap-2">
+          <Calculator className="w-6 h-6 text-primary" />
+          Mortgage Calculator
+        </DialogTitle>
+        <CardDescription>
+          Estimate your monthly mortgage payments.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="loan-term">Loan Term (Years)</Label>
+            <Label htmlFor="loan-amount">Loan Amount ($)</Label>
             <Input
-              id="loan-term"
+              id="loan-amount"
               type="number"
-              value={loanTerm}
-              onChange={(e) => setLoanTerm(e.target.value)}
-              placeholder="e.g., 30"
+              value={loanAmount}
+              onChange={(e) => setLoanAmount(e.target.value)}
+              placeholder="e.g., 300000"
             />
           </div>
-        </CardContent>
-        <CardFooter className="flex-col items-start gap-4">
-          <Button onClick={handleCalculate} className="w-full md:w-auto">
-            Calculate
-          </Button>
-          {monthlyPayment !== null && (
-            <Card className="w-full bg-accent/20 border-accent">
-              <CardHeader>
-                <CardTitle className="text-lg">Your Estimated Payment</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-primary">
-                  {formatCurrency(monthlyPayment)}
-                  <span className="text-base font-normal text-muted-foreground">
-                    /month
-                  </span>
-                </p>
-              </CardContent>
-            </Card>
-          )}
-        </CardFooter>
-      </Card>
+          <div className="space-y-2">
+            <Label htmlFor="interest-rate">Interest Rate (%)</Label>
+            <Input
+              id="interest-rate"
+              type="number"
+              value={interestRate}
+              onChange={(e) => setInterestRate(e.target.value)}
+              placeholder="e.g., 5.0"
+            />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="loan-term">Loan Term (Years)</Label>
+          <Input
+            id="loan-term"
+            type="number"
+            value={loanTerm}
+            onChange={(e) => setLoanTerm(e.target.value)}
+            placeholder="e.g., 30"
+          />
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col items-start gap-4">
+        <Button onClick={handleCalculate} className="w-full md:w-auto">
+          Calculate
+        </Button>
+        {monthlyPayment !== null && (
+          <Card className="w-full bg-accent/20 border-accent">
+            <CardHeader>
+              <CardTitle className="text-lg">Your Estimated Payment</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold text-primary">
+                {formatCurrency(monthlyPayment)}
+                <span className="text-base font-normal text-muted-foreground">
+                  /month
+                </span>
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </CardFooter>
+    </>
+  );
+}
+
+export default function CalculatorsPage() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Card className="cursor-pointer hover:border-primary transition-colors">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Home className="w-6 h-6 text-primary" />
+                Mortgage Calculator
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Estimate your monthly mortgage payments for a new home.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </DialogTrigger>
+        <DialogContent className="max-w-2xl">
+          <MortgageCalculator />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
