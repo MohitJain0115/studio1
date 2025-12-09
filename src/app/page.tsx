@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Shield, HeartPulse, Stethoscope } from 'lucide-react';
+import { Shield, HeartPulse, Stethoscope, Gem, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CalculatorsPage() {
@@ -56,6 +56,36 @@ export default function CalculatorsPage() {
             <CardContent>
               <CardDescription>
                 Estimate your cost for a specific medical procedure.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/wealth-consistency-tracker">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Gem className="w-6 h-6 text-primary" />
+                Wealth Consistency Tracker
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Track and improve your monthly savings consistency.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/habit-based-wealth-growth-estimator">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="w-6 h-6 text-primary" />
+                Habit-based Wealth Growth
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Estimate growth by redirecting spending on habits.
               </CardDescription>
             </CardContent>
           </Card>

@@ -11,12 +11,16 @@ import {
   Shield,
   HeartPulse,
   Stethoscope,
+  Gem,
+  Zap,
 } from 'lucide-react';
 
 const menuItems = [
   { href: '/insurance', label: 'Insurance Affordability', icon: Shield },
   { href: '/out-of-pocket-health-cost-calculator', label: 'Out-of-Pocket Health Cost', icon: HeartPulse },
   { href: '/medical-bill-estimator', label: 'Medical Bill Estimator', icon: Stethoscope },
+  { href: '/wealth-consistency-tracker', label: 'Wealth Consistency Tracker', icon: Gem },
+  { href: '/habit-based-wealth-growth-estimator', label: 'Habit-based Wealth Growth', icon: Zap },
 ];
 
 export default function NavigationMenu() {
