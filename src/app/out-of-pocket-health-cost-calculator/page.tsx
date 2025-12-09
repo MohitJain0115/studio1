@@ -15,7 +15,7 @@ import Link from 'next/link';
 const formSchema = z.object({
   totalMedicalCosts: z.number().positive('Total estimated medical costs are required.'),
   deductible: z.number().nonnegative('Deductible cannot be negative.'),
-  coinsurance: z..number().min(0).max(100, 'Coinsurance must be between 0 and 100.'),
+  coinsurance: z.number().min(0).max(100, 'Coinsurance must be between 0 and 100.'),
   outOfPocketMax: z.number().positive('Out-of-pocket maximum is required.'),
 });
 
@@ -460,3 +460,5 @@ export default function OutOfPocketHealthCostCalculator() {
     </div>
   );
 }
+
+    
