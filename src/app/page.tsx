@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Shield, HeartPulse, Stethoscope, Gem, Zap, BrainCircuit, Replace } from 'lucide-react';
+import { Shield, HeartPulse, Stethoscope, Gem, Zap, BrainCircuit, Replace, ShoppingCart, Gauge } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CalculatorsPage() {
@@ -15,7 +15,7 @@ export default function CalculatorsPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold tracking-tight">Calculators</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Link href="/insurance">
+        <Link href="/insurance-affordability-calculator">
           <Card className="cursor-pointer hover:border-primary transition-colors h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -116,6 +116,36 @@ export default function CalculatorsPage() {
             <CardContent>
               <CardDescription>
                 Measure the impact of behavior on investment returns.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/compulsive-buying-impact-calculator">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ShoppingCart className="w-6 h-6 text-primary" />
+                Compulsive Buying Impact
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                See the future cost of today's impulse buys.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/financial-health-score-calculator">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Gauge className="w-6 h-6 text-primary" />
+                Financial Health Score
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Get a snapshot of your financial wellness.
               </CardDescription>
             </CardContent>
           </Card>
