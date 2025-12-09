@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Landmark, TrendingUp, DollarSign, Activity, Shield, Info, BrainCircuit, HeartPulse, Stethoscope, Gem, Zap } from 'lucide-react';
+import { Landmark, TrendingUp, DollarSign, Activity, Shield, Info, BrainCircuit, HeartPulse, Stethoscope, Gem, Zap, Replace } from 'lucide-react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar, Legend, Tooltip } from 'recharts';
 import Link from 'next/link';
 
@@ -64,11 +64,11 @@ export default function InvestmentConfidenceMeter() {
       lossAversion: 0
     };
 
-    scores.riskReaction = questions[0].scoreMap[values.q1 as keyof typeof questions[0].scoreMap];
-    scores.knowledge = questions[1].scoreMap[values.q2 as keyof typeof questions[1].scoreMap];
-    scores.preference = questions[2].scoreMap[values.q3 as keyof typeof questions[2].scoreMap];
-    scores.horizon = questions[3].scoreMap[values.q4 as keyof typeof questions[3].scoreMap];
-    scores.lossAversion = questions[4].scoreMap[values.q5 as keyof typeof questions[4].scoreMap];
+    scores.riskReaction = questions[0].scoreMap[values.q1 as keyof typeof questions[0]['scoreMap']];
+    scores.knowledge = questions[1].scoreMap[values.q2 as keyof typeof questions[1]['scoreMap']];
+    scores.preference = questions[2].scoreMap[values.q3 as keyof typeof questions[2]['scoreMap']];
+    scores.horizon = questions[3].scoreMap[values.q4 as keyof typeof questions[3]['scoreMap']];
+    scores.lossAversion = questions[4].scoreMap[values.q5 as keyof typeof questions[4]['scoreMap']];
 
     totalScore = Object.values(scores).reduce((acc, score) => acc + score, 0);
 
