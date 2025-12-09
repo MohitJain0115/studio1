@@ -370,7 +370,7 @@ export default function OutOfPocketHealthCostCalculator() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              <li><Link href="/insurance-affordability-calculator" className="hover:underline">Insurance Premium Affordability</Link></li>
+              <li><Link href="/insurance" className="hover:underline">Insurance Premium Affordability</Link></li>
               <li><Link href="/medical-bill-estimator" className="hover:underline">Medical Bill Estimator</Link></li>
             </ul>
           </CardContent>
