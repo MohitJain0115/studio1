@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, TrendingUp, Shield, Info, Activity } from 'lucide-react';
+import { Landmark, TrendingUp, DollarSign, Calendar, Target, Info, Activity, Shield, PieChart as PieChartIcon } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 const formSchema = z.object({
@@ -24,16 +24,18 @@ interface CalculationResult {
   recommendedMaxPremium: number;
   coverageToIncomeRatio: number;
   health: 'Excellent' | 'Good' | 'Fair' | 'Poor';
+  monthlyIncome: number;
+  desiredCoverage: number;
 }
 
 const formatNumberUS = (value: number, options: Intl.NumberFormatOptions = {}) =>
-  value.toLocaleString('en-US', { ...options, style: 'currency', currency: 'USD' });
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', ...options }).format(value);
 
 const COLORS = {
-  Excellent: '#10b981',
-  Good: '#3b82f6',
-  Fair: '#f97316',
-  Poor: '#ef4444',
+  Excellent: 'hsl(var(--chart-2))', // Green
+  Good: 'hsl(var(--chart-1))',      // Blue
+  Fair: 'hsl(var(--chart-4))',      // Orange
+  Poor: 'hsl(var(--destructive))',  // Red
 };
 
 export default function InsurancePremiumCalculator() {
@@ -52,11 +54,13 @@ export default function InsurancePremiumCalculator() {
     const { monthlyIncome, existingDebts, desiredCoverage } = values;
     
     // Recommended premium is 5-10% of disposable income
-    const disposableIncome = monthlyIncome - existingDebts;
+    const disposableIncome = Math.max(0, monthlyIncome - existingDebts);
     const recommendedMaxPremium = disposableIncome * 0.10;
 
     // Affordability Index (simplified): 100 = can afford rec. max premium
-    const affordabilityIndex = Math.max(0, Math.min(100, (recommendedMaxPremium / (desiredCoverage / 240)) * 100)); // Assuming 20-year term
+    // Assumes a 20-year term premium is roughly Desired Coverage / 240
+    const estimatedPremium = desiredCoverage / 240;
+    const affordabilityIndex = Math.max(0, Math.min(100, (recommendedMaxPremium / estimatedPremium) * 100));
 
     const coverageToIncomeRatio = desiredCoverage / (monthlyIncome * 12);
 
@@ -69,23 +73,25 @@ export default function InsurancePremiumCalculator() {
       affordabilityIndex,
       recommendedMaxPremium,
       coverageToIncomeRatio,
-      health
+      health,
+      monthlyIncome,
+      desiredCoverage,
     });
   };
 
   const chartData = result 
     ? [
         { name: 'Affordability', value: result.affordabilityIndex },
-        { name: 'Remaining', value: 100 - result.affordabilityIndex },
+        { name: 'Remaining', value: Math.max(0, 100 - result.affordabilityIndex) },
       ] 
     : [];
       
   const recommendationItems = result
     ? [
-        result.health === 'Excellent' ? 'Your income strongly supports the desired coverage. You have flexibility to choose comprehensive plans.' : 'Review your budget or coverage amount to find a more suitable plan.',
-        result.coverageToIncomeRatio < 10 ? 'Your coverage seems low compared to your income. Consider increasing it to protect your dependents adequately.' : 'Your coverage-to-income ratio is robust, offering solid protection.',
-        `Based on your income and debts, a monthly premium up to ${formatNumberUS(result.recommendedMaxPremium, {maximumFractionDigits: 0})} is considered affordable.`,
-        'Explore term insurance for high coverage at a low cost, and consider a separate investment plan.'
+        result.health === 'Excellent' ? 'Your income strongly supports this coverage. You have flexibility to explore comprehensive plans and riders.' : 'Your budget may be strained. Consider reviewing your coverage amount or exploring ways to increase disposable income.',
+        result.coverageToIncomeRatio < 10 ? 'Your coverage seems low for your income. It may not be enough to support dependents. Consider increasing it.' : 'Your coverage-to-income ratio is robust, offering solid protection for your dependents.',
+        `A monthly premium up to ${formatNumberUS(result.recommendedMaxPremium, {maximumFractionDigits: 0})} is considered a healthy maximum for your budget.`,
+        'Explore term life insurance for high coverage at a low cost, which is often the most efficient way to get protection.'
       ]
     : [];
 
@@ -93,15 +99,15 @@ export default function InsurancePremiumCalculator() {
     ? [
         {
           label: 'Get Quotes',
-          detail: 'Request quotes from multiple insurers for a term plan of at least $' + formatNumberUS(result.recommendedMaxPremium * 240 * 2, {maximumFractionDigits: 0}) + ' to compare rates.'
+          detail: `Request quotes from multiple top-rated insurers for a term plan of at least ${formatNumberUS(result.desiredCoverage, {maximumFractionDigits: 0})} to compare rates.`
         },
         {
           label: 'Health Check-up',
-          detail: 'A medical check-up can sometimes lower premiums if you are in good health.'
+          detail: 'A medical check-up can sometimes lower premiums if you are in good health. Don\'t delay your application.'
         },
         {
           label: 'Review Debts',
-          detail: 'Reducing existing monthly debt payments can free up more room in your budget for insurance premiums.'
+          detail: 'Reducing existing monthly debt payments is the fastest way to free up more room in your budget for insurance premiums.'
         },
         {
           label: 'Consult an Advisor',
@@ -119,7 +125,7 @@ export default function InsurancePremiumCalculator() {
             Insurance Premium Affordability
           </CardTitle>
           <CardDescription>
-            Determine how much insurance coverage you can comfortably afford.
+            Enter your financial details to assess how much insurance coverage you can comfortably afford.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -207,7 +213,7 @@ export default function InsurancePremiumCalculator() {
             <CardHeader>
                 <CardTitle>Your Insurance Affordability Index</CardTitle>
                 <CardDescription>
-                    An assessment of your capacity to pay premiums for the desired coverage.
+                    An assessment of your capacity to pay premiums for the desired ${formatNumberUS(result.desiredCoverage, {maximumFractionDigits: 0})} coverage.
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -221,7 +227,7 @@ export default function InsurancePremiumCalculator() {
                       innerRadius={80}
                       outerRadius={100}
                       startAngle={90}
-                      endAngle={-270}
+                      endAngle={450}
                       paddingAngle={0}
                       dataKey="value"
                     >
@@ -230,11 +236,10 @@ export default function InsurancePremiumCalculator() {
                     </Pie>
                     <Tooltip
                         contentStyle={{ display: 'none' }}
-                        formatter={() => null}
                     />
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                     <span className="text-5xl font-bold" style={{ color: COLORS[result.health] }}>
                         {result.affordabilityIndex.toFixed(0)}
                     </span>
@@ -248,12 +253,12 @@ export default function InsurancePremiumCalculator() {
                   <div>
                       <h4 className="font-semibold text-muted-foreground">Recommended Max Premium</h4>
                       <p className="text-2xl font-bold text-primary">{formatNumberUS(result.recommendedMaxPremium, {maximumFractionDigits: 0})} / month</p>
-                      <p className="text-sm">This is about 10% of your disposable income, a healthy upper limit.</p>
+                      <p className="text-sm">This is about 10% of your disposable income—a healthy upper limit for your budget.</p>
                   </div>
                   <div>
                       <h4 className="font-semibold text-muted-foreground">Coverage-to-Income Ratio</h4>
                       <p className="text-2xl font-bold text-primary">{result.coverageToIncomeRatio.toFixed(1)}x</p>
-                      <p className="text-sm">A ratio of 10-15x your annual income is often recommended.</p>
+                      <p className="text-sm">A common rule of thumb is 10-15x your annual income.</p>
                   </div>
               </div>
             </CardContent>
@@ -296,6 +301,92 @@ export default function InsurancePremiumCalculator() {
 
         </div>
       )}
+
+      {/* Educational Content */}
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Info className="h-5 w-5" />
+              Understanding the Inputs
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid md:grid-cols-2 gap-4 text-sm">
+            <div className="p-4 border rounded-lg space-y-1">
+              <h4 className="font-semibold">Net Monthly Income</h4>
+              <p className="text-muted-foreground">Your take-home pay after taxes and deductions. This is the foundation of your budget.</p>
+            </div>
+            <div className="p-4 border rounded-lg space-y-1">
+              <h4 className="font-semibold">Monthly Debt Payments</h4>
+              <p className="text-muted-foreground">Total of all existing EMIs, credit card payments, and other loans. This determines your disposable income.</p>
+            </div>
+            <div className="p-4 border rounded-lg space-y-1 md:col-span-2">
+              <h4 className="font-semibold">Desired Insurance Coverage</h4>
+              <p className="text-muted-foreground">The total amount your beneficiaries would receive. A common guideline is 10-15 times your annual income, but it depends on your family's needs.</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              How is Affordability Calculated?
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm text-muted-foreground space-y-2">
+            <p>
+              <strong>1. Disposable Income:</strong> First, we calculate your disposable income by subtracting your monthly debt payments from your net monthly income.
+            </p>
+            <p>
+              <strong>2. Recommended Premium:</strong> Financial planners often suggest that life insurance premiums should not exceed 5-10% of your disposable income. We use 10% as a safe upper limit for the "Recommended Max Premium".
+            </p>
+             <p>
+              <strong>3. Affordability Index:</strong> We estimate a potential monthly premium for your desired coverage (this is a rough estimate) and compare it to your Recommended Max Premium. The index shows how comfortably your recommended premium budget covers the estimated cost. An index of 100 means you can likely afford the premium with ease.
+            </p>
+          </CardContent>
+        </Card>
+
+         <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Landmark className="h-5 w-5" />
+              Related Calculators
+            </CardTitle>
+            <CardDescription>
+              Explore other financial planning tools
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <a href="/loan" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                <h4 className="font-semibold mb-1 text-primary">Loan Calculator</h4>
+                <p className="text-sm text-muted-foreground">
+                  Calculate loan payments and amortization schedules.
+                </p>
+              </a>
+              <a href="/retirement" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                <h4 className="font-semibold mb-1 text-primary">AI Retirement Calculator</h4>
+                <p className="text-sm text-muted-foreground">
+                  Project your retirement income and get AI-powered feedback.
+                </p>
+              </a>
+              <a href="/sip-dca" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                <h4 className="font-semibold mb-1 text-primary">SIP/DCA Calculator</h4>
+                <p className="text-sm text-muted-foreground">
+                  Model investment growth with systematic investments.
+                </p>
+              </a>
+               <a href="/savings" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                <h4 className="font-semibold mb-1 text-primary">Savings Calculator</h4>
+                <p className="text-sm text-muted-foreground">
+                  Estimate your future savings based on your investment plan.
+                </p>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
