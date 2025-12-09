@@ -14,6 +14,8 @@ import {
   TrendingUp,
   Car,
   LineChart,
+  Target,
+  Shield,
 } from 'lucide-react';
 
 const menuItems = [
@@ -23,6 +25,8 @@ const menuItems = [
   { href: '/retirement', label: 'Retirement', icon: TrendingUp },
   { href: '/auto-loan', label: 'Auto Loan', icon: Car },
   { href: '/investment', label: 'Investment', icon: LineChart },
+  { href: '/sip-dca', label: 'SIP/DCA', icon: Target },
+  { href: '/insurance', label: 'Insurance', icon: Shield },
 ];
 
 export default function NavigationMenu() {

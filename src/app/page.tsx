@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { calculateMortgage } from '@/lib/calculators';
-import { Calculator, Home } from 'lucide-react';
+import { Calculator, Home, Landmark, PiggyBank, TrendingUp, Car, LineChart, Target, Shield } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import Link from 'next/link';
 
 function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState('300000');
@@ -136,6 +137,111 @@ export default function CalculatorsPage() {
           <MortgageCalculator />
         </DialogContent>
       </Dialog>
+      <Link href="/loan">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <Landmark className="w-6 h-6 text-primary" />
+                Loan Calculator
+            </CardTitle>
+            </CardHeader>
+            <CardContent>
+            <CardDescription>
+                Calculate loan payments and see the amortization schedule.
+            </CardDescription>
+            </CardContent>
+        </Card>
+      </Link>
+      <Link href="/savings">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <PiggyBank className="w-6 h-6 text-primary" />
+                Savings Calculator
+            </CardTitle>
+            </CardHeader>
+            <CardContent>
+            <CardDescription>
+                Estimate your future savings based on your investment plan.
+            </CardDescription>
+            </CardContent>
+        </Card>
+      </Link>
+      <Link href="/retirement">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-6 h-6 text-primary" />
+                AI Retirement Calculator
+            </CardTitle>
+            </CardHeader>
+            <CardContent>
+            <CardDescription>
+                Project your retirement income and get AI-powered feedback.
+            </CardDescription>
+            </CardContent>
+        </Card>
+      </Link>
+      <Link href="/auto-loan">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <Car className="w-6 h-6 text-primary" />
+                Auto Loan Calculator
+            </CardTitle>
+            </CardHeader>
+            <CardContent>
+            <CardDescription>
+                Determine the affordability of your next vehicle purchase.
+            </CardDescription>
+            </CardContent>
+        </Card>
+      </Link>
+      <Link href="/investment">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <LineChart className="w-6 h-6 text-primary" />
+                Investment Calculator
+            </CardTitle>
+            </CardHeader>
+            <CardContent>
+            <CardDescription>
+                Evaluate your investment growth and returns over time.
+            </CardDescription>
+            </CardContent>
+        </Card>
+      </Link>
+      <Link href="/sip-dca">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-6 h-6 text-primary" />
+              SIP/DCA Calculator
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Model investment growth with Systematic Investment Plans.
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </Link>
+      <Link href="/insurance">
+        <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="w-6 h-6 text-primary" />
+              Insurance Affordability
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Assess your capacity for insurance premium payments.
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </Link>
     </div>
   );
 }
