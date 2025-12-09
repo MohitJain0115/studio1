@@ -322,7 +322,7 @@ export default function CompulsiveBuyingImpactCalculator() {
             </div>
             <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">Is it bad to ever spend money on things I enjoy?</h4>
-                <p className="text-muted-foreground">Absolutely not! The goal isn't to live a life of extreme deprivation. It's about being <strong class="text-foreground">intentional</strong> with your spending. Consciously budgeting for things that bring you genuine, lasting joy is healthy. This calculator targets <strong class="text-foreground">mindless, repetitive, and compulsive</strong> purchases that often lead to regret.</p>
+                <p className="text-muted-foreground">Absolutely not! The goal isn't to live a life of extreme deprivation. It's about being <strong className="text-foreground">intentional</strong> with your spending. Consciously budgeting for things that bring you genuine, lasting joy is healthy. This calculator targets <strong className="text-foreground">mindless, repetitive, and compulsive</strong> purchases that often lead to regret.</p>
             </div>
              <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">What's a realistic annual return rate to use for my calculation?</h4>
@@ -338,7 +338,7 @@ export default function CompulsiveBuyingImpactCalculator() {
             </div>
             <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">What's the first step I should take after seeing my results?</h4>
-                <p className="text-muted-foreground">Implement the <strong class="text-foreground">72-Hour Rule</strong>. The next time you feel an urge to make an impulse buy, force yourself to wait 72 hours before purchasing. This simple act of creating a "cooling-off" period is often enough to break the emotional cycle and is the most effective first step.</p>
+                <p className="text-muted-foreground">Implement the <strong className="text-foreground">72-Hour Rule</strong>. The next time you feel an urge to make an impulse buy, force yourself to wait 72 hours before purchasing. This simple act of creating a "cooling-off" period is often enough to break the emotional cycle and is the most effective first step.</p>
             </div>
           </CardContent>
         </Card>
