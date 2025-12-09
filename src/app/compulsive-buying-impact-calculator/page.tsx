@@ -48,7 +48,7 @@ export default function CompulsiveBuyingImpactCalculator() {
       itemCost: undefined,
       purchaseFrequency: undefined,
       frequencyUnit: 'monthly',
-      annualReturnRate: 7,
+      annualReturnRate: undefined,
     },
   });
 
