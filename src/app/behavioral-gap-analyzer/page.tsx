@@ -44,8 +44,8 @@ export default function BehavioralGapAnalyzer() {
     defaultValues: {
       investmentReturn: undefined,
       investorReturn: undefined,
-      period: 10,
-      initialInvestment: 10000,
+      period: undefined,
+      initialInvestment: undefined,
     },
   });
 
