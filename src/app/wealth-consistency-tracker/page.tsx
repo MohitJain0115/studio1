@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, TrendingUp, DollarSign, Activity, Shield, Gem, Info, PlusCircle, Trash2 } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, LineChart, Line } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, LineChart, Line, Cell } from 'recharts';
 import Link from 'next/link';
 
 const monthSchema = z.object({
@@ -375,3 +375,4 @@ export default function WealthConsistencyTracker() {
     </div>
   );
 }
+    
