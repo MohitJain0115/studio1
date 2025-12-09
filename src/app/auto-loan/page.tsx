@@ -12,18 +12,22 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { calculateMortgage } from '@/lib/calculators';
-import { Calculator } from 'lucide-react';
+import { calculateAutoLoan } from '@/lib/calculators';
+import { Car } from 'lucide-react';
 
-export default function MortgageCalculator() {
-  const [loanAmount, setLoanAmount] = useState('300000');
-  const [interestRate, setInterestRate] = useState('5.0');
-  const [loanTerm, setLoanTerm] = useState('30');
+export default function AutoLoanCalculator() {
+  const [carPrice, setCarPrice] = useState('35000');
+  const [downPayment, setDownPayment] = useState('5000');
+  const [tradeInValue, setTradeInValue] = useState('10000');
+  const [interestRate, setInterestRate] = useState('6.5');
+  const [loanTerm, setLoanTerm] = useState('5');
   const [monthlyPayment, setMonthlyPayment] = useState<number | null>(null);
 
   const handleCalculate = () => {
-    const payment = calculateMortgage({
-      loanAmount: parseFloat(loanAmount),
+    const payment = calculateAutoLoan({
+      carPrice: parseFloat(carPrice),
+      downPayment: parseFloat(downPayment),
+      tradeInValue: parseFloat(tradeInValue),
       interestRate: parseFloat(interestRate),
       loanTerm: parseInt(loanTerm),
     });
@@ -42,23 +46,45 @@ export default function MortgageCalculator() {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-headline flex items-center gap-2">
-            <Calculator className="w-6 h-6 text-primary" />
-            Mortgage Calculator
+            <Car className="w-6 h-6 text-primary" />
+            Auto Loan Calculator
           </CardTitle>
           <CardDescription>
-            Estimate your monthly mortgage payments.
+            Determine the affordability of your next vehicle purchase.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="loan-amount">Loan Amount ($)</Label>
+              <Label htmlFor="car-price">Car Price ($)</Label>
               <Input
-                id="loan-amount"
+                id="car-price"
                 type="number"
-                value={loanAmount}
-                onChange={(e) => setLoanAmount(e.target.value)}
-                placeholder="e.g., 300000"
+                value={carPrice}
+                onChange={(e) => setCarPrice(e.target.value)}
+                placeholder="e.g., 35000"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="down-payment">Down Payment ($)</Label>
+              <Input
+                id="down-payment"
+                type="number"
+                value={downPayment}
+                onChange={(e) => setDownPayment(e.target.value)}
+                placeholder="e.g., 5000"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="trade-in">Trade-in Value ($)</Label>
+              <Input
+                id="trade-in"
+                type="number"
+                value={tradeInValue}
+                onChange={(e) => setTradeInValue(e.target.value)}
+                placeholder="e.g., 10000"
               />
             </div>
             <div className="space-y-2">
@@ -68,19 +94,19 @@ export default function MortgageCalculator() {
                 type="number"
                 value={interestRate}
                 onChange={(e) => setInterestRate(e.target.value)}
-                placeholder="e.g., 5.0"
+                placeholder="e.g., 6.5"
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="loan-term">Loan Term (Years)</Label>
-            <Input
-              id="loan-term"
-              type="number"
-              value={loanTerm}
-              onChange={(e) => setLoanTerm(e.target.value)}
-              placeholder="e.g., 30"
-            />
+            <div className="space-y-2">
+              <Label htmlFor="loan-term">Loan Term (Years)</Label>
+              <Input
+                id="loan-term"
+                type="number"
+                value={loanTerm}
+                onChange={(e) => setLoanTerm(e.target.value)}
+                placeholder="e.g., 5"
+              />
+            </div>
           </div>
         </CardContent>
         <CardFooter className="flex-col items-start gap-4">
