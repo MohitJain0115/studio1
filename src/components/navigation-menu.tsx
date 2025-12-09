@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 const menuItems = [
-  { href: '/insurance-affordability-calculator', label: 'Insurance Affordability', icon: Shield },
+  { href: '/insurance', label: 'Insurance Affordability', icon: Shield },
   { href: '/out-of-pocket-health-cost-calculator', label: 'Out-of-Pocket Health Cost', icon: HeartPulse },
   { href: '/medical-bill-estimator', label: 'Medical Bill Estimator', icon: Stethoscope },
 ];
