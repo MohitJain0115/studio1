@@ -13,6 +13,8 @@ import {
   Stethoscope,
   Gem,
   Zap,
+  BrainCircuit,
+  Replace
 } from 'lucide-react';
 
 const menuItems = [
@@ -21,6 +23,8 @@ const menuItems = [
   { href: '/medical-bill-estimator', label: 'Medical Bill Estimator', icon: Stethoscope },
   { href: '/wealth-consistency-tracker', label: 'Wealth Consistency Tracker', icon: Gem },
   { href: '/habit-based-wealth-growth-estimator', label: 'Habit-based Wealth Growth', icon: Zap },
+  { href: '/investment-confidence-meter', label: 'Investment Confidence Meter', icon: BrainCircuit },
+  { href: '/behavioral-gap-analyzer', label: 'Behavioral Gap Analyzer', icon: Replace },
 ];
 
 export default function NavigationMenu() {

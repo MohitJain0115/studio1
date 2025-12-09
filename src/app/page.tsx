@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Shield, HeartPulse, Stethoscope, Gem, Zap } from 'lucide-react';
+import { Shield, HeartPulse, Stethoscope, Gem, Zap, BrainCircuit, Replace } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CalculatorsPage() {
@@ -86,6 +86,36 @@ export default function CalculatorsPage() {
             <CardContent>
               <CardDescription>
                 Estimate growth by redirecting spending on habits.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/investment-confidence-meter">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BrainCircuit className="w-6 h-6 text-primary" />
+                Investment Confidence Meter
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Assess your risk tolerance and investment mindset.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link href="/behavioral-gap-analyzer">
+          <Card className="cursor-pointer hover:border-primary transition-colors h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Replace className="w-6 h-6 text-primary" />
+                Behavioral Gap Analyzer
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Measure the impact of behavior on investment returns.
               </CardDescription>
             </CardContent>
           </Card>
