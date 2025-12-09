@@ -8,24 +8,10 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import {
-  Home,
-  Landmark,
-  PiggyBank,
-  TrendingUp,
-  Car,
-  LineChart,
-  Target,
   Shield,
 } from 'lucide-react';
 
 const menuItems = [
-  { href: '/', label: 'Mortgage', icon: Home },
-  { href: '/loan', label: 'Loan', icon: Landmark },
-  { href: '/savings', label: 'Savings', icon: PiggyBank },
-  { href: '/retirement', label: 'Retirement', icon: TrendingUp },
-  { href: '/auto-loan', label: 'Auto Loan', icon: Car },
-  { href: '/investment', label: 'Investment', icon: LineChart },
-  { href: '/sip-dca', label: 'SIP/DCA', icon: Target },
   { href: '/insurance', label: 'Insurance', icon: Shield },
 ];
 
@@ -38,7 +24,7 @@ export default function NavigationMenu() {
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={pathname === item.href}
+            isActive={pathname.startsWith(item.href)}
             tooltip={item.label}
             className="justify-start"
           >

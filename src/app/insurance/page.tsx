@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Landmark, TrendingUp, DollarSign, Calendar, Target, Info, Activity, Shield, PieChart as PieChartIcon } from 'lucide-react';
+import { Landmark, TrendingUp, DollarSign, Activity, Shield, PieChart as PieChartIcon, Info } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 const formSchema = z.object({
@@ -38,7 +38,7 @@ const COLORS = {
   Poor: 'hsl(var(--destructive))',  // Red
 };
 
-export default function InsurancePremiumCalculator() {
+export default function InsuranceAffordabilityCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
@@ -53,12 +53,9 @@ export default function InsurancePremiumCalculator() {
   const onSubmit = (values: FormValues) => {
     const { monthlyIncome, existingDebts, desiredCoverage } = values;
     
-    // Recommended premium is 5-10% of disposable income
     const disposableIncome = Math.max(0, monthlyIncome - existingDebts);
     const recommendedMaxPremium = disposableIncome * 0.10;
 
-    // Affordability Index (simplified): 100 = can afford rec. max premium
-    // Assumes a 20-year term premium is roughly Desired Coverage / 240
     const estimatedPremium = desiredCoverage / 240;
     const affordabilityIndex = Math.max(0, Math.min(100, (recommendedMaxPremium / estimatedPremium) * 100));
 
@@ -298,11 +295,9 @@ export default function InsurancePremiumCalculator() {
               </CardContent>
             </Card>
           </div>
-
         </div>
       )}
 
-      {/* Educational Content */}
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -358,32 +353,7 @@ export default function InsurancePremiumCalculator() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="/loan" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                <h4 className="font-semibold mb-1 text-primary">Loan Calculator</h4>
-                <p className="text-sm text-muted-foreground">
-                  Calculate loan payments and amortization schedules.
-                </p>
-              </a>
-              <a href="/retirement" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                <h4 className="font-semibold mb-1 text-primary">AI Retirement Calculator</h4>
-                <p className="text-sm text-muted-foreground">
-                  Project your retirement income and get AI-powered feedback.
-                </p>
-              </a>
-              <a href="/sip-dca" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                <h4 className="font-semibold mb-1 text-primary">SIP/DCA Calculator</h4>
-                <p className="text-sm text-muted-foreground">
-                  Model investment growth with systematic investments.
-                </p>
-              </a>
-               <a href="/savings" className="block p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                <h4 className="font-semibold mb-1 text-primary">Savings Calculator</h4>
-                <p className="text-sm text-muted-foreground">
-                  Estimate your future savings based on your investment plan.
-                </p>
-              </a>
-            </div>
+            <p className="text-sm text-muted-foreground">No other calculators available at the moment.</p>
           </CardContent>
         </Card>
 
