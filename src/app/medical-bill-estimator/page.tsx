@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, DollarSign, Activity, Shield, PieChart as PieChartIcon, Info, Stethoscope } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import Link from 'next/link';
 
 const formSchema = z.object({
   procedureCost: z.number().positive('The cost of the procedure is required.'),
@@ -336,7 +337,7 @@ export default function MedicalBillEstimator() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-                <li><Link href="/insurance-affordability-calculator" className="hover:underline">Insurance Premium Affordability</Link></li>
+                <li><Link href="/insurance" className="hover:underline">Insurance Premium Affordability</Link></li>
                 <li><Link href="/out-of-pocket-health-cost-calculator" className="hover:underline">Out-of-Pocket Health Cost Calculator</Link></li>
             </ul>
           </CardContent>
@@ -419,7 +420,7 @@ export default function MedicalBillEstimator() {
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
               Summary
-            </Title>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
             <p>This calculator provides a clear estimate of your financial responsibility for a single medical event. By understanding how your deductible, coinsurance, and out-of-pocket maximum work together, you can financially prepare for planned procedures and better understand the bills from unexpected ones. Always use this as a guide and confirm details with your provider and insurer.</p>

@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, TrendingUp, DollarSign, Activity, Shield, PieChart as PieChartIcon, Info } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
+import Link from 'next/link';
 
 const formSchema = z.object({
   monthlyIncome: z.number().positive('Monthly income is required.'),
@@ -353,7 +354,10 @@ export default function InsuranceAffordabilityCalculator() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">No other calculators available at the moment.</p>
+            <ul className="list-disc pl-5 text-sm text-primary">
+              <li><Link href="/out-of-pocket-health-cost-calculator" className="hover:underline">Out-of-Pocket Health Cost Calculator</Link></li>
+              <li><Link href="/medical-bill-estimator" className="hover:underline">Medical Bill Estimator</Link></li>
+            </ul>
           </CardContent>
         </Card>
 

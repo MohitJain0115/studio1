@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, TrendingUp, DollarSign, Activity, Shield, PieChart as PieChartIcon, Info, HeartPulse } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
+import Link from 'next/link';
 
 const formSchema = z.object({
   totalMedicalCosts: z.number().positive('Total estimated medical costs are required.'),
