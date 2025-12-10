@@ -47,9 +47,9 @@ export default function HealthPlanCoverageGapEstimator() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       drugs: [{ name: '', monthlyCost: undefined }],
-      initialCoverageLimit: 4660, // 2023 Standard
-      catastrophicCoverageLimit: 7400, // 2023 Standard
-      coverageGapDiscount: 75,
+      initialCoverageLimit: undefined,
+      catastrophicCoverageLimit: undefined,
+      coverageGapDiscount: undefined,
     },
   });
 
@@ -61,9 +61,9 @@ export default function HealthPlanCoverageGapEstimator() {
   const resetForm = () => {
     form.reset({
       drugs: [{ name: '', monthlyCost: undefined }],
-      initialCoverageLimit: 4660,
-      catastrophicCoverageLimit: 7400,
-      coverageGapDiscount: 75,
+      initialCoverageLimit: undefined,
+      catastrophicCoverageLimit: undefined,
+      coverageGapDiscount: undefined,
     });
     setResult(null);
   };
@@ -210,7 +210,7 @@ export default function HealthPlanCoverageGapEstimator() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium mb-2">Plan Limits (2023 Standard)</h3>
+                <h3 className="text-lg font-medium mb-2">Plan Limits (e.g., 2023 Standard)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <FormField
                       control={form.control}
@@ -219,7 +219,7 @@ export default function HealthPlanCoverageGapEstimator() {
                         <FormItem>
                           <FormLabel>Initial Coverage Limit ($)</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                            <Input type="number" placeholder="e.g., 4660" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -232,7 +232,7 @@ export default function HealthPlanCoverageGapEstimator() {
                         <FormItem>
                           <FormLabel>Catastrophic Limit ($)</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                            <Input type="number" placeholder="e.g., 7400" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -245,7 +245,7 @@ export default function HealthPlanCoverageGapEstimator() {
                         <FormItem>
                           <FormLabel>Brand-Name Gap Discount (%)</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                            <Input type="number" placeholder="e.g., 75" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
