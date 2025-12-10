@@ -48,7 +48,7 @@ export default function PrescriptionRefillCostEstimator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prescriptions: [],
+      prescriptions: [{ name: '', cost: undefined, frequency: 'monthly', insuranceCopay: undefined }],
     },
   });
 
@@ -57,12 +57,13 @@ export default function PrescriptionRefillCostEstimator() {
     name: "prescriptions",
   });
   
-  useState(() => {
+  const resetForm = () => {
     form.reset({
       prescriptions: [{ name: '', cost: undefined, frequency: 'monthly', insuranceCopay: undefined }],
     });
-  }, []);
-
+    setResult(null);
+  };
+  
   const onSubmit = (values: FormValues) => {
     let totalAnnualCost = 0;
     let totalAnnualCopay = 0;
@@ -183,8 +184,12 @@ export default function PrescriptionRefillCostEstimator() {
                   <PlusCircle className="mr-2 h-4 w-4" /> Add Prescription
                 </Button>
               </div>
-
-              <Button type="submit">Estimate Annual Cost</Button>
+              <div className="flex gap-4">
+                <Button type="submit">Estimate Annual Cost</Button>
+                 <Button type="button" variant="outline" onClick={resetForm}>
+                  Reset
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
@@ -282,29 +287,35 @@ export default function PrescriptionRefillCostEstimator() {
         </Card>
         
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">A Guide to Managing Your Prescription Costs</h1>
-          <p className="text-lg italic">Prescription medications are a vital part of health management for millions, but navigating the costs can be a challenge. This guide offers strategies to help you save money at the pharmacy counter.</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">A Patient's Guide to Managing Prescription Drug Costs</h1>
+          <p className="text-lg italic">Prescription medications are a vital part of health management for millions, but navigating the costs can be a challenge. Understanding the system and knowing your options are the keys to ensuring you get the treatment you need without facing financial hardship. This guide offers in-depth strategies to help you save money at the pharmacy counter.</p>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Why Drug Prices Are So Complicated</h2>
-          <p>The price you pay for a prescription is rarely the "list price." It's the result of a complex negotiation between drug manufacturers, pharmacy benefit managers (PBMs), and your insurance company. The key terms to understand are:</p>
-          <ul className="list-disc ml-6 space-y-2">
-              <li><strong className="font-semibold">Formulary:</strong> This is the list of prescription drugs covered by your health insurance plan. Drugs are often grouped into "tiers." Drugs in lower tiers (like generics) have lower copays than drugs in higher tiers (like specialty drugs).</li>
-              <li><strong className="font-semibold">Deductible:</strong> For many plans, you must pay 100% of your drug costs until you meet your annual deductible. After that, your copays or coinsurance kick in.</li>
-              <li><strong className="font-semibold">Copay vs. Coinsurance:</strong> A copay is a fixed dollar amount (e.g., $10) you pay for a prescription. Coinsurance is a percentage of the drug's cost (e.g., 25%) you are responsible for.</li>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Decoding the Price: Why Are Drug Costs So Complicated?</h2>
+          <p>The price you pay for a prescription is rarely the simple "list price." It's the end result of a complex, often opaque, series of negotiations and relationships between drug manufacturers, wholesalers, insurance companies, and pharmacy benefit managers (PBMs). Understanding the key components of your insurance plan is the first step to deciphering your bill.</p>
+          <ul className="list-disc ml-6 space-y-3">
+            <li><strong className="font-semibold text-foreground">Formulary:</strong> This is the official list of prescription drugs covered by your health insurance plan. A formulary is not just a simple list; it's a strategic document. Drugs are typically grouped into "tiers." Tier 1 is usually reserved for preferred generic drugs and has the lowest copay. Tier 2 might be preferred brand-name drugs, with a higher copay. Tier 3 could be non-preferred brand-name drugs with an even higher copay, and Tier 4 or a specialty tier is for very expensive, often biologic, drugs that may require you to pay a percentage of the cost (coinsurance) rather than a flat copay. If a drug is not on the formulary at all, you may have to pay 100% of the cost.</li>
+            <li><strong className="font-semibold text-foreground">Deductible:</strong> This is the amount you must pay out-of-pocket for healthcare services, including prescriptions, before your insurance plan begins to pay. For many high-deductible health plans (HDHPs), you could be responsible for the full, negotiated price of your medications until your deductible is met. It's crucial to know if your plan has a separate drug deductible or if it's combined with your medical deductible.</li>
+            <li><strong className="font-semibold text-foreground">Copay vs. Coinsurance:</strong> These are the two main forms of cost-sharing after your deductible is met. A <strong className="text-foreground">copay</strong> is a predictable, fixed dollar amount (e.g., $10 for a generic, $40 for a brand-name drug) you pay for a prescription. <strong className="text-foreground">Coinsurance</strong> is a percentage of the drug's negotiated cost (e.g., 25%) that you are responsible for. Coinsurance can be unpredictable, as your share fluctuates with the drug's price. It's most common for expensive, specialty-tier drugs.</li>
           </ul>
           
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Actionable Strategies for Saving Money</h2>
-          <p>Even within a complex system, you have the power to lower your costs. Use this calculator to get a baseline, then try these proven strategies:</p>
-          <ul className="list-disc ml-6 space-y-2">
-              <li><strong className="font-semibold text-foreground">Always Ask for Generic:</strong> When your doctor prescribes a new medication, ask if a generic version is available. Generics are chemically identical to their brand-name counterparts but are often 80-85% cheaper.</li>
-              <li><strong className="font-semibold text-foreground">Use a 90-Day Mail-Order Pharmacy:</strong> Many insurance plans offer a significant discount if you get a 90-day supply of your maintenance medications through their preferred mail-order pharmacy. You might get three months of medication for the price of two retail copays.</li>
-              <li><strong className="font-semibold text-foreground">Use Prescription Discount Cards:</strong> Services like GoodRx or SingleCare can often provide a coupon price that is even cheaper than your insurance copay, especially for generic drugs. It's always worth checking before you pay. You cannot combine these with insurance, but you can use them instead of it.</li>
-              <li><strong className="font-semibold text-foreground">Look for Manufacturer Coupons and Patient Assistance Programs (PAPs):</strong> For expensive, brand-name drugs, the manufacturer may offer a copay card that drastically reduces your out-of-pocket cost. For those with lower incomes, Patient Assistance Programs (PAPs) can sometimes provide the medication for free.</li>
-              <li><strong className="font-semibold text-foreground">Talk to Your Doctor or Pharmacist:</strong> Your healthcare providers are your best allies. Ask your doctor about cheaper alternatives (therapeutic substitution). Ask your pharmacist if there are any available discounts or if paying cash with a coupon would be cheaper than using your insurance.</li>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Actionable Strategies for Substantial Savings</h2>
+          <p>Even within this complex system, you have significant power to lower your costs. This calculator provides a baseline for your annual expenses; the next step is to actively manage them. Try these proven strategies:</p>
+          <ul className="list-disc ml-6 space-y-4">
+              <li><strong className="font-semibold text-foreground">Embrace Generic Drugs:</strong> This is the single most effective cost-saving strategy. When your doctor prescribes a new medication, always ask, "Is there a generic version of this, or a generic alternative in the same class?" Generic drugs are required by the FDA to have the same active ingredient, strength, quality, and dosage form as their brand-name counterparts. They are typically 80-85% cheaper because their manufacturers didn't have to bear the massive costs of initial research, development, and marketing.</li>
+              <li><strong className="font-semibold text-foreground">Leverage 90-Day Mail-Order Supplies:</strong> For medications you take long-term (maintenance medications for conditions like high blood pressure or cholesterol), using your insurance plan's preferred mail-order pharmacy is often a huge money-saver. Many plans offer a significant discount, such as getting a three-month supply for the price of two retail copays. This also adds convenience and reduces trips to the pharmacy.</li>
+              <li><strong className="font-semibold text-foreground">Always Check Prescription Discount Cards:</strong> Never assume your insurance copay is the lowest price. Services like GoodRx, SingleCare, and WellRx are free to use and can provide a coupon price that is substantially cheaper than your copay, especially for common generic drugs. You cannot combine a discount card with your insurance for a single transaction, but you can ask the pharmacist to run the price both ways and choose the cheaper option. Note that what you pay using a discount card typically does not count toward your insurance deductible.</li>
+              <li><strong className="font-semibold text-foreground">Seek Out Manufacturer Assistance:</strong> For expensive, brand-name drugs, the manufacturer is often your best resource. They frequently offer <strong className="text-foreground">copay cards</strong> or <strong className="text-foreground">coupons</strong> that can reduce your out-of-pocket cost to a very small amount, sometimes as low as $5 or $10 per month. These are designed for people with commercial insurance. For those with lower incomes or who are uninsured, <strong className="text-foreground">Patient Assistance Programs (PAPs)</strong> can sometimes provide the medication completely free of charge. You can find these programs on the drug manufacturer's website or by using search tools like the Medicine Assistance Tool (MAT.org).</li>
+              <li><strong className="font-semibold text-foreground">Engage Your Healthcare Team:</strong> Your doctor and pharmacist are your best advocates.
+                <ul className="list-circle pl-6 mt-2 space-y-2">
+                    <li><strong className="text-foreground">Talk to your Doctor:</strong> When a new drug is prescribed, discuss the cost. Ask if there are less expensive but equally effective alternatives, known as "therapeutic substitution." Sometimes an older, cheaper drug in the same class can work just as well.</li>
+                    <li><strong className="text-foreground">Talk to your Pharmacist:</strong> Your pharmacist is an expert on drug costs. Before you pay, ask them if there are any available discounts or if paying cash with a coupon would be cheaper than your insurance copay. They can often help you navigate the options in real-time.</li>
+                </ul>
+              </li>
+              <li><strong className="font-semibold text-foreground">Navigate Prior Authorizations and Appeals:</strong> If your insurance denies coverage for a drug, don't give up. This often triggers a "prior authorization" (PA) requirement. Your doctor's office must submit paperwork to the insurer explaining why you need that specific medication. If the PA is still denied, you have the right to appeal the decision. This can be a frustrating process, but persistence often pays off.</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: Be a Proactive Consumer</h2>
-          <p>Managing prescription costs requires being an engaged and proactive consumer. You can't control the list price of a drug, but you can control how you purchase it. By understanding your insurance plan, exploring discount options, and communicating with your healthcare team, you can ensure you get the medications you need without overpaying.</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: Be a Proactive Healthcare Consumer</h2>
+          <p>Managing prescription costs requires being an engaged, informed, and proactive consumer. You cannot control the list price of a drug, but you can control how, where, and under what terms you purchase it. By understanding your insurance plan's structure, diligently exploring discount options, and maintaining open communication with your healthcare team, you can ensure you get the medications you need without letting the cost become a barrier to your health and financial well-being.</p>
         </section>
 
         <Card>
@@ -317,23 +328,31 @@ export default function PrescriptionRefillCostEstimator() {
           <CardContent className="space-y-4">
             <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">Can I use a discount card (like GoodRx) and my insurance at the same time?</h4>
-              <p className="text-muted-foreground">No. You have to choose one or the other for a given transaction. However, what you pay using a discount card typically does not count toward your insurance deductible.</p>
+              <p className="text-muted-foreground">No, you cannot combine them in a single transaction. You must choose one or the other. However, you can ask the pharmacist to check the price with both your insurance and a discount coupon, then pay the lower of the two. A key consideration is that payments made using a discount card usually do not count toward your insurance plan's deductible or out-of-pocket maximum.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">Is it cheaper to get a 90-day supply?</h4>
-              <p className="text-muted-foreground">Often, yes. Many insurance plans are structured to incentivize 90-day refills for maintenance medications, often offering a "3-for-2" deal (e.g., three months for two copays). Check your plan's benefits or call their member services line to find out.</p>
+              <h4 className="font-semibold mb-2">Is it always cheaper to get a 90-day supply?</h4>
+              <p className="text-muted-foreground">Often, but not always. Many insurance plans are specifically structured to incentivize 90-day refills for maintenance medications, frequently offering a "3-for-2" deal (e.g., three months of medication for two copays). This is a common feature of mail-order pharmacy programs. Always check your plan's benefits or call their member services line to confirm the pricing structure for 30-day versus 90-day supplies.</p>
             </div>
              <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What's the difference between a generic and brand-name drug?</h4>
-              <p className="text-muted-foreground">A generic drug is required by the FDA to have the same active ingredient, strength, dosage form, and route of administration as the brand-name drug. They are typically much cheaper because the manufacturers did not have to bear the costs of initial research and development.</p>
+              <h4 className="font-semibold mb-2">What is the difference between a generic and a brand-name drug?</h4>
+              <p className="text-muted-foreground">A generic drug is required by the FDA to be a bioequivalent to the brand-name drug. This means it must have the same active ingredient, strength, dosage form, and route of administration. They are typically much cheaper because the manufacturers did not have to bear the enormous costs of initial research, clinical trials, and marketing that the brand-name company incurred.</p>
             </div>
              <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What if my insurance denies coverage for a drug?</h4>
-              <p className="text-muted-foreground">This is called a "prior authorization" requirement. Your doctor's office may need to submit paperwork to your insurer explaining why you need that specific medication. If it's still denied, you can go through your insurer's appeals process.</p>
+              <h4 className="font-semibold mb-2">What should I do if my insurance requires a "prior authorization"?</h4>
+              <p className="text-muted-foreground">A prior authorization means your insurance company wants more information from your doctor before they will agree to cover the medication. Contact your doctor's office immediately to let them know the prior authorization is required. Their staff will typically handle the paperwork, which involves explaining to the insurer why you need that specific drug. Be prepared for this process to take several days.</p>
             </div>
              <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">Where can I find Patient Assistance Programs (PAPs)?</h4>
-              <p className="text-muted-foreground">A good place to start is the drug manufacturer's website. You can also use the Medicine Assistance Tool (MAT.org), a search engine for many of the assistance programs available from pharmaceutical companies.</p>
+              <p className="text-muted-foreground">A good place to start is the drug manufacturer's official website, as they often have a dedicated section for patient support. You can also use the Medicine Assistance Tool (MAT.org), which is a search engine designed to help patients, caregivers, and healthcare providers find information on the many assistance programs available from pharmaceutical companies.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold mb-2">What is a "therapeutic alternative" or "therapeutic substitution"?</h4>
+              <p className="text-muted-foreground">This is a drug that is chemically different from the one originally prescribed but is in the same class and works in a similar way to treat the same condition. For example, there are many different types of statins to treat high cholesterol. If your prescribed statin is expensive, your doctor might suggest a cheaper therapeutic alternative that is on a lower tier of your insurance formulary.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold mb-2">Why did the price of my generic drug suddenly increase?</h4>
+              <p className="text-muted-foreground">Generic drug prices can fluctuate due to several factors, including manufacturing shortages, consolidation of manufacturers, or changes in your insurance plan's formulary from one year to the next. If you see a sudden price spike, it's a good time to check discount card prices and talk to your pharmacist about whether other pharmacies might have it for less.</p>
             </div>
           </CardContent>
         </Card>
