@@ -20,6 +20,11 @@ const calculators = [
     title: 'Long-Term Care Cost Estimator',
     description: 'Project the potential costs of long-term care in the future.',
   },
+  {
+    href: '/investment/habit-based-wealth-growth-estimator',
+    title: 'Habit-based Wealth Growth Estimator',
+    description: 'See how much wealth you could build by redirecting spending from daily habits to investments.',
+  },
 ];
 
 export default function CalculatorsPage() {
