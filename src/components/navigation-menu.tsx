@@ -39,11 +39,11 @@ export default function NavigationMenu() {
 
   return (
     <SidebarMenu>
-      {menuItems.map((item) => (
+      {isClient && menuItems.map((item) => (
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={isClient ? pathname === item.href : false}
+            isActive={pathname === item.href}
             tooltip={item.label}
             className="justify-start"
           >
