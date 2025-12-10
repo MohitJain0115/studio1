@@ -27,6 +27,7 @@ const formSchema = z.object({
   currentAge: z.number().positive('Current age must be positive.'),
   careStartAge: z.number().positive('Care start age must be positive.'),
   careType: z.enum(Object.keys(CURRENT_ANNUAL_COSTS) as [string, ...string[]]),
+  currentAnnualCost: z.number().positive('Current annual cost must be positive.'),
   careDurationYears: z.number().positive('Care duration must be positive.'),
   inflationRate: z.number().min(0, 'Inflation rate cannot be negative.'),
 });
@@ -52,13 +53,14 @@ export default function LongTermCareCostEstimator() {
       currentAge: undefined,
       careStartAge: undefined,
       careType: 'assisted-living',
+      currentAnnualCost: undefined,
       careDurationYears: undefined,
       inflationRate: undefined,
     },
   });
 
   const onSubmit = (values: FormValues) => {
-    const { currentAge, careStartAge, careType, careDurationYears, inflationRate } = values;
+    const { currentAge, careStartAge, currentAnnualCost, careDurationYears, inflationRate } = values;
 
     if (careStartAge <= currentAge) {
       form.setError('careStartAge', {
@@ -69,7 +71,6 @@ export default function LongTermCareCostEstimator() {
     }
 
     const yearsUntilCare = careStartAge - currentAge;
-    const currentAnnualCost = CURRENT_ANNUAL_COSTS[careType as keyof typeof CURRENT_ANNUAL_COSTS];
     const inflation = inflationRate / 100;
 
     // Calculate the future cost of the first year of care
@@ -94,6 +95,11 @@ export default function LongTermCareCostEstimator() {
       chartData,
     });
   };
+  
+  const handleCareTypeChange = (value: keyof typeof CURRENT_ANNUAL_COSTS) => {
+    form.setValue('careType', value);
+    form.setValue('currentAnnualCost', CURRENT_ANNUAL_COSTS[value]);
+  }
 
   return (
     <div className="space-y-8">
@@ -139,14 +145,14 @@ export default function LongTermCareCostEstimator() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="careType"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Type of Care</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={(value) => handleCareTypeChange(value as keyof typeof CURRENT_ANNUAL_COSTS)} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select care type" />
@@ -164,6 +170,22 @@ export default function LongTermCareCostEstimator() {
                     </FormItem>
                   )}
                 />
+                 <FormField
+                  control={form.control}
+                  name="currentAnnualCost"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Current Annual Cost</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 64200" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="careDurationYears"
@@ -390,6 +412,5 @@ export default function LongTermCareCostEstimator() {
     </div>
   );
 }
-
 
     
