@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -66,6 +66,16 @@ const menuItems = [
     href: '/investment/delayed-gratification-roi-calculator',
     label: 'Delayed Gratification ROI',
     icon: Clock,
+  },
+  {
+    href: '/investment/career-roi-calculator',
+    label: 'Career ROI',
+    icon: Briefcase,
+  },
+  {
+    href: '/investment/savings-rate-vs-goal-timeline-visualizer',
+    label: 'Savings Rate vs. Goal',
+    icon: Target,
   },
 ];
 

@@ -65,6 +65,16 @@ const calculators = [
     title: 'Delayed Gratification ROI Calculator',
     description: 'See the potential future value of an immediate purchase if you invested the money instead.',
   },
+  {
+    href: '/investment/career-roi-calculator',
+    title: 'Career ROI Calculator',
+    description: 'Compare the lifetime earnings potential between two different career or education paths.',
+  },
+  {
+    href: '/investment/savings-rate-vs-goal-timeline-visualizer',
+    title: 'Savings Rate vs. Goal Timeline Visualizer',
+    description: 'See how different savings rates affect how quickly you can reach your financial goals.',
+  },
 ];
 
 export default function CalculatorsPage() {
