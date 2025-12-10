@@ -72,7 +72,7 @@ export default function SavingsRateGoalVisualizer() {
     const { savingsGoal, initialSavings, annualIncome, investmentReturnRate, savingsRates } = values;
 
     const timelines: CalculationResult['timelines'] = [];
-    const chartData: any[] = [];
+    let chartData: any[] = [];
     const monthlyReturnRate = investmentReturnRate / 100 / 12;
     const maxYears = 50; // Cap the chart and calculation at 50 years
 
@@ -90,12 +90,16 @@ export default function SavingsRateGoalVisualizer() {
       if(initialSavings >= savingsGoal) {
         years = 0;
       } else {
-        for (let month = 1; month <= maxYears * 12; month++) {
-          balance = balance * (1 + monthlyReturnRate) + monthlyContribution;
-          if (balance >= savingsGoal) {
-            years = month / 12;
-            break;
-          }
+        if (monthlyContribution <= 0 && initialSavings < savingsGoal && monthlyReturnRate <= 0) {
+            years = 'Never';
+        } else {
+            for (let month = 1; month <= maxYears * 12; month++) {
+              balance = balance * (1 + monthlyReturnRate) + monthlyContribution;
+              if (balance >= savingsGoal) {
+                years = month / 12;
+                break;
+              }
+            }
         }
       }
 
@@ -261,7 +265,7 @@ export default function SavingsRateGoalVisualizer() {
                   <ol className="list-decimal pl-5 mt-2 space-y-1">
                       <li>Adds the investment return earned on your current balance.</li>
                       <li>Adds your new monthly contribution (based on your income and savings rate).</li>
-                  </ul>
+                  </ol>
                    <p className="mt-2">It repeats this process until the balance reaches your savings goal, counting the number of months it takes. This iterative method is highly reliable and accurately models the interplay between your contributions and compound growth over time.</p>
               </div>
             </CardContent>
