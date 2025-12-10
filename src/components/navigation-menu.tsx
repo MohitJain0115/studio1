@@ -19,12 +19,12 @@ const menuItems = [
   },
   {
     href: '/investment/hsa-tax-benefit-calculator',
-    label: 'HSA Tax Benefit Calculator',
+    label: 'HSA Tax Benefit',
     icon: ShieldPlus,
   },
   {
     href: '/investment/long-term-care-cost-estimator',
-    label: 'Long-Term Care Cost Estimator',
+    label: 'Long-Term Care Cost',
     icon: Bed,
   },
   {
