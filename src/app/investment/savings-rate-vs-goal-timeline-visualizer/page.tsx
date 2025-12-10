@@ -44,7 +44,7 @@ export default function SavingsRateGoalVisualizer() {
       initialSavings: undefined,
       annualIncome: undefined,
       investmentReturnRate: undefined,
-      savingsRates: [{ rate: 15 }],
+      savingsRates: [{ rate: undefined }],
     },
   });
   
@@ -64,7 +64,7 @@ export default function SavingsRateGoalVisualizer() {
     setResult(null);
   };
   
-  useState(() => {
+    useState(() => {
     resetForm();
   }, []);
 
@@ -74,6 +74,7 @@ export default function SavingsRateGoalVisualizer() {
     const timelines: CalculationResult['timelines'] = [];
     const chartData: any[] = [];
     const monthlyReturnRate = investmentReturnRate / 100 / 12;
+    const maxYears = 50; // Cap the chart and calculation at 50 years
 
     savingsRates.forEach(item => {
       const rate = item.rate;
@@ -81,48 +82,60 @@ export default function SavingsRateGoalVisualizer() {
       
       const monthlyContribution = (annualIncome * (rate / 100)) / 12;
       
-      let years: number | string;
-      if (monthlyContribution <= 0 && initialSavings < savingsGoal) {
-          years = "Never";
-      } else {
-        // Using the NPER formula from finance
-        // NPER = log( (PMT - FV*i) / (PMT + PV*i) ) / log(1+i)
-        // FV is negative because it's a cash outflow from the perspective of the investment
-        const nper = Math.log((monthlyContribution - savingsGoal * monthlyReturnRate) / (monthlyContribution + initialSavings * monthlyReturnRate)) / Math.log(1 + monthlyReturnRate);
-        const totalMonths = -nper;
-        years = Math.ceil(totalMonths) / 12;
-        if (years < 0 || !isFinite(years)) years = 'Never';
-      }
-      
+      let years: number | string = 'Never';
       let totalContributions = 0;
       let totalGrowth = 0;
+      let balance = initialSavings;
+
+      if(initialSavings >= savingsGoal) {
+        years = 0;
+      } else {
+        for (let month = 1; month <= maxYears * 12; month++) {
+          balance = balance * (1 + monthlyReturnRate) + monthlyContribution;
+          if (balance >= savingsGoal) {
+            years = month / 12;
+            break;
+          }
+        }
+      }
+
       if (typeof years === 'number') {
         const totalMonths = years * 12;
         totalContributions = initialSavings + (monthlyContribution * totalMonths);
-        const futureValue = initialSavings * Math.pow(1 + monthlyReturnRate, totalMonths) + monthlyContribution * ((Math.pow(1 + monthlyReturnRate, totalMonths) - 1) / monthlyReturnRate);
-        totalGrowth = futureValue - totalContributions;
+        totalGrowth = savingsGoal - totalContributions;
       }
       
       timelines.push({ rate, years, totalContributions, totalGrowth });
 
       // Generate chart data for this rate
-      let balance = initialSavings;
-      for(let year = 0; year <= 40; year++) {
+      let yearlyBalance = initialSavings;
+      for(let year = 0; year <= maxYears; year++) {
           let found = chartData.find(d => d.year === year);
           if(!found) {
               found = {year};
               chartData.push(found);
           }
-          if(typeof years === 'number' && year > years + 1) {
-             // stop calculating beyond goal
+          
+          if(year > 0) {
+             yearlyBalance = yearlyBalance * (1 + (investmentReturnRate / 100)) + (monthlyContribution * 12);
+          }
+          
+          if(typeof years === 'number' && year > years) {
+            found[`${rate}% Rate`] = savingsGoal;
           } else {
-             balance = balance * (1 + (investmentReturnRate / 100)) + (monthlyContribution * 12);
-             found[`${rate}% Rate`] = balance > savingsGoal ? savingsGoal : balance;
+            found[`${rate}% Rate`] = yearlyBalance;
           }
       }
     });
+    
+    // Sort chart data by year
+    chartData.sort((a,b) => a.year - b.year);
+    // Filter chart data to not go too far beyond the longest timeline
+    const maxTimeline = Math.max(...timelines.map(t => typeof t.years === 'number' ? t.years : 0));
+    const chartCap = Math.min(maxYears, Math.ceil(maxTimeline) + 5);
+    const finalChartData = chartData.filter(d => d.year <= chartCap);
 
-    setResult({ timelines, chartData });
+    setResult({ timelines, chartData: finalChartData });
   };
 
   return (
@@ -148,7 +161,7 @@ export default function SavingsRateGoalVisualizer() {
               </div>
               
               <div>
-                <h3 className="text-lg font-medium mb-2">Savings Rates to Compare</h3>
+                <h3 className="text-lg font-medium mb-2">Savings Rates to Compare (%)</h3>
                 <div className="space-y-4">
                   {fields.map((field, index) => (
                     <div key={field.id} className="flex gap-4 items-center">
@@ -193,7 +206,7 @@ export default function SavingsRateGoalVisualizer() {
             </CardHeader>
             <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {result.timelines.map(({ rate, years }) => (
+                    {result.timelines.sort((a, b) => a.rate - b.rate).map(({ rate, years }) => (
                         <div key={rate} className="p-4 rounded-lg text-center border">
                            <h4 className="text-xl font-bold text-primary">{rate}%</h4>
                            <p className="text-muted-foreground text-sm">Savings Rate</p>
@@ -218,6 +231,7 @@ export default function SavingsRateGoalVisualizer() {
                             {result.timelines.map(({rate}, index) => (
                                 <Line key={rate} type="monotone" dataKey={`${rate}% Rate`} stroke={`hsl(var(--chart-${(index % 5) + 1}))`} strokeWidth={2} dot={false} />
                             ))}
+                             <Line type="monotone" dataKey="Goal" strokeDasharray="5 5" stroke="hsl(var(--destructive))" name="Savings Goal" isAnimationActive={false} dot={false} data={[{year: 0, Goal: form.getValues('savingsGoal')}, {year: result.chartData[result.chartData.length - 1].year, Goal: form.getValues('savingsGoal')}]} />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
@@ -241,16 +255,14 @@ export default function SavingsRateGoalVisualizer() {
             <CardHeader><CardTitle className="flex items-center gap-2"><TrendingUp className="h-5 w-5" />Formula Explained</CardTitle></CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <div>
-                  <h4 className="font-semibold text-foreground mb-2">Time to Goal (NPER)</h4>
-                  <p className="font-mono bg-muted p-4 rounded-md">Years = -ln((PMT - FV*i) / (PMT + PV*i)) / (12 * ln(1+i))</p>
-                  <p className="mt-2">This calculator uses a standard financial formula called NPER (Number of Periods) to solve for the time it takes to reach a future value (FV), given a present value (PV), a periodic payment (PMT), and an interest rate (i).</p>
-                  <ul className="list-decimal pl-5 mt-2 space-y-1">
-                      <li><strong className="text-foreground">FV:</strong> Your savings goal.</li>
-                      <li><strong className="text-foreground">PV:</strong> Your initial savings.</li>
-                      <li><strong className="text-foreground">PMT:</strong> Your monthly contribution, calculated from your income and savings rate.</li>
-                      <li><strong className="text-foreground">i:</strong> The monthly investment return rate.</li>
+                  <h4 className="font-semibold text-foreground mb-2">Time to Goal (Iterative Calculation)</h4>
+                  <p className="font-mono bg-muted p-4 rounded-md">Next Month's Balance = (Current Balance * (1 + Monthly Return)) + Monthly Contribution</p>
+                  <p className="mt-2">Instead of a complex, single formula, this calculator simulates your financial journey month by month. It starts with your initial savings and then, for each month, it does two things:</p>
+                  <ol className="list-decimal pl-5 mt-2 space-y-1">
+                      <li>Adds the investment return earned on your current balance.</li>
+                      <li>Adds your new monthly contribution (based on your income and savings rate).</li>
                   </ul>
-                   <p className="mt-2">The formula calculates the total number of months required, which is then converted to years. It elegantly combines the effect of your contributions and the power of compound interest to determine your timeline.</p>
+                   <p className="mt-2">It repeats this process until the balance reaches your savings goal, counting the number of months it takes. This iterative method is highly reliable and accurately models the interplay between your contributions and compound growth over time.</p>
               </div>
             </CardContent>
         </Card>
@@ -301,10 +313,10 @@ export default function SavingsRateGoalVisualizer() {
             <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">How to Increase Your Savings Rate Without Deprivation</h2>
             <p>Increasing your savings rate doesn't have to mean a life of austerity. It's about strategic optimization.</p>
             <ul className="list-disc ml-6 space-y-3">
-                <li><strong className="font-semibold text-foreground">Automate Everything:</strong> The most powerful financial habit is to "pay yourself first." Set up automatic transfers from your checking account to your investment accounts for the day after you get paid. The money you never see is the money you won't miss.</li>
-                <li><strong className="font-semibold text-foreground">Focus on the "Big Three":</strong> For most households, the three largest expenses are housing, transportation, and food. Making a significant change in one of these areas has a far greater impact than cutting out a hundred small pleasures. Could you live in a smaller home or a less expensive neighborhood ("house hacking")? Could you switch from a two-car household to one, or use a bike for commuting? Could you commit to cooking more meals at home?</li>
-                <li><strong className="font-semibold text-foreground">Embrace "Lifestyle Inflation" Resistance:</strong> The natural tendency is to increase your spending as your income rises. The key to a high savings rate is to redirect the majority of every raise, bonus, or new income stream directly into savings and investments. If you get a $500 monthly raise, celebrate with a nice dinner, then immediately automate a new $450 monthly investment. You maintain your current quality of life while dramatically boosting your future self's wealth.</li>
-                <li><strong className="font-semibold text-foreground">Conduct a Spending Audit:</strong> Use a tool like the "Spending Pattern Analyzer" to track every dollar for a month. Identify mindless spending or subscriptions that no longer bring you joy. Every dollar you cut from waste is a dollar you can add to your savings rate.</li>
+                <li><strong className="font-semibold">Automate Everything:</strong> The most powerful financial habit is to "pay yourself first." Set up automatic transfers from your checking account to your investment accounts for the day after you get paid. The money you never see is the money you won't miss.</li>
+                <li><strong className="font-semibold">Focus on the "Big Three":</strong> For most households, the three largest expenses are housing, transportation, and food. Making a significant change in one of these areas has a far greater impact than cutting out a hundred small pleasures. Could you live in a smaller home or a less expensive neighborhood ("house hacking")? Could you switch from a two-car household to one, or use a bike for commuting? Could you commit to cooking more meals at home?</li>
+                <li><strong className="font-semibold">Embrace "Lifestyle Inflation" Resistance:</strong> The natural tendency is to increase your spending as your income rises. The key to a high savings rate is to redirect the majority of every raise, bonus, or new income stream directly into savings and investments. If you get a $500 monthly raise, celebrate with a nice dinner, then immediately automate a new $450 monthly investment. You maintain your current quality of life while dramatically boosting your future self's wealth.</li>
+                <li><strong className="font-semibold">Conduct a Spending Audit:</strong> Use a tool like the "Spending Pattern Analyzer" to track every dollar for a month. Identify mindless spending or subscriptions that no longer bring you joy. Every dollar you cut from waste is a dollar you can add to your savings rate.</li>
             </ul>
 
             <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: Your Rate is Your Destiny</h2>
@@ -332,7 +344,7 @@ export default function SavingsRateGoalVisualizer() {
             </div>
              <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">What if the calculator says "Never"?</h4>
-              <p className="text-muted-foreground">This result occurs if your monthly contributions are not enough to overcome the growth of your goal, or if your investment return rate is zero and you have no contributions. It indicates that under the current parameters, your goal is mathematically unreachable. To fix this, you need to increase your savings rate, increase your investment return assumption, or lower your savings goal.</p>
+              <p className="text-muted-foreground">This result occurs if your investment return is not high enough to grow your initial savings to the goal, or if you have no contributions and a zero or negative return rate. It indicates that under the current parameters, your goal is mathematically unreachable without contributions. To fix this, you must have a positive savings rate or a higher return rate.</p>
             </div>
           </CardContent>
         </Card>
