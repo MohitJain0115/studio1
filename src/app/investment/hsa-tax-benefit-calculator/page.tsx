@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -9,94 +9,118 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Landmark, TrendingUp, DollarSign, Activity, Shield, Zap, Info, PlusCircle, Trash2, Coffee, Beer, Pizza } from 'lucide-react';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { Landmark, TrendingUp, Shield, Info, ShieldPlus } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import Link from 'next/link';
 
-const habitSchema = z.object({
-  name: z.string().min(1, "Habit name is required."),
-  amount: z.number().positive('Amount must be positive.'),
-  frequency: z.enum(['daily', 'weekly', 'monthly']),
-});
-
 const formSchema = z.object({
-  habits: z.array(habitSchema).min(1, 'Please add at least one habit.'),
-  annualReturnRate: z.number().positive('Annual return rate must be positive.'),
-  investmentPeriodYears: z.number().positive('Investment period must be positive.'),
+  filingStatus: z.enum(['single', 'family']),
+  annualIncome: z.number().positive('Annual income must be positive.'),
+  hsaContribution: z.number().positive('HSA contribution must be positive.'),
+  investmentReturnRate: z.number().min(0, 'Return rate cannot be negative.'),
+  yearsOfGrowth: z.number().positive('Years must be positive.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface CalculationResult {
-  totalMonthlySavings: number;
+  taxSavings: number;
+  effectiveContribution: number;
   futureValue: number;
-  totalInvestment: number;
-  totalProfit: number;
-  chartData: { name: string; value: number }[];
-  years: number;
+  totalContributions: number;
+  totalGrowth: number;
+  chartData: { name: string; 'Tax-Free Growth': number; 'Contributions': number }[];
 }
 
-const formatNumberUS = (value: number, options: Intl.NumberFormatOptions = {}) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', ...options }).format(value);
-  
-const FREQUENCY_MULTIPLIER = {
-  daily: 30.44, // Average days in a month
-  weekly: 4.33, // Average weeks in a month
-  monthly: 1,
+// Simplified tax brackets for calculation
+const TAX_BRACKETS = {
+  single: [
+    { limit: 11000, rate: 0.10 },
+    { limit: 44725, rate: 0.12 },
+    { limit: 95375, rate: 0.22 },
+    { limit: 182100, rate: 0.24 },
+    { limit: 231250, rate: 0.32 },
+    { limit: 578125, rate: 0.35 },
+    { limit: Infinity, rate: 0.37 },
+  ],
+  family: [ // Using Married Filing Jointly brackets
+    { limit: 22000, rate: 0.10 },
+    { limit: 89450, rate: 0.12 },
+    { limit: 190750, rate: 0.22 },
+    { limit: 364200, rate: 0.24 },
+    { limit: 462500, rate: 0.32 },
+    { limit: 693750, rate: 0.35 },
+    { limit: Infinity, rate: 0.37 },
+  ],
 };
 
-const PRESET_HABITS = [
-    { name: 'Morning Coffee', amount: 5, frequency: 'daily', icon: Coffee },
-    { name: 'Dining Out', amount: 50, frequency: 'weekly', icon: Pizza },
-    { name: 'After-Work Drinks', amount: 30, frequency: 'weekly', icon: Beer },
-];
+const FICA_RATE = 0.0765; // Social Security (6.2%) + Medicare (1.45%)
 
-const PIE_COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
+const formatNumberUS = (value: number) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
 
-export default function HabitBasedWealthGrowthEstimator() {
+export default function HsaTaxBenefitCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      habits: [{ name: '', amount: undefined, frequency: 'daily' }],
-      annualReturnRate: undefined,
-      investmentPeriodYears: undefined,
+      filingStatus: 'single',
+      annualIncome: undefined,
+      hsaContribution: undefined,
+      investmentReturnRate: undefined,
+      yearsOfGrowth: undefined,
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "habits",
-  });
-
   const onSubmit = (values: FormValues) => {
-    const totalMonthlySavings = values.habits.reduce((acc, habit) => {
-      const monthlyCost = habit.amount * FREQUENCY_MULTIPLIER[habit.frequency];
-      return acc + monthlyCost;
-    }, 0);
+    const { annualIncome, hsaContribution, filingStatus, investmentReturnRate, yearsOfGrowth } = values;
 
-    const monthlyInvestment = totalMonthlySavings;
-    const r = values.annualReturnRate / 12 / 100;
-    const n = values.investmentPeriodYears * 12;
+    // 1. Calculate Marginal Tax Rate
+    const brackets = TAX_BRACKETS[filingStatus];
+    let marginalTaxRate = 0;
+    for (const bracket of brackets) {
+      if (annualIncome <= bracket.limit) {
+        marginalTaxRate = bracket.rate;
+        break;
+      }
+    }
 
-    // Future Value of a series of payments (annuity)
-    const futureValue = monthlyInvestment * ( (Math.pow(1 + r, n) - 1) / r );
-    const totalInvestment = monthlyInvestment * n;
-    const totalProfit = futureValue - totalInvestment;
+    // 2. Calculate Tax Savings
+    const federalTaxSavings = hsaContribution * marginalTaxRate;
+    const ficaTaxSavings = hsaContribution * FICA_RATE; // Assuming contribution is via payroll deduction
+    const totalTaxSavings = federalTaxSavings + ficaTaxSavings;
 
-    const chartData = values.habits.map(habit => ({
-      name: habit.name,
-      value: habit.amount * FREQUENCY_MULTIPLIER[habit.frequency],
-    }));
+    // 3. Calculate Effective Contribution
+    const effectiveContribution = hsaContribution - totalTaxSavings;
 
-    setResult({ 
-      totalMonthlySavings,
-      futureValue, 
-      totalInvestment, 
-      totalProfit, 
+    // 4. Calculate Future Value (compounded annually)
+    const r = investmentReturnRate / 100;
+    const n = yearsOfGrowth;
+    // FV of a series of payments (annuity)
+    const futureValue = hsaContribution * ((Math.pow(1 + r, n) - 1) / r);
+    const totalContributions = hsaContribution * n;
+    const totalGrowth = futureValue - totalContributions;
+
+    // 5. Generate Chart Data
+    const chartData = [];
+    for (let year = 1; year <= yearsOfGrowth; year++) {
+      const yearContributions = hsaContribution * year;
+      const yearFutureValue = hsaContribution * ((Math.pow(1 + r, year) - 1) / r);
+      chartData.push({
+        name: `Year ${year}`,
+        'Contributions': yearContributions,
+        'Tax-Free Growth': yearFutureValue - yearContributions,
+      });
+    }
+
+    setResult({
+      taxSavings: totalTaxSavings,
+      effectiveContribution,
+      futureValue,
+      totalContributions,
+      totalGrowth,
       chartData,
-      years: values.investmentPeriodYears,
     });
   };
 
@@ -105,118 +129,97 @@ export default function HabitBasedWealthGrowthEstimator() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5" />
-            Habit-based Wealth Growth Estimator
+            <ShieldPlus className="h-5 w-5" />
+            Health Savings Account (HSA) Tax Benefit Calculator
           </CardTitle>
           <CardDescription>
-            See how much wealth you could build by redirecting spending from daily habits to investments.
+            Estimate the powerful triple-tax advantage of your HSA contributions.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Spending Habits</h3>
-                <div className="space-y-4">
-                  {fields.map((field, index) => (
-                    <div key={field.id} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border p-4 rounded-lg relative">
-                        <h4 className="absolute -top-2 left-2 bg-background px-1 text-xs text-muted-foreground">Habit {index + 1}</h4>
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.name`}
-                            render={({ field }) => (
-                                <FormItem className="md:col-span-2">
-                                <FormLabel>Habit Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="e.g., Morning Coffee" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.amount`}
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Amount</FormLabel>
-                                <FormControl>
-                                  <div className="relative">
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
-                                    <Input type="number" className="pl-7" placeholder="e.g., 5" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.frequency`}
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Frequency</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select frequency" />
-                                    </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="daily">Daily</SelectItem>
-                                        <SelectItem value="weekly">Weekly</SelectItem>
-                                        <SelectItem value="monthly">Monthly</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => remove(index)} disabled={fields.length <= 1}>
-                            <Trash2 className="h-4 w-4" />
-                        </Button>
-                    </div>
-                  ))}
-                </div>
-                <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', amount: undefined, frequency: 'weekly' })}>
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add Habit
-                </Button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="annualIncome"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gross Annual Income</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 80000" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="filingStatus"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tax Filing Status</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="single">Single</SelectItem>
+                          <SelectItem value="family">Married Filing Jointly</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <div>
-                <h3 className="text-lg font-medium mb-2">Investment Scenario</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                    control={form.control}
-                    name="annualReturnRate"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Expected Annual Return (%)</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="e.g., 8" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="investmentPeriodYears"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Investment Period (Years)</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="e.g., 10" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value) || undefined)} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="hsaContribution"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Annual HSA Contribution</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 3850" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="investmentReturnRate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Annual Investment Return (%)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 7" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="yearsOfGrowth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Years of Growth</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 20" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <Button type="submit" className="w-full md:w-auto">
-                Estimate My Growth
+                Calculate My HSA Benefits
               </Button>
             </form>
           </Form>
@@ -227,33 +230,33 @@ export default function HabitBasedWealthGrowthEstimator() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-                <CardTitle>Your Potential Wealth Growth</CardTitle>
-                <CardDescription>
-                    By redirecting {formatNumberUS(result.totalMonthlySavings)} per month for {result.years} years, you could accumulate:
-                </CardDescription>
+              <CardTitle>Your HSA Growth & Tax Savings</CardTitle>
+              <CardDescription>
+                Over {form.getValues('yearsOfGrowth')} years, your HSA could grow to a substantial amount while providing significant annual tax savings.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="text-center mb-8">
-                    <p className="text-sm text-muted-foreground">Potential Future Value</p>
-                    <p className="text-5xl font-bold text-primary">{formatNumberUS(result.futureValue)}</p>
-                </div>
+              <div className="text-center mb-8">
+                <p className="text-sm text-muted-foreground">Potential Future Value</p>
+                <p className="text-5xl font-bold text-primary">{formatNumberUS(result.futureValue)}</p>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Total Invested</h4>
-                  <p className="text-2xl font-bold">
-                    {formatNumberUS(result.totalInvestment)}
-                  </p>
-                </div>
                 <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Total Profit</h4>
+                  <h4 className="text-sm font-medium text-muted-foreground">Annual Tax Savings</h4>
                   <p className="text-2xl font-bold text-green-600">
-                    {formatNumberUS(result.totalProfit)}
+                    {formatNumberUS(result.taxSavings)}
                   </p>
                 </div>
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Return on Investment</h4>
+                  <h4 className="text-sm font-medium text-muted-foreground">Your Effective Annual Cost</h4>
                   <p className="text-2xl font-bold">
-                    {((result.totalProfit / result.totalInvestment) * 100).toFixed(1)}%
+                    {formatNumberUS(result.effectiveContribution)}
+                  </p>
+                </div>
+                 <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                  <h4 className="text-sm font-medium text-muted-foreground">Total Tax-Free Growth</h4>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {formatNumberUS(result.totalGrowth)}
                   </p>
                 </div>
               </div>
@@ -262,31 +265,22 @@ export default function HabitBasedWealthGrowthEstimator() {
           
           <Card>
             <CardHeader>
-                <CardTitle>Monthly Spending Breakdown</CardTitle>
-                <CardDescription>
-                    This is where your potential {formatNumberUS(result.totalMonthlySavings)} in monthly investments comes from.
-                </CardDescription>
+              <CardTitle>HSA Growth Over Time</CardTitle>
+              <CardDescription>
+                This chart illustrates the power of tax-free compound growth on your contributions.
+              </CardDescription>
             </CardHeader>
             <CardContent className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                            data={result.chartData}
-                            dataKey="value"
-                            nameKey="name"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={100}
-                            label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                        >
-                            {result.chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip formatter={(value) => formatNumberUS(value as number)} />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={result.chartData} stackOffset="sign">
+                  <XAxis dataKey="name" />
+                  <YAxis tickFormatter={(value) => formatNumberUS(value)} />
+                  <Tooltip formatter={(value: number) => formatNumberUS(value)} />
+                  <Legend />
+                  <Bar dataKey="Contributions" fill="hsl(var(--chart-2))" stackId="a" />
+                  <Bar dataKey="Tax-Free Growth" fill="hsl(var(--chart-1))" stackId="a" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
@@ -297,12 +291,16 @@ export default function HabitBasedWealthGrowthEstimator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Info className="h-5 w-5" />
-              Understanding the Concept
+              Understanding the HSA Triple-Tax Advantage
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground">
-            <p>This calculator demonstrates the "Latte Factor" on a larger scale. It's not about depriving yourself of joy, but about understanding the financial power of small, recurring expenses. By making conscious spending decisions and redirecting even a small portion of that money into investments, you can leverage the power of compound interest to build substantial wealth over time.</p>
-            <p>The key is to identify non-essential, habitual spending, calculate its true monthly cost, and then visualize the long-term potential if that money were invested instead. This transforms a seemingly insignificant daily purchase into a powerful tool for achieving your financial goals.</p>
+            <p>A Health Savings Account (HSA) is widely regarded as the most powerful retirement and healthcare savings vehicle due to its unique triple-tax advantage. This calculator helps quantify that benefit.</p>
+            <ol className="list-decimal pl-5 space-y-2">
+              <li><strong className="text-foreground">Tax-Deductible Contributions:</strong> The money you contribute is pre-tax (if via payroll) or tax-deductible (if you contribute directly), lowering your current taxable income. This calculator estimates this immediate benefit.</li>
+              <li><strong className="text-foreground">Tax-Free Growth:</strong> Unlike a 401(k) or IRA, the money inside your HSA can be invested and grows completely tax-free. You never pay taxes on the interest or capital gains.</li>
+              <li><strong className="text-foreground">Tax-Free Withdrawals:</strong> You can withdraw money from your HSA at any time, for any qualified medical expense, completely tax-free. After age 65, it can be used for any purpose (just like a 401(k)), with withdrawals for non-medical expenses being taxed as regular income.</li>
+            </ol>
           </CardContent>
         </Card>
 
@@ -318,45 +316,48 @@ export default function HabitBasedWealthGrowthEstimator() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              <li><Link href="/wealth-consistency-tracker" className="hover:underline">Wealth Consistency Tracker</Link></li>
-              <li><Link href="/insurance" className="hover:underline">Insurance Premium Affordability</Link></li>
+              <li><Link href="/investment/long-term-care-cost-estimator" className="hover:underline">Long-Term Care Cost Estimator</Link></li>
+              <li><Link href="/investment/habit-based-wealth-growth-estimator" className="hover:underline">Habit-based Wealth Growth Estimator</Link></li>
             </ul>
           </CardContent>
         </Card>
-
+        
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">The Latte Factor Magnified: How Small Habits Create Massive Wealth</h1>
-          <p className="text-lg italic">Uncover the hidden potential in your daily spending and learn how to turn your coffee budget into a cornerstone of your financial freedom.</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Unlocking the Ultimate Investment: A Deep Dive into the HSA</h1>
+          <p className="text-lg italic">Discover why a Health Savings Account is more than just a healthcare tool—it's a supercharged retirement account in disguise, and potentially the most valuable investment you can make.</p>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">What is the 'Latte Factor'?</h2>
-          <p>Coined by author David Bach, the "Latte Factor" is a metaphor for all the small, discretionary expenses we incur regularly without much thought. It might be a daily premium coffee, a frequent lunch out, a subscription service you don't use, or nightly takeout. While each purchase seems insignificant on its own, their cumulative financial impact over decades is staggering.</p>
-          <p>This calculator's purpose is to make that impact tangible. It's not about guilt; it's about <strong className="font-semibold">awareness and empowerment</strong>. By understanding the opportunity cost of these habits, you can make conscious choices that align with your long-term goals.</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">What is an HSA and Who is Eligible?</h2>
+          <p>A Health Savings Account (HSA) is a tax-advantaged savings account available to individuals and families enrolled in a High-Deductible Health Plan (HDHP). It's designed to help you save for medical expenses, but its powerful features make it an unparalleled long-term investment vehicle. To be eligible to contribute to an HSA, you must meet a few IRS requirements:</p>
+          <ul className="list-disc ml-6 space-y-2">
+              <li>You must be covered under a qualified HDHP on the first day of the month.</li>
+              <li>You have no other health coverage (with limited exceptions).</li>
+              <li>You aren’t enrolled in Medicare.</li>
+              <li>You can’t be claimed as a dependent on someone else’s tax return.</li>
+          </ul>
+          <p>The IRS sets annual limits on contributions. For 2024, the limits are $4,150 for self-only coverage and $8,300 for family coverage. Individuals aged 55 and older can contribute an additional $1,000 as a "catch-up" contribution.</p>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">The Two Engines of Habit-Based Growth</h2>
-          <p>The incredible results you see from this calculator are driven by two powerful financial principles working in tandem:</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">The Unmatched Triple-Tax Advantage</h2>
+          <p>The HSA's power comes from a unique combination of tax benefits that no other account can offer. Let's break down why this "triple-tax advantage" is so significant.</p>
           <ol className="list-decimal ml-6 space-y-4">
               <li>
-                  <strong className="font-semibold text-foreground">The Power of Aggregation</strong>
-                  <p>A $5 coffee doesn't seem like much. But a daily $5 coffee is $35 a week, or about $150 a month. Aggregated over a year, that's $1,800. This calculator does that first step for you, revealing the true annual cost of your habits. Often, this number alone is an eye-opener.</p>
+                  <strong className="font-semibold text-foreground">Benefit 1: Pre-Tax or Tax-Deductible Contributions</strong>
+                  <p>When you contribute to an HSA, you reduce your taxable income for the year. If you contribute through your employer's payroll deduction, the contributions are made pre-tax, bypassing both federal income tax and FICA taxes (Social Security and Medicare). This immediately saves you money. For example, if you are in the 22% federal tax bracket, every $1,000 you contribute saves you $220 in federal taxes and another $76.50 in FICA taxes, for a total of $296.50. Your $1,000 contribution effectively only "costs" you $703.50. This calculator helps you see that immediate ROI.</p>
               </li>
               <li>
-                  <strong className="font-semibold text-foreground">The Magic of Compound Interest</strong>
-                  <p>This is where the real growth happens. When you take that aggregated savings ($1,800 a year, or $150 a month) and invest it, it doesn't just sit there. It starts earning returns. The next year, you earn returns on your original investment <strong className="text-primary">plus</strong> the returns from the previous year. This "return on returns" effect is what creates exponential growth, turning a small stream of redirected cash into a significant nest egg.</p>
+                  <strong className="font-semibold text-foreground">Benefit 2: Tax-Free Growth</strong>
+                  <p>This is where the HSA begins to outshine other retirement accounts. Like a 401(k) or IRA, you can invest your HSA funds in stocks, bonds, and mutual funds. However, unlike a traditional 401(k) or IRA where you pay taxes on withdrawals, the growth in an HSA is <em className="italic">never</em> taxed. All the capital gains, dividends, and interest your investments generate are yours to keep, tax-free, forever. This allows your money to compound much faster over the long term.</p>
               </li>
+              <li>
+                  <strong className="font-semibold text-foreground">Benefit 3: Tax-Free Withdrawals for Qualified Medical Expenses</strong>
+                  <p>This is the final piece of the puzzle. You can withdraw funds from your HSA at any time to pay for a vast range of qualified medical expenses—from doctor visits and prescriptions to dental care and vision—completely tax-free. There is no time limit. You can pay for a medical expense out-of-pocket today and reimburse yourself from your HSA 30 years from now, allowing your investments to grow untouched for decades. This makes it a flexible emergency fund and a dedicated healthcare fund in one.</p>
           </ol>
-          
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">How to Identify Your Own 'Latte Factors'</h2>
-          <p>The most effective way to use this tool is to find your own personal spending habits. Here’s how:</p>
-          <ul className="list-disc ml-6 space-y-2">
-              <li><strong className="font-semibold">Review Your Statements:</strong> Spend 30 minutes looking through your last month's credit card and bank statements. Look for small, recurring charges from the same vendors (e.g., Starbucks, Uber Eats, Amazon).</li>
-              <li><strong className="font-semibold">Track Your Spending for a Week:</strong> Actively write down every single purchase you make for seven days. This manual process builds a strong awareness of where your money is truly going.</li>
-              <li><strong className="font-semibold">Question Your Subscriptions:</strong> Make a list of all your monthly subscriptions (streaming, software, gym memberships). Are you using all of them to their full potential? Could you downgrade or cancel any? A single $15/month subscription is $180 a year you could be investing.</li>
-              <li><strong className="font-semibold">Distinguish Between Joyful and Mindless Spending:</strong> This is key. The goal is not to eliminate all joy. If a weekly dinner with friends is a highlight of your week, keep it. The target is <strong className="text-foreground">mindless</strong> spending—the purchases made out of pure habit or convenience with little to no lasting satisfaction.</li>
-          </ul>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: A Tool for Mindful Spending</h2>
-          <p>This calculator is more than a financial projection tool; it's a behavioral finance tool. It encourages you to pause and ask a powerful question: "Is the short-term satisfaction I get from this habit worth more than the long-term financial freedom it's costing me?"</p>
-          <p>Sometimes the answer will be yes, and that's perfectly fine. But often, you'll discover habits you're happy to trade for a wealthier, more secure future. By making a few conscious changes, you can put your small habits to work building the life you want.</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">HSA as a Stealth Retirement Account</h2>
+          <p>While its primary purpose is healthcare, the HSA's secret weapon is its function as a retirement account. Once you turn 65, the rules become even more flexible. You can continue to withdraw money tax-free for medical expenses, which are likely to be higher in retirement. But you can also withdraw money for <strong className="font-semibold">any reason at all</strong>. These non-medical withdrawals will be taxed as ordinary income, just like withdrawals from a traditional 401(k) or IRA. This feature effectively turns your HSA into a "Super IRA."</p>
+          <p>The optimal strategy for wealth builders is to, if possible, pay for current medical expenses out-of-pocket and leave the HSA funds invested to maximize tax-free growth. Think of it as your primary investment account, maxing it out each year even before your 401(k) (after securing any employer match). Keep receipts for all your out-of-pocket medical expenses in a digital folder. This creates a "bank" of tax-free withdrawals you can take at any point in the future, penalty-free, for any reason.</p>
+
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: Prioritize Your HSA</h2>
+          <p>This calculator demonstrates that the HSA is not just another account; it's a financial powerhouse. The immediate tax deduction, combined with decades of tax-free compounding and tax-free withdrawals for healthcare, makes it an essential tool for anyone serious about building long-term wealth and preparing for the costs of healthcare in retirement. If you are eligible for an HSA, contributing the maximum amount each year should be one of your highest financial priorities.</p>
         </section>
 
         <Card>
@@ -368,28 +369,20 @@ export default function HabitBasedWealthGrowthEstimator() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">Is this calculator telling me to stop enjoying life?</h4>
-              <p className="text-muted-foreground">Not at all! It's about mindful spending. The goal is to identify and cut back on <strong className="text-foreground">mindless or low-value</strong> habits, freeing up money for things that matter more, like your long-term financial security. If a habit brings you significant joy, it's worth keeping.</p>
+              <h4 className="font-semibold mb-2">What is a High-Deductible Health Plan (HDHP)?</h4>
+              <p className="text-muted-foreground">An HDHP is a health insurance plan with a higher deductible than traditional plans. In exchange, they typically have lower monthly premiums. The IRS defines the minimum deductible and maximum out-of-pocket costs for a plan to be considered a qualified HDHP.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What is a realistic annual return rate to use?</h4>
-              <p className="text-muted-foreground">A conservative and widely used estimate for a diversified stock portfolio (like an S&P 500 index fund) is 7-8% annually, which accounts for inflation. Using 10% reflects the historical market average before inflation. It's wise to be conservative with your estimate.</p>
+              <h4 className="font-semibold mb-2">What if I change jobs or no longer have an HDHP?</h4>
+              <p className="text-muted-foreground">The money in your HSA is always yours, even if you change jobs or insurance plans. You can no longer <em className="italic">contribute</em> to the HSA if you are not enrolled in an HDHP, but you can continue to use the existing funds for medical expenses or keep them invested for the future.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">How do I actually invest the money I save?</h4>
-              <p className="text-muted-foreground">The easiest way is to set up an automatic monthly transfer from your checking account into a low-cost index fund or ETF through a brokerage account (like Vanguard, Fidelity, or Charles Schwab). This automates the process and puts your savings to work immediately.</p>
+              <h4 className="font-semibold mb-2">What are "qualified medical expenses"?</h4>
+              <p className="text-muted-foreground">The IRS maintains a broad list (Publication 502) of eligible expenses, including doctor visits, dental work, prescriptions, vision care (glasses, contacts), chiropractic care, and even things like acupuncture. Over-the-counter medications are also eligible.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">Is it better to invest the money or pay off debt?</h4>
-              <p className="text-muted-foreground">It depends on the interest rate. If you have high-interest debt (like credit cards with 20%+ APR), it's almost always better to pay that off first. The guaranteed "return" you get from eliminating that debt is higher than any likely investment return. For low-interest debt (like a mortgage at 3%), it's often better to invest.</p>
-            </div>
-             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What if my habit costs are irregular?</h4>
-              <p className="text-muted-foreground">Try to find an average. If you buy lunch out 2-3 times a week, use 2.5 times as your weekly frequency. The goal is to get a reasonable estimate of the monthly cost, not a perfectly exact number.</p>
-            </div>
-             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">How does this relate to my retirement savings?</h4>
-              <p className="text-muted-foreground">This is a powerful supplement to your formal retirement savings (like a 401(k)). While your 401(k) is your primary engine, redirecting "latte factor" money into a separate brokerage account (like a Roth IRA) can significantly accelerate your journey to financial independence or fund other major goals.</p>
+              <h4 className="font-semibold mb-2">Is it better to invest my HSA funds or keep them in cash?</h4>
+              <p className="text-muted-foreground">For long-term growth, investing is key. Many HSA providers offer a range of investment options like low-cost index funds. A common strategy is to keep an amount equal to your annual deductible in cash for immediate medical needs and invest the rest for long-term, tax-free growth.</p>
             </div>
           </CardContent>
         </Card>
@@ -402,11 +395,10 @@ export default function HabitBasedWealthGrowthEstimator() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator quantifies the "Latte Factor" by showing how redirecting spending on small, recurring habits can lead to substantial wealth through compound interest. By inputting your habits and an investment scenario, you can visualize the long-term financial impact and opportunity cost of your daily spending. This tool empowers you to make mindful financial decisions and turn small behavioral changes into a powerful engine for wealth creation.</p>
+            <p>This calculator quantifies the powerful triple-tax advantage of a Health Savings Account (HSA). By inputting your income, contribution, and investment expectations, you can visualize the immediate tax savings and long-term, tax-free growth potential. The HSA is a unique tool that lowers your current tax bill, allows investments to grow tax-free, and permits tax-free withdrawals for medical expenses, making it one of the most effective vehicles for both healthcare and retirement savings.</p>
           </CardContent>
         </Card>
       </div>
     </div>
   );
 }
-    

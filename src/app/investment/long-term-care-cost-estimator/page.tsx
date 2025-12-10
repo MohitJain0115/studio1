@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -9,94 +9,88 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Landmark, TrendingUp, DollarSign, Activity, Shield, Zap, Info, PlusCircle, Trash2, Coffee, Beer, Pizza } from 'lucide-react';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { Landmark, TrendingUp, Bed, Info, Shield } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import Link from 'next/link';
 
-const habitSchema = z.object({
-  name: z.string().min(1, "Habit name is required."),
-  amount: z.number().positive('Amount must be positive.'),
-  frequency: z.enum(['daily', 'weekly', 'monthly']),
-});
+// Data from Genworth Cost of Care Survey (approximated for 2024)
+const CURRENT_ANNUAL_COSTS = {
+  'homemaker-services': 69500,
+  'home-health-aide': 75500,
+  'assisted-living': 64200,
+  'nursing-home-semi-private': 109500,
+  'nursing-home-private': 120500,
+};
 
 const formSchema = z.object({
-  habits: z.array(habitSchema).min(1, 'Please add at least one habit.'),
-  annualReturnRate: z.number().positive('Annual return rate must be positive.'),
-  investmentPeriodYears: z.number().positive('Investment period must be positive.'),
+  currentAge: z.number().positive('Current age must be positive.'),
+  careStartAge: z.number().positive('Care start age must be positive.'),
+  careType: z.enum(Object.keys(CURRENT_ANNUAL_COSTS) as [string, ...string[]]),
+  careDurationYears: z.number().positive('Care duration must be positive.'),
+  inflationRate: z.number().min(0, 'Inflation rate cannot be negative.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 interface CalculationResult {
-  totalMonthlySavings: number;
-  futureValue: number;
-  totalInvestment: number;
-  totalProfit: number;
-  chartData: { name: string; value: number }[];
-  years: number;
+  yearsUntilCare: number;
+  futureAnnualCost: number;
+  totalCareCost: number;
+  chartData: { name: string; 'Future Annual Cost': number }[];
 }
 
-const formatNumberUS = (value: number, options: Intl.NumberFormatOptions = {}) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', ...options }).format(value);
-  
-const FREQUENCY_MULTIPLIER = {
-  daily: 30.44, // Average days in a month
-  weekly: 4.33, // Average weeks in a month
-  monthly: 1,
-};
+const formatNumberUS = (value: number) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
 
-const PRESET_HABITS = [
-    { name: 'Morning Coffee', amount: 5, frequency: 'daily', icon: Coffee },
-    { name: 'Dining Out', amount: 50, frequency: 'weekly', icon: Pizza },
-    { name: 'After-Work Drinks', amount: 30, frequency: 'weekly', icon: Beer },
-];
-
-const PIE_COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
-
-export default function HabitBasedWealthGrowthEstimator() {
+export default function LongTermCareCostEstimator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      habits: [{ name: '', amount: undefined, frequency: 'daily' }],
-      annualReturnRate: undefined,
-      investmentPeriodYears: undefined,
+      currentAge: undefined,
+      careStartAge: undefined,
+      careType: 'assisted-living',
+      careDurationYears: undefined,
+      inflationRate: 3.5,
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "habits",
-  });
-
   const onSubmit = (values: FormValues) => {
-    const totalMonthlySavings = values.habits.reduce((acc, habit) => {
-      const monthlyCost = habit.amount * FREQUENCY_MULTIPLIER[habit.frequency];
-      return acc + monthlyCost;
-    }, 0);
+    const { currentAge, careStartAge, careType, careDurationYears, inflationRate } = values;
 
-    const monthlyInvestment = totalMonthlySavings;
-    const r = values.annualReturnRate / 12 / 100;
-    const n = values.investmentPeriodYears * 12;
+    if (careStartAge <= currentAge) {
+      form.setError('careStartAge', {
+        type: 'manual',
+        message: 'Care start age must be after current age.',
+      });
+      return;
+    }
 
-    // Future Value of a series of payments (annuity)
-    const futureValue = monthlyInvestment * ( (Math.pow(1 + r, n) - 1) / r );
-    const totalInvestment = monthlyInvestment * n;
-    const totalProfit = futureValue - totalInvestment;
+    const yearsUntilCare = careStartAge - currentAge;
+    const currentAnnualCost = CURRENT_ANNUAL_COSTS[careType as keyof typeof CURRENT_ANNUAL_COSTS];
+    const inflation = inflationRate / 100;
 
-    const chartData = values.habits.map(habit => ({
-      name: habit.name,
-      value: habit.amount * FREQUENCY_MULTIPLIER[habit.frequency],
-    }));
+    // Calculate the future cost of the first year of care
+    const futureAnnualCost = currentAnnualCost * Math.pow(1 + inflation, yearsUntilCare);
 
-    setResult({ 
-      totalMonthlySavings,
-      futureValue, 
-      totalInvestment, 
-      totalProfit, 
+    // Calculate the total cost over the duration, accounting for inflation during care
+    let totalCareCost = 0;
+    const chartData = [];
+    for (let i = 0; i < careDurationYears; i++) {
+      const costForYear = futureAnnualCost * Math.pow(1 + inflation, i);
+      totalCareCost += costForYear;
+      chartData.push({
+        name: `Year ${i + 1}`,
+        'Future Annual Cost': costForYear,
+      });
+    }
+
+    setResult({
+      yearsUntilCare,
+      futureAnnualCost,
+      totalCareCost,
       chartData,
-      years: values.investmentPeriodYears,
     });
   };
 
@@ -105,117 +99,100 @@ export default function HabitBasedWealthGrowthEstimator() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5" />
-            Habit-based Wealth Growth Estimator
+            <Bed className="h-5 w-5" />
+            Long-Term Care Cost Estimator
           </CardTitle>
           <CardDescription>
-            See how much wealth you could build by redirecting spending from daily habits to investments.
+            Project the potential future costs of long-term care to inform your financial planning.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Spending Habits</h3>
-                <div className="space-y-4">
-                  {fields.map((field, index) => (
-                    <div key={field.id} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end border p-4 rounded-lg relative">
-                        <h4 className="absolute -top-2 left-2 bg-background px-1 text-xs text-muted-foreground">Habit {index + 1}</h4>
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.name`}
-                            render={({ field }) => (
-                                <FormItem className="md:col-span-2">
-                                <FormLabel>Habit Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="e.g., Morning Coffee" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.amount`}
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Amount</FormLabel>
-                                <FormControl>
-                                  <div className="relative">
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">$</span>
-                                    <Input type="number" className="pl-7" placeholder="e.g., 5" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
-                                  </div>
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <FormField
-                            control={form.control}
-                            name={`habits.${index}.frequency`}
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Frequency</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select frequency" />
-                                    </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="daily">Daily</SelectItem>
-                                        <SelectItem value="weekly">Weekly</SelectItem>
-                                        <SelectItem value="monthly">Monthly</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                        <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => remove(index)} disabled={fields.length <= 1}>
-                            <Trash2 className="h-4 w-4" />
-                        </Button>
-                    </div>
-                  ))}
-                </div>
-                <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', amount: undefined, frequency: 'weekly' })}>
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add Habit
-                </Button>              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="currentAge"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Current Age</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 45" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="careStartAge"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Expected Age to Start Care</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 80" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <div>
-                <h3 className="text-lg font-medium mb-2">Investment Scenario</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                    control={form.control}
-                    name="annualReturnRate"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Expected Annual Return (%)</FormLabel>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="careType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type of Care</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                            <Input type="number" placeholder="e.g., 8" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select care type" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="investmentPeriodYears"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Investment Period (Years)</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="e.g., 10" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value) || undefined)} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                </div>
+                        <SelectContent>
+                          <SelectItem value="homemaker-services">Homemaker Services</SelectItem>
+                          <SelectItem value="home-health-aide">Home Health Aide</SelectItem>
+                          <SelectItem value="assisted-living">Assisted Living Facility</SelectItem>
+                          <SelectItem value="nursing-home-semi-private">Nursing Home (Semi-Private)</SelectItem>
+                          <SelectItem value="nursing-home-private">Nursing Home (Private)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="careDurationYears"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Duration of Care (Years)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 3" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="inflationRate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>LTC Inflation Rate (%)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 3.5" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <Button type="submit" className="w-full md:w-auto">
-                Estimate My Growth
+                Estimate Future Cost
               </Button>
             </form>
           </Form>
@@ -226,33 +203,27 @@ export default function HabitBasedWealthGrowthEstimator() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-                <CardTitle>Your Potential Wealth Growth</CardTitle>
-                <CardDescription>
-                    By redirecting {formatNumberUS(result.totalMonthlySavings)} per month for {result.years} years, you could accumulate:
-                </CardDescription>
+              <CardTitle>Your Estimated Long-Term Care Costs</CardTitle>
+              <CardDescription>
+                Based on your inputs, here is a projection of your potential future long-term care expenses.
+              </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="text-center mb-8">
-                    <p className="text-sm text-muted-foreground">Potential Future Value</p>
-                    <p className="text-5xl font-bold text-primary">{formatNumberUS(result.futureValue)}</p>
-                </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center mb-8">
+                <p className="text-sm text-muted-foreground">Estimated Total Cost of Care</p>
+                <p className="text-5xl font-bold text-primary">{formatNumberUS(result.totalCareCost)}</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Total Invested</h4>
+                  <h4 className="text-sm font-medium text-muted-foreground">Care Begins In</h4>
                   <p className="text-2xl font-bold">
-                    {formatNumberUS(result.totalInvestment)}
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Total Profit</h4>
-                  <p className="text-2xl font-bold text-green-600">
-                    {formatNumberUS(result.totalProfit)}
+                    {result.yearsUntilCare} years
                   </p>
                 </div>
                 <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <h4 className="text-sm font-medium text-muted-foreground">Return on Investment</h4>
+                  <h4 className="text-sm font-medium text-muted-foreground">Future Annual Cost (First Year)</h4>
                   <p className="text-2xl font-bold">
-                    {((result.totalProfit / result.totalInvestment) * 100).toFixed(1)}%
+                    {formatNumberUS(result.futureAnnualCost)}
                   </p>
                 </div>
               </div>
@@ -261,31 +232,20 @@ export default function HabitBasedWealthGrowthEstimator() {
           
           <Card>
             <CardHeader>
-                <CardTitle>Monthly Spending Breakdown</CardTitle>
-                <CardDescription>
-                    This is where your potential {formatNumberUS(result.totalMonthlySavings)} in monthly investments comes from.
-                </CardDescription>
+              <CardTitle>Projected Annual Cost During Care</CardTitle>
+              <CardDescription>
+                This chart shows how the annual cost of care increases with inflation during the care period.
+              </CardDescription>
             </CardHeader>
             <CardContent className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                            data={result.chartData}
-                            dataKey="value"
-                            nameKey="name"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={100}
-                            label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                        >
-                            {result.chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip formatter={(value) => formatNumberUS(value as number)} />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={result.chartData}>
+                  <XAxis dataKey="name" />
+                  <YAxis tickFormatter={(value) => formatNumberUS(value)} />
+                  <Tooltip formatter={(value: number) => formatNumberUS(value)} cursor={{fill: 'hsla(var(--muted))'}} />
+                  <Bar dataKey="Future Annual Cost" fill="hsl(var(--primary))" />
+                </BarChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
@@ -296,12 +256,12 @@ export default function HabitBasedWealthGrowthEstimator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Info className="h-5 w-5" />
-              Understanding the Concept
+              Understanding the Challenge of Long-Term Care Costs
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-muted-foreground">
-            <p>This calculator demonstrates the "Latte Factor" on a larger scale. It's not about depriving yourself of joy, but about understanding the financial power of small, recurring expenses. By making conscious spending decisions and redirecting even a small portion of that money into investments, you can leverage the power of compound interest to build substantial wealth over time.</p>
-            <p>The key is to identify non-essential, habitual spending, calculate its true monthly cost, and then visualize the long-term potential if that money were invested instead. This transforms a seemingly insignificant daily purchase into a powerful tool for achieving your financial goals.</p>
+            <p>Long-Term Care (LTC) is one of the most significant and unpredictable financial risks Americans face in retirement. It refers to a wide range of services and support for personal care needs. Unlike traditional medical care, it is often not covered by Medicare or standard health insurance, leaving individuals and families to bear the substantial cost.</p>
+            <p>This calculator uses national average data and an assumed inflation rate to project a potential future cost. It is a powerful tool for starting a conversation about how you will prepare for this possibility. The numbers can be startling, but having a realistic estimate is the first step toward creating a sound financial plan.</p>
           </CardContent>
         </Card>
 
@@ -317,45 +277,54 @@ export default function HabitBasedWealthGrowthEstimator() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              <li><Link href="/wealth-consistency-tracker" className="hover:underline">Wealth Consistency Tracker</Link></li>
-              <li><Link href="/insurance" className="hover:underline">Insurance Premium Affordability</Link></li>
+              <li><Link href="/investment/hsa-tax-benefit-calculator" className="hover:underline">HSA Tax Benefit Calculator</Link></li>
+              <li><Link href="/investment/habit-based-wealth-growth-estimator" className="hover:underline">Habit-based Wealth Growth Estimator</Link></li>
             </ul>
           </CardContent>
         </Card>
 
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">The Latte Factor Magnified: How Small Habits Create Massive Wealth</h1>
-          <p className="text-lg italic">Uncover the hidden potential in your daily spending and learn how to turn your coffee budget into a cornerstone of your financial freedom.</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Confronting the Elephant in the Room: Planning for Long-Term Care</h1>
+          <p className="text-lg italic">It’s a topic many of us prefer to avoid, but planning for long-term care is a critical component of a secure retirement. Understanding the potential costs is the first step to taking control.</p>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">What is the 'Latte Factor'?</h2>
-          <p>Coined by author David Bach, the "Latte Factor" is a metaphor for all the small, discretionary expenses we incur regularly without much thought. It might be a daily premium coffee, a frequent lunch out, a subscription service you don't use, or nightly takeout. While each purchase seems insignificant on its own, their cumulative financial impact over decades is staggering.</p>
-          <p>This calculator's purpose is to make that impact tangible. It's not about guilt; it's about <strong className="font-semibold">awareness and empowerment</strong>. By understanding the opportunity cost of these habits, you can make conscious choices that align with your long-term goals.</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">What is Long-Term Care?</h2>
+          <p>Long-term care involves a variety of services designed to meet a person's health or personal care needs during a short or long period of time. These services help people live as independently and safely as possible when they can no longer perform everyday activities on their own. These are often referred to as "Activities of Daily Living" (ADLs), and typically include:</p>
+          <ul className="list-disc ml-6 space-y-2">
+              <li>Bathing</li>
+              <li>Dressing</li>
+              <li>Eating</li>
+              <li>Toileting</li>
+              <li>Continence</li>
+              <li>Transferring (getting in and out of a bed or chair)</li>
+          </ul>
+          <p>LTC is not just for the elderly; it can be required at any age due to an accident or chronic illness. However, the probability of needing care increases significantly as you get older. The U.S. Department of Health and Human Services estimates that someone turning 65 today has almost a 70% chance of needing some type of long-term care services in their remaining years.</p>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">The Two Engines of Habit-Based Growth</h2>
-          <p>The incredible results you see from this calculator are driven by two powerful financial principles working in tandem:</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Who Pays for Long-Term Care? The Surprising Truth</h2>
+          <p>This is the most critical misconception many people have. Standard health insurance does <em className="italic">not</em> cover long-term care. Medicare provides very limited coverage (up to 100 days in a skilled nursing facility after a qualifying hospital stay), but it does not cover "custodial care," which makes up the majority of LTC services.</p>
+          <p>So who foots the bill? Primarily, you do. The payment options are:</p>
           <ol className="list-decimal ml-6 space-y-4">
               <li>
-                  <strong className="font-semibold text-foreground">The Power of Aggregation</strong>
-                  <p>A $5 coffee doesn't seem like much. But a daily $5 coffee is $35 a week, or about $150 a month. Aggregated over a year, that's $1,800. This calculator does that first step for you, revealing the true annual cost of your habits. Often, this number alone is an eye-opener.</p>
+                  <strong className="font-semibold text-foreground">Self-Funding:</strong> Using personal savings, retirement funds (like a 401(k) or IRA), and other assets to pay for care. This is the default option if no other plan is in place and can rapidly deplete a lifetime of savings. This calculator shows the potential scale of the liability you may need to self-fund.
               </li>
               <li>
-                  <strong className="font-semibold text-foreground">The Magic of Compound Interest</strong>
-                  <p>This is where the real growth happens. When you take that aggregated savings ($1,800 a year, or $150 a month) and invest it, it doesn't just sit there. It starts earning returns. The next year, you earn returns on your original investment <strong className="text-primary">plus</strong> the returns from the previous year. This "return on returns" effect is what creates exponential growth, turning a small stream of redirected cash into a significant nest egg.</p>
+                  <strong className="font-semibold text-foreground">Long-Term Care Insurance:</strong> Purchasing a specific insurance policy designed to cover LTC costs. There are traditional policies and "hybrid" policies that combine life insurance with an LTC rider. Premiums can be expensive and are not guaranteed to remain level.
+              </li>
+              <li>
+                  <strong className="font-semibold text-foreground">Medicaid:</strong> The government program that acts as a safety net, but it is means-tested. To qualify, you must spend down your assets to a very low level (typically only a few thousand dollars). This means you effectively have to become impoverished to receive government assistance for care.
               </li>
           </ol>
           
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">How to Identify Your Own 'Latte Factors'</h2>
-          <p>The most effective way to use this tool is to find your own personal spending habits. Here’s how:</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Strategies for Planning</h2>
+          <p>Seeing a potential six- or seven-figure liability can be overwhelming, but it's better to know than to be surprised. This estimate allows you to start forming a strategy. Your plan might be a single approach or a combination of several:</p>
           <ul className="list-disc ml-6 space-y-2">
-              <li><strong className="font-semibold">Review Your Statements:</strong> Spend 30 minutes looking through your last month's credit card and bank statements. Look for small, recurring charges from the same vendors (e.g., Starbucks, Uber Eats, Amazon).</li>
-              <li><strong className="font-semibold">Track Your Spending for a Week:</strong> Actively write down every single purchase you make for seven days. This manual process builds a strong awareness of where your money is truly going.</li>
-              <li><strong className="font-semibold">Question Your Subscriptions:</strong> Make a list of all your monthly subscriptions (streaming, software, gym memberships). Are you using all of them to their full potential? Could you downgrade or cancel any? A single $15/month subscription is $180 a year you could be investing.</li>
-              <li><strong className="font-semibold">Distinguish Between Joyful and Mindless Spending:</strong> This is key. The goal is not to eliminate all joy. If a weekly dinner with friends is a highlight of your week, keep it. The target is <strong className="text-foreground">mindless</strong> spending—the purchases made out of pure habit or convenience with little to no lasting satisfaction.</li>
+              <li><strong className="font-semibold">Earmarking Assets:</strong> Based on your cost estimate, you can designate a portion of your investment portfolio specifically for potential LTC needs.</li>
+              <li><strong className="font-semibold">Purchasing LTC Insurance:</strong> Now that you have a cost estimate, you can request quotes from insurance providers for a policy that would cover a significant portion of this liability. The younger and healthier you are when you apply, the lower the premiums will be.</li>
+              <li><strong className="font-semibold">Utilizing an HSA:</strong> If you have a Health Savings Account, you can use those funds tax-free to pay for LTC insurance premiums or the cost of care directly. This is one of the most efficient ways to pay for care.</li>
+              <li><strong className="font-semibold">Considering Home Equity:</strong> A reverse mortgage or the eventual sale of a home can be part of a comprehensive LTC funding plan.</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: A Tool for Mindful Spending</h2>
-          <p>This calculator is more than a financial projection tool; it's a behavioral finance tool. It encourages you to pause and ask a powerful question: "Is the short-term satisfaction I get from this habit worth more than the long-term financial freedom it's costing me?"</p>
-          <p>Sometimes the answer will be yes, and that's perfectly fine. But often, you'll discover habits you're happy to trade for a wealthier, more secure future. By making a few conscious changes, you can put your small habits to work building the life you want.</p>
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion: Proactive Planning is Power</h2>
+          <p>The purpose of this calculator is not to scare you, but to empower you. By replacing a vague fear with a concrete, data-driven estimate, you can move from anxiety to action. Long-term care is a family issue, and having a plan in place is one of the greatest gifts you can give to your loved ones, protecting them from the financial and emotional stress of becoming caregivers or making difficult financial decisions on your behalf.</p>
         </section>
 
         <Card>
@@ -367,28 +336,20 @@ export default function HabitBasedWealthGrowthEstimator() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">Is this calculator telling me to stop enjoying life?</h4>
-              <p className="text-muted-foreground">Not at all! It's about mindful spending. The goal is to identify and cut back on <strong className="text-foreground">mindless or low-value</strong> habits, freeing up money for things that matter more, like your long-term financial security. If a habit brings you significant joy, it's worth keeping.</p>
+              <h4 className="font-semibold mb-2">Are these costs accurate for my specific location?</h4>
+              <p className="text-muted-foreground">This calculator uses national averages, which can vary significantly from state to state and even city to city. For more precise local data, you can look up the Genworth Cost of Care Survey for your specific state. However, this tool provides a reasonable baseline for planning purposes.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What is a realistic annual return rate to use?</h4>
-              <p className="text-muted-foreground">A conservative and widely used estimate for a diversified stock portfolio (like an S&P 500 index fund) is 7-8% annually, which accounts for inflation. Using 10% reflects the historical market average before inflation. It's wise to be conservative with your estimate.</p>
+              <h4 className="font-semibold mb-2">What's a realistic inflation rate for long-term care?</h4>
+              <p className="text-muted-foreground">Healthcare and long-term care costs have historically risen faster than general inflation. While this calculator defaults to 3.5%, rates between 3% and 5% are commonly used for long-term projections. It's wise to run the numbers with a more aggressive inflation rate to see a more conservative outcome.</p>
             </div>
             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">How do I actually invest the money I save?</h4>
-              <p className="text-muted-foreground">The easiest way is to set up an automatic monthly transfer from your checking account into a low-cost index fund or ETF through a brokerage account (like Vanguard, Fidelity, or Charles Schwab). This automates the process and puts your savings to work immediately.</p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">Is it better to invest the money or pay off debt?</h4>
-              <p className="text-muted-foreground">It depends on the interest rate. If you have high-interest debt (like credit cards with 20%+ APR), it's almost always better to pay that off first. The guaranteed "return" you get from eliminating that debt is higher than any likely investment return. For low-interest debt (like a mortgage at 3%), it's often better to invest.</p>
+              <h4 className="font-semibold mb-2">What is the average duration of care needed?</h4>
+              <p className="text-muted-foreground">It varies greatly. According to the U.S. Department of Health and Human Services, on average, women need care for 3.7 years, while men need it for 2.2 years. About 20% of today's 65-year-olds will need care for longer than 5 years.</p>
             </div>
              <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">What if my habit costs are irregular?</h4>
-              <p className="text-muted-foreground">Try to find an average. If you buy lunch out 2-3 times a week, use 2.5 times as your weekly frequency. The goal is to get a reasonable estimate of the monthly cost, not a perfectly exact number.</p>
-            </div>
-             <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold mb-2">How does this relate to my retirement savings?</h4>
-              <p className="text-muted-foreground">This is a powerful supplement to your formal retirement savings (like a 401(k)). While your 401(k) is your primary engine, redirecting "latte factor" money into a separate brokerage account (like a Roth IRA) can significantly accelerate your journey to financial independence or fund other major goals.</p>
+              <h4 className="font-semibold mb-2">When should I start planning for long-term care?</h4>
+              <p className="text-muted-foreground">The best time to start planning is in your 50s. At this age, you are more likely to be healthy enough to qualify for long-term care insurance at a reasonable premium. The longer you wait, the more expensive (or unavailable) insurance becomes.</p>
             </div>
           </CardContent>
         </Card>
@@ -401,11 +362,10 @@ export default function HabitBasedWealthGrowthEstimator() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator quantifies the "Latte Factor" by showing how redirecting spending on small, recurring habits can lead to substantial wealth through compound interest. By inputting your habits and an investment scenario, you can visualize the long-term financial impact and opportunity cost of your daily spending. This tool empowers you to make mindful financial decisions and turn small behavioral changes into a powerful engine for wealth creation.</p>
+            <p>This calculator provides a crucial, personalized estimate of one of the largest potential expenses in retirement: long-term care. By projecting the future cost based on care type, age, and inflation, it transforms an abstract risk into a tangible number. This empowers you to have informed conversations with your family and financial advisors about creating a strategy, whether it involves self-funding, purchasing insurance, or a hybrid approach, to protect your assets and ensure your future needs are met.</p>
           </CardContent>
         </Card>
       </div>
     </div>
   );
 }
-    
