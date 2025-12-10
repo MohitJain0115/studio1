@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, TestTube, PlusCircle, Trash2 } from 'lucide-react';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import Link from 'next/link';
 
 const observationSchema = z.object({
@@ -328,3 +328,5 @@ export default function LgdBacktestCalculator() {
     </div>
   );
 }
+
+    
