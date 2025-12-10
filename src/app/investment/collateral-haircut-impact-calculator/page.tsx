@@ -157,6 +157,18 @@ export default function CollateralHaircutImpactCalculator() {
               </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Interpretation of the Result</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p><strong className="text-foreground">Calculated Haircut of {formatPercent(result.haircut)}:</strong> This percentage represents the risk premium being applied to your collateral. A lender would discount the market value of your collateral by this amount to buffer against potential price drops during a liquidation period.</p>
+                <p><strong className="text-foreground">Adjusted Collateral Value:</strong> After applying the haircut, your posted collateral of {formatNumberUS(form.getValues('collateralValue'))} is only recognized as having a value of <strong className="text-primary">{formatNumberUS(result.coveredExposure)}</strong> for the purpose of covering your exposure.</p>
+                <p><strong className="text-foreground">Uncovered Exposure of {formatNumberUS(result.remainingExposure)}:</strong> This is your most critical risk number. It is the amount of your {formatNumberUS(form.getValues('exposureAmount'))} exposure that remains unsecured after the haircut-adjusted collateral is applied. If you were to default, this is the lender's potential loss.</p>
+                <p><strong className="text-foreground">Collateral Required for Full Coverage:</strong> To fully secure your {formatNumberUS(form.getValues('exposureAmount'))} exposure, you would need to post collateral with a market value of <strong className="text-primary">{formatNumberUS(result.collateralRequired)}</strong>. This demonstrates the concept of over-collateralization required for riskier assets.</p>
+            </CardContent>
+          </Card>
         </div>
       )}
 
