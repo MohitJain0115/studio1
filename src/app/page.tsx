@@ -35,6 +35,16 @@ const calculators = [
     title: 'Dental Cost Comparison Calculator',
     description: 'Compare estimated costs of common dental procedures.',
   },
+  {
+    href: '/investment/prescription-refill-cost-estimator',
+    title: 'Prescription Refill Cost Estimator',
+    description: 'Estimate your annual out-of-pocket costs for recurring prescription medications.',
+  },
+  {
+    href: '/investment/health-plan-coverage-gap-estimator',
+    title: 'Health Plan Coverage Gap Estimator',
+    description: 'Project when you might enter the Medicare Part D coverage gap ("donut hole").',
+  },
 ];
 
 export default function CalculatorsPage() {

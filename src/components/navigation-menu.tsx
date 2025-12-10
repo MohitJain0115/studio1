@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -36,6 +36,16 @@ const menuItems = [
     href: '/investment/dental-cost-comparison-calculator',
     label: 'Dental Cost Comparison',
     icon: Smile,
+  },
+  {
+    href: '/investment/prescription-refill-cost-estimator',
+    label: 'Prescription Refill Cost',
+    icon: Pill,
+  },
+  {
+    href: '/investment/health-plan-coverage-gap-estimator',
+    label: 'Health Plan Coverage Gap',
+    icon: WholeWord,
   },
 ];
 
