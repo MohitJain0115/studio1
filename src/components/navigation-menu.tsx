@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -56,6 +56,16 @@ const menuItems = [
     href: '/investment/health-insurance-subsidy-eligibility-calculator',
     label: 'ACA Subsidy Eligibility',
     icon: Users,
+  },
+  {
+    href: '/investment/spending-pattern-analyzer',
+    label: 'Spending Pattern Analyzer',
+    icon: PieChart,
+  },
+  {
+    href: '/investment/delayed-gratification-roi-calculator',
+    label: 'Delayed Gratification ROI',
+    icon: Clock,
   },
 ];
 

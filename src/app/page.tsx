@@ -54,7 +54,17 @@ const calculators = [
     href: '/investment/health-insurance-subsidy-eligibility-calculator',
     title: 'Health Insurance Subsidy Eligibility Calculator',
     description: 'Estimate your eligibility for premium tax credits (subsidies) under the Affordable Care Act (ACA).',
-  }
+  },
+  {
+    href: '/investment/spending-pattern-analyzer',
+    title: 'Spending Pattern Analyzer',
+    description: 'Input your monthly expenses to understand where your money is going and identify potential savings.',
+  },
+  {
+    href: '/investment/delayed-gratification-roi-calculator',
+    title: 'Delayed Gratification ROI Calculator',
+    description: 'See the potential future value of an immediate purchase if you invested the money instead.',
+  },
 ];
 
 export default function CalculatorsPage() {
