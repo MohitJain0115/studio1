@@ -25,6 +25,16 @@ const calculators = [
     title: 'Long-Term Care Cost Estimator',
     description: 'Project the potential costs of long-term care in the future.',
   },
+  {
+    href: '/investment/hospital-stay-cost-by-specialty-calculator',
+    title: 'Hospital Stay Cost by Specialty Calculator',
+    description: 'Estimate the cost of a hospital stay based on medical specialty and insurance.',
+  },
+  {
+    href: '/investment/dental-cost-comparison-calculator',
+    title: 'Dental Cost Comparison Calculator',
+    description: 'Compare estimated costs of common dental procedures.',
+  },
 ];
 
 export default function CalculatorsPage() {

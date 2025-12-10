@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -26,6 +26,16 @@ const menuItems = [
     href: '/investment/long-term-care-cost-estimator',
     label: 'Long-Term Care Cost Estimator',
     icon: Bed,
+  },
+  {
+    href: '/investment/hospital-stay-cost-by-specialty-calculator',
+    label: 'Hospital Stay Cost',
+    icon: Hospital,
+  },
+  {
+    href: '/investment/dental-cost-comparison-calculator',
+    label: 'Dental Cost Comparison',
+    icon: Smile,
   },
 ];
 
