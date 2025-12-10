@@ -193,7 +193,7 @@ export default function ExpectedExposureCalculator() {
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <div>
                   <h4 className="font-semibold text-foreground mb-2">Geometric Brownian Motion (GBM)</h4>
-                  <p className="font-mono bg-muted p-4 rounded-md">S_t = S_{t-1} * exp((r - 0.5 * &#x3C3;^2) * dt + &#x3C3; * sqrt(dt) * Z)</p>
+                  <p className="font-mono bg-muted p-4 rounded-md">{'S_t = S_{t-1} * exp((r - 0.5 * σ^2) * dt + σ * sqrt(dt) * Z)'}</p>
                   <p className="mt-2">This calculator simulates the price of the underlying asset using the GBM stochastic process, which is a standard model in quantitative finance. It assumes that price returns follow a random walk.</p>
                   <ul className="list-disc pl-5 mt-2 space-y-1">
                       <li><strong className="text-foreground">S_t</strong> is the asset price at the current time step.</li>
@@ -290,4 +290,5 @@ export default function ExpectedExposureCalculator() {
     </div>
   );
 }
+    
     
