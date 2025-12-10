@@ -85,6 +85,16 @@ const calculators = [
     title: 'Exposure at Default (EAD) Simulation',
     description: 'Simulate the distribution of potential exposures at a specific future default time.',
   },
+  {
+    href: '/investment/loss-given-default-backtest-calculator',
+    title: 'Loss Given Default (LGD) Backtest Calculator',
+    description: 'Assess the accuracy of an LGD model by comparing its predictions to actual outcomes.',
+  },
+  {
+    href: '/investment/collateral-haircut-impact-calculator',
+    title: 'Collateral Haircut Impact Calculator',
+    description: 'Calculate the required collateral haircut and its impact on covering a given exposure.',
+  },
 ];
 
 export default function CalculatorsPage() {
@@ -111,5 +121,3 @@ export default function CalculatorsPage() {
     </div>
   );
 }
-
-    

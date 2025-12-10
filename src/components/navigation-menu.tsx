@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -87,6 +87,16 @@ const menuItems = [
     label: 'EAD Simulation',
     icon: Activity,
   },
+  {
+    href: '/investment/loss-given-default-backtest-calculator',
+    label: 'LGD Backtest',
+    icon: TestTube,
+  },
+  {
+    href: '/investment/collateral-haircut-impact-calculator',
+    label: 'Collateral Haircut',
+    icon: Scissors,
+  },
 ];
 
 export default function NavigationMenu() {
@@ -117,5 +127,3 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
-
-    
