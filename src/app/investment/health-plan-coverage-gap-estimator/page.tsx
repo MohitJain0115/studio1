@@ -67,6 +67,10 @@ export default function HealthPlanCoverageGapEstimator() {
     });
     setResult(null);
   };
+  
+    useState(() => {
+    resetForm();
+  }, []);
 
   const onSubmit = (values: FormValues) => {
     const { drugs, initialCoverageLimit, catastrophicCoverageLimit, coverageGapDiscount } = values;
@@ -384,7 +388,7 @@ export default function HealthPlanCoverageGapEstimator() {
               </li>
               <li>
                   <strong className="font-semibold text-foreground">Stage 2: The Initial Coverage Phase</strong>
-                  <p>Once you've met your deductible, your plan's cost-sharing benefits kick in. You will now pay a copay (a fixed amount, like $15) or coinsurance (a percentage, like 25%) for each prescription. Your Part D plan pays the rest. You remain in this phase until the total amount that you <strong class="text-foreground">and</strong> your plan have spent reaches the Initial Coverage Limit. For 2024, this limit is $5,030. It's crucial to remember this is the <strong class="text-foreground">total retail cost</strong> of the drugs, not just your out-of-pocket spending.</p>
+                  <p>Once you've met your deductible, your plan's cost-sharing benefits kick in. You will now pay a copay (a fixed amount, like $15) or coinsurance (a percentage, like 25%) for each prescription. Your Part D plan pays the rest. You remain in this phase until the total amount that you <strong className="text-foreground">and</strong> your plan have spent reaches the Initial Coverage Limit. For 2024, this limit is $5,030. It's crucial to remember this is the <strong className="text-foreground">total retail cost</strong> of the drugs, not just your out-of-pocket spending.</p>
               </li>
               <li>
                   <strong className="font-semibold text-foreground">Stage 3: The Coverage Gap (The Donut Hole)</strong>
@@ -392,7 +396,7 @@ export default function HealthPlanCoverageGapEstimator() {
               </li>
               <li>
                   <strong className="font-semibold text-foreground">Stage 4: Catastrophic Coverage</strong>
-                  <p>This is the final stage and your financial safety net. You exit the donut hole and enter catastrophic coverage once your <strong class="text-foreground">true out-of-pocket (TrOOP)</strong> spending reaches a certain limit. For 2024, this limit is $8,000. Once in this phase, your costs are drastically reduced for the rest of the year. Historically, you'd pay a small coinsurance or copay, but starting in 2024, there is <strong class="text-foreground">$0 cost-sharing</strong> for the remainder of the year once you hit the catastrophic limit. You have no further drug costs.</p>
+                  <p>This is the final stage and your financial safety net. You exit the donut hole and enter catastrophic coverage once your <strong className="text-foreground">true out-of-pocket (TrOOP)</strong> spending reaches a certain limit. For 2024, this limit is $8,000. Once in this phase, your costs are drastically reduced for the rest of the year. Historically, you'd pay a small coinsurance or copay, but starting in 2024, there is <strong className="text-foreground">$0 cost-sharing</strong> for the remainder of the year once you hit the catastrophic limit. You have no further drug costs.</p>
               </li>
           </ol>
           
@@ -402,7 +406,7 @@ export default function HealthPlanCoverageGapEstimator() {
             <li><strong className="font-semibold text-foreground">Your Deductible:</strong> The amount you spent before your initial coverage began.</li>
             <li><strong className="font-semibold text-foreground">Your Copays/Coinsurance:</strong> All the cost-sharing you paid during the initial coverage phase.</li>
             <li><strong className="font-semibold text-foreground">What You Pay in the Gap:</strong> The 25% (or less) of the drug cost you are responsible for while in the donut hole.</li>
-            <li><strong className="font-semibold text-foreground">Manufacturer Discounts:</strong> This is a key component. While you pay 25% for brand-name drugs in the gap, the manufacturer provides a 70% discount on the retail price. This 70% discount <strong class="text-foreground">also counts</strong> toward your TrOOP, which helps you get out of the donut hole much faster.</li>
+            <li><strong className="font-semibold text-foreground">Manufacturer Discounts:</strong> This is a key component. While you pay 25% for brand-name drugs in the gap, the manufacturer provides a 70% discount on the retail price. This 70% discount <strong className="text-foreground">also counts</strong> toward your TrOOP, which helps you get out of the donut hole much faster.</li>
           </ul>
           <p className="mt-2">What does <strong className="text-foreground">not</strong> count toward TrOOP? Your plan's monthly premiums, the pharmacy's dispensing fee, and what your plan pays toward the cost of the drug.</p>
 
