@@ -75,6 +75,16 @@ const calculators = [
     title: 'Savings Rate vs. Goal Timeline Visualizer',
     description: 'See how different savings rates affect how quickly you can reach your financial goals.',
   },
+  {
+    href: '/investment/expected-exposure-calculator',
+    title: 'Expected Exposure (EE) Calculator',
+    description: 'Simulate and visualize the Expected Exposure profile of a financial contract using Monte Carlo methods.',
+  },
+  {
+    href: '/investment/exposure-at-default-simulation',
+    title: 'Exposure at Default (EAD) Simulation',
+    description: 'Simulate the distribution of potential exposures at a specific future default time.',
+  },
 ];
 
 export default function CalculatorsPage() {
@@ -101,3 +111,5 @@ export default function CalculatorsPage() {
     </div>
   );
 }
+
+    

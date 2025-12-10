@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -77,6 +77,16 @@ const menuItems = [
     label: 'Savings Rate vs. Goal',
     icon: Target,
   },
+  {
+    href: '/investment/expected-exposure-calculator',
+    label: 'Expected Exposure',
+    icon: TrendingUp,
+  },
+  {
+    href: '/investment/exposure-at-default-simulation',
+    label: 'EAD Simulation',
+    icon: Activity,
+  },
 ];
 
 export default function NavigationMenu() {
@@ -107,3 +117,5 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
+
+    
