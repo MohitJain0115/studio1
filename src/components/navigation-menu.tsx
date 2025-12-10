@@ -7,28 +7,10 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import {
-  Shield,
-  HeartPulse,
-  Stethoscope,
-  Gem,
-  Zap,
-  BrainCircuit,
-  Replace,
-  ShoppingCart,
-  Gauge
-} from 'lucide-react';
+import { Home } from 'lucide-react';
 
 const menuItems = [
-  { href: '/insurance-affordability-calculator', label: 'Insurance Affordability', icon: Shield },
-  { href: '/out-of-pocket-health-cost-calculator', label: 'Out-of-Pocket Health Cost', icon: HeartPulse },
-  { href: '/medical-bill-estimator', label: 'Medical Bill Estimator', icon: Stethoscope },
-  { href: '/wealth-consistency-tracker', label: 'Wealth Consistency Tracker', icon: Gem },
-  { href: '/habit-based-wealth-growth-estimator', label: 'Habit-based Wealth Growth', icon: Zap },
-  { href: '/investment-confidence-meter', label: 'Investment Confidence Meter', icon: BrainCircuit },
-  { href: '/behavioral-gap-analyzer', label: 'Behavioral Gap Analyzer', icon: Replace },
-  { href: '/compulsive-buying-impact-calculator', label: 'Compulsive Buying Impact', icon: ShoppingCart },
-  { href: '/financial-health-score-calculator', label: 'Financial Health Score', icon: Gauge },
+  { href: '/', label: 'Home', icon: Home },
 ];
 
 export default function NavigationMenu() {
@@ -40,7 +22,7 @@ export default function NavigationMenu() {
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={pathname.startsWith(item.href)}
+            isActive={pathname === item.href}
             tooltip={item.label}
             className="justify-start"
           >
