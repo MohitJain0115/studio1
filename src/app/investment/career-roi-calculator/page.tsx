@@ -61,10 +61,6 @@ export default function CareerROICalculator() {
     setResult(null);
   };
   
-    useState(() => {
-    resetForm();
-  }, []);
-
   const onSubmit = (values: FormValues) => {
     const { pathA, pathB, workingYears } = values;
     const chartData = [];
@@ -74,10 +70,12 @@ export default function CareerROICalculator() {
     let currentSalaryA = pathA.startingSalary;
     let currentSalaryB = pathB.startingSalary;
     let breakEvenYear: number | null = null;
+    let prevNetWorthA = netWorthA;
+    let prevNetWorthB = netWorthB;
 
     const startAge = 18;
 
-    for (let year = 1; year <= pathA.yearsInEducation + workingYears || year <= pathB.yearsInEducation + workingYears; year++) {
+    for (let year = 1; year <= Math.max(pathA.yearsInEducation + workingYears, pathB.yearsInEducation + workingYears); year++) {
       // Path A earnings
       if (year > pathA.yearsInEducation && year <= pathA.yearsInEducation + workingYears) {
         netWorthA += currentSalaryA;
@@ -92,16 +90,19 @@ export default function CareerROICalculator() {
       
       chartData.push({ age: startAge + year, 'Path A Net Worth': netWorthA, 'Path B Net Worth': netWorthB });
 
-      if (breakEvenYear === null && netWorthA < 0 && netWorthB > 0 && netWorthB >= netWorthA) {
-          if(netWorthB > netWorthA) breakEvenYear = startAge + year;
+      // Check for break-even point only after one path has positive net worth
+      if (breakEvenYear === null && (prevNetWorthA > 0 || prevNetWorthB > 0)) {
+        if ((prevNetWorthA < prevNetWorthB && netWorthA >= netWorthB) || (prevNetWorthA > prevNetWorthB && netWorthA <= netWorthB)) {
+            breakEvenYear = startAge + year;
+        }
       }
-      if (breakEvenYear === null && netWorthB < 0 && netWorthA > 0 && netWorthA >= netWorthB) {
-          if(netWorthA > netWorthB) breakEvenYear = startAge + year;
-      }
+      
+      prevNetWorthA = netWorthA;
+      prevNetWorthB = netWorthB;
     }
     
-    const finalNetWorthA = chartData[chartData.length - 1]['Path A Net Worth'];
-    const finalNetWorthB = chartData[chartData.length - 1]['Path B Net Worth'];
+    const finalNetWorthA = chartData.length > 0 ? chartData[chartData.length - 1]['Path A Net Worth'] : -pathA.educationCost;
+    const finalNetWorthB = chartData.length > 0 ? chartData[chartData.length - 1]['Path B Net Worth'] : -pathB.educationCost;
 
     setResult({
       breakEvenYear,
