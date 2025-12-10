@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -46,6 +46,16 @@ const menuItems = [
     href: '/investment/health-plan-coverage-gap-estimator',
     label: 'Health Plan Coverage Gap',
     icon: WholeWord,
+  },
+  {
+    href: '/investment/copay-vs-deductible-breakeven-calculator',
+    label: 'Copay vs. Deductible',
+    icon: Scale,
+  },
+  {
+    href: '/investment/health-insurance-subsidy-eligibility-calculator',
+    label: 'ACA Subsidy Eligibility',
+    icon: Users,
   },
 ];
 

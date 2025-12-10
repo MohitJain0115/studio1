@@ -45,6 +45,16 @@ const calculators = [
     title: 'Health Plan Coverage Gap Estimator',
     description: 'Project when you might enter the Medicare Part D coverage gap ("donut hole").',
   },
+  {
+    href: '/investment/copay-vs-deductible-breakeven-calculator',
+    title: 'Copay vs. Deductible Break-even Calculator',
+    description: 'Compare two health insurance plans to find the point where their total annual costs are equal.',
+  },
+  {
+    href: '/investment/health-insurance-subsidy-eligibility-calculator',
+    title: 'Health Insurance Subsidy Eligibility Calculator',
+    description: 'Estimate your eligibility for premium tax credits (subsidies) under the Affordable Care Act (ACA).',
+  }
 ];
 
 export default function CalculatorsPage() {
