@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -340,16 +341,23 @@ export default function HsaTaxBenefitCalculator() {
           <p>The HSA's power comes from a unique combination of tax benefits that no other account can offer. Let's break down why this "triple-tax advantage" is so significant.</p>
           <ol className="list-decimal ml-6 space-y-4">
               <li>
-                  <strong className="font-semibold text-foreground">Benefit 1: Pre-Tax or Tax-Deductible Contributions</strong>
-                  <p>When you contribute to an HSA, you reduce your taxable income for the year. If you contribute through your employer's payroll deduction, the contributions are made pre-tax, bypassing both federal income tax and FICA taxes (Social Security and Medicare). This immediately saves you money. For example, if you are in the 22% federal tax bracket, every $1,000 you contribute saves you $220 in federal taxes and another $76.50 in FICA taxes, for a total of $296.50. Your $1,000 contribution effectively only "costs" you $703.50. This calculator helps you see that immediate ROI.</p>
+                  <div>
+                    <strong className="font-semibold text-foreground">Benefit 1: Pre-Tax or Tax-Deductible Contributions</strong>
+                    <p>When you contribute to an HSA, you reduce your taxable income for the year. If you contribute through your employer's payroll deduction, the contributions are made pre-tax, bypassing both federal income tax and FICA taxes (Social Security and Medicare). This immediately saves you money. For example, if you are in the 22% federal tax bracket, every $1,000 you contribute saves you $220 in federal taxes and another $76.50 in FICA taxes, for a total of $296.50. Your $1,000 contribution effectively only "costs" you $703.50. This calculator helps you see that immediate ROI.</p>
+                  </div>
               </li>
               <li>
-                  <strong className="font-semibold text-foreground">Benefit 2: Tax-Free Growth</strong>
-                  <p>This is where the HSA begins to outshine other retirement accounts. Like a 401(k) or IRA, you can invest your HSA funds in stocks, bonds, and mutual funds. However, unlike a traditional 401(k) or IRA where you pay taxes on withdrawals, the growth in an HSA is <em className="italic">never</em> taxed. All the capital gains, dividends, and interest your investments generate are yours to keep, tax-free, forever. This allows your money to compound much faster over the long term.</p>
+                  <div>
+                    <strong className="font-semibold text-foreground">Benefit 2: Tax-Free Growth</strong>
+                    <p>This is where the HSA begins to outshine other retirement accounts. Like a 401(k) or IRA, you can invest your HSA funds in stocks, bonds, and mutual funds. However, unlike a traditional 401(k) or IRA where you pay taxes on withdrawals, the growth in an HSA is <em className="italic">never</em> taxed. All the capital gains, dividends, and interest your investments generate are yours to keep, tax-free, forever. This allows your money to compound much faster over the long term.</p>
+                  </div>
               </li>
               <li>
-                  <strong className="font-semibold text-foreground">Benefit 3: Tax-Free Withdrawals for Qualified Medical Expenses</strong>
-                  <p>This is the final piece of the puzzle. You can withdraw funds from your HSA at any time to pay for a vast range of qualified medical expenses—from doctor visits and prescriptions to dental care and vision—completely tax-free. There is no time limit. You can pay for a medical expense out-of-pocket today and reimburse yourself from your HSA 30 years from now, allowing your investments to grow untouched for decades. This makes it a flexible emergency fund and a dedicated healthcare fund in one.</p>
+                  <div>
+                    <strong className="font-semibold text-foreground">Benefit 3: Tax-Free Withdrawals for Qualified Medical Expenses</strong>
+                    <p>This is the final piece of the puzzle. You can withdraw funds from your HSA at any time to pay for a vast range of qualified medical expenses—from doctor visits and prescriptions to dental care and vision—completely tax-free. There is no time limit. You can pay for a medical expense out-of-pocket today and reimburse yourself from your HSA 30 years from now, allowing your investments to grow untouched for decades. This makes it a flexible emergency fund and a dedicated healthcare fund in one.</p>
+                  </div>
+              </li>
           </ol>
 
           <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">HSA as a Stealth Retirement Account</h2>
@@ -402,3 +410,5 @@ export default function HsaTaxBenefitCalculator() {
     </div>
   );
 }
+
+    
