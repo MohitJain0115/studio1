@@ -83,7 +83,7 @@ export default function HealthInsuranceSubsidyEligibilityCalculator() {
     defaultValues: {
       householdIncome: undefined,
       householdSize: undefined,
-      state: 'standard',
+      state: undefined,
     },
   });
   
@@ -91,10 +91,14 @@ export default function HealthInsuranceSubsidyEligibilityCalculator() {
     form.reset({
       householdIncome: undefined,
       householdSize: undefined,
-      state: 'standard',
+      state: undefined,
     });
     setResult(null);
   };
+  
+    useState(() => {
+    resetForm();
+  }, []);
 
   const onSubmit = (values: FormValues) => {
     const { householdIncome, householdSize, state } = values;
@@ -245,7 +249,7 @@ export default function HealthInsuranceSubsidyEligibilityCalculator() {
               <li><Link href="/investment/copay-vs-deductible-breakeven-calculator" className="hover:underline">Copay vs. Deductible Break-even Calculator</Link></li>
               <li><Link href="/investment/hsa-tax-benefit-calculator" className="hover:underline">HSA Tax Benefit Calculator</Link></li>
             </ul>
-          </Content>
+          </CardContent>
         </Card>
 
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
