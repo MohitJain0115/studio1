@@ -11,6 +11,11 @@ import Link from 'next/link';
 
 const calculators = [
   {
+    href: '/investment/habit-based-wealth-growth-estimator',
+    title: 'Habit-based Wealth Growth Estimator',
+    description: 'See how much wealth you could build by redirecting spending from daily habits to investments.',
+  },
+  {
     href: '/investment/hsa-tax-benefit-calculator',
     title: 'Health Savings Account (HSA) Tax Benefit Calculator',
     description: 'Estimate the tax advantages of contributing to an HSA.',
@@ -19,11 +24,6 @@ const calculators = [
     href: '/investment/long-term-care-cost-estimator',
     title: 'Long-Term Care Cost Estimator',
     description: 'Project the potential costs of long-term care in the future.',
-  },
-  {
-    href: '/investment/habit-based-wealth-growth-estimator',
-    title: 'Habit-based Wealth Growth Estimator',
-    description: 'See how much wealth you could build by redirecting spending from daily habits to investments.',
   },
 ];
 
