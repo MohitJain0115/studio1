@@ -308,6 +308,27 @@ export default function HsaTaxBenefitCalculator() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Formulas Explained
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <div>
+                <h4 className="font-semibold text-foreground mb-2">Tax Savings</h4>
+                <p className="font-mono bg-muted p-4 rounded-md">Tax Savings = (Contribution * Marginal Federal Rate) + (Contribution * FICA Rate)</p>
+                <p className="mt-2">This formula calculates your immediate tax reduction. It combines savings from your federal income tax bracket with savings from Social Security and Medicare (FICA) taxes, which you avoid when contributing via payroll deduction.</p>
+            </div>
+            <div>
+                <h4 className="font-semibold text-foreground mb-2">Future Value</h4>
+                <p className="font-mono bg-muted p-4 rounded-md">Future Value = P * [((1 + r)^n - 1) / r]</p>
+                <p className="mt-2">This is the future value of an annuity formula, calculating the total growth of your annual contributions over time. 'P' is your annual contribution, 'r' is the annual investment return rate, and 'n' is the number of years.</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
               <Landmark className="h-5 w-5" />
               Related Calculators
             </CardTitle>
@@ -410,5 +431,7 @@ export default function HsaTaxBenefitCalculator() {
     </div>
   );
 }
+
+    
 
     

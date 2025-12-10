@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -52,7 +53,7 @@ export default function LongTermCareCostEstimator() {
       careStartAge: undefined,
       careType: 'assisted-living',
       careDurationYears: undefined,
-      inflationRate: 3.5,
+      inflationRate: undefined,
     },
   });
 
@@ -268,6 +269,26 @@ export default function LongTermCareCostEstimator() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Formula Explained
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <div>
+                <h4 className="font-semibold text-foreground mb-2">Future Annual Cost</h4>
+                <p className="font-mono bg-muted p-4 rounded-md">Future Cost = Current Cost * (1 + Inflation Rate) ^ Years Until Care</p>
+                <p className="mt-2">This formula projects the cost of the first year of care by applying a compound inflation rate to today's average cost. It shows how much the price of care could increase by the time you need it.</p>
+            </div>
+            <div>
+                <h4 className="font-semibold text-foreground mb-2">Total Cost of Care</h4>
+                <p className="mt-2">The total cost is calculated by summing the inflation-adjusted cost for each year of the care duration. This provides a comprehensive estimate of the total financial liability.</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
               <Landmark className="h-5 w-5" />
               Related Calculators
             </CardTitle>
@@ -369,3 +390,6 @@ export default function LongTermCareCostEstimator() {
     </div>
   );
 }
+
+
+    

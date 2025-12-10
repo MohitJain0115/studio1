@@ -310,6 +310,26 @@ export default function HabitBasedWealthGrowthEstimator() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Formula Explained
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p>The calculation is based on the formula for the Future Value (FV) of an ordinary annuity, which calculates the total value of a series of equal payments at a future date.</p>
+            <p className="font-mono bg-muted p-4 rounded-md">FV = P * [((1 + r)^n - 1) / r]</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong className="text-foreground">FV</strong> is the future value of the investment.</li>
+              <li><strong className="text-foreground">P</strong> is the monthly investment amount (derived from your habits).</li>
+              <li><strong className="text-foreground">r</strong> is the monthly interest rate (your annual rate divided by 12).</li>
+              <li><strong className="text-foreground">n</strong> is the total number of months you will be investing.</li>
+            </ul>
+            <p>This formula shows how your consistent monthly investments grow exponentially over time, thanks to the power of compounding returns.</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
               <Landmark className="h-5 w-5" />
               Related Calculators
             </CardTitle>
@@ -319,8 +339,8 @@ export default function HabitBasedWealthGrowthEstimator() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              <li><Link href="/wealth-consistency-tracker" className="hover:underline">Wealth Consistency Tracker</Link></li>
-              <li><Link href="/insurance" className="hover:underline">Insurance Premium Affordability</Link></li>
+              <li><Link href="/investment/hsa-tax-benefit-calculator" className="hover:underline">HSA Tax Benefit Calculator</Link></li>
+              <li><Link href="/investment/long-term-care-cost-estimator" className="hover:underline">Long-Term Care Cost Estimator</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -410,4 +430,6 @@ export default function HabitBasedWealthGrowthEstimator() {
     </div>
   );
 }
+    
+
     
