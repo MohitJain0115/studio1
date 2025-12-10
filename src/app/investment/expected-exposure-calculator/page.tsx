@@ -175,6 +175,29 @@ export default function ExpectedExposureCalculator() {
                 </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Interpretation of the Result</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p><strong className="text-foreground">The EE Profile Shape:</strong> The "hump" shape of your graph is classic for an option. The exposure starts at zero, rises as uncertainty about the future price grows (diffusion effect), and then falls as the option approaches maturity and there's less time for favorable price movements (amortization effect). If your strike price is significantly higher than the initial price, the hump will be smaller and occur later, as it takes more volatility and time for the option to become valuable.</p>
+                <p><strong className="text-foreground">Peak Expected Exposure:</strong> Your result of <strong className="text-primary">{formatNumber(result.peakExposure.ee)}</strong> at year <strong className="text-primary">{result.peakExposure.time.toFixed(2)}</strong> represents the point of maximum average risk. This tells a risk manager that, on average, the potential loss from a counterparty default is highest at this specific point in the contract's life.</p>
+                <p><strong className="text-foreground">Impact of Inputs:</strong> Higher volatility will dramatically increase the peak exposure and push the hump up. A higher risk-free rate will also tend to increase the drift of the asset price, leading to slightly higher exposure. For an at-the-money option like the one simulated, the risk profile is most sensitive to volatility.</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Recommendation and Action</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p><strong className="text-foreground">1. Calculate Credit Valuation Adjustment (CVA):</strong> The EE profile is the primary input for calculating CVA. A bank would integrate this exposure profile against the counterparty's probability of default curve to determine the market price of the credit risk. Your generated profile is the first step in this critical pricing process.</p>
+                <p><strong className="text-foreground">2. Inform Collateral Management:</strong> This profile helps in negotiating collateral agreements (CSAs). A higher peak exposure might lead to a demand for a lower collateral threshold or a higher initial margin to mitigate the period of maximum risk.</p>
+                <p><strong className="text-foreground">3. Set Credit Limits:</strong> While PFE (Potential Future Exposure) is more common for hard limits, the EE profile provides context for the overall risk appetite with a counterparty. A trade with a very high peak EE might consume a significant portion of the allocated risk budget for that counterparty.</p>
+                <p><strong className="text-foreground">Action:</strong> Run a scenario analysis. Increase the volatility input by 5-10% and re-run the calculation. Observe how significantly the Peak Exposure increases. This sensitivity analysis is a core task for risk managers and demonstrates how changes in market conditions can impact the risk profile of a derivatives portfolio.</p>
+            </CardContent>
+          </Card>
         </div>
       )}
 

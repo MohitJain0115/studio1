@@ -190,6 +190,28 @@ export default function ExposureAtDefaultSimulation() {
               </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Interpretation of the Result</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p><strong className="text-foreground">EAD vs. PFE:</strong> Your Expected Exposure (EAD) of <strong className="text-primary">{formatNumber(result.ead)}</strong> represents the average loss you would expect if the counterparty defaults at the specified time. In contrast, your 95% PFE of <strong className="text-orange-600">{formatNumber(result.pfe)}</strong> is a "worst-case" scenario; it tells you that in 95% of the simulated futures, your loss would be less than this amount. PFE is always higher than EAD and is a more conservative measure of risk.</p>
+                <p><strong className="text-foreground">The Histogram Distribution:</strong> The chart shows the full range of possible outcomes. Notice the shape: it is not a bell curve. It is highly skewed to the right with a large number of simulations resulting in zero or low exposure (when the option is out-of-the-money). However, there is a long "tail" on the right, representing the less likely but possible scenarios where the asset price soars, leading to a very large exposure. This tail risk is often what concerns risk managers most.</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Recommendation and Action</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+                <p><strong className="text-foreground">1. Calculate Expected Loss (EL):</strong> The EAD of <strong className="text-primary">{formatNumber(result.ead)}</strong> is a direct input into the core credit risk formula: Expected Loss = EAD * Probability of Default (PD) * Loss Given Default (LGD). You can now combine this exposure with estimates for PD and LGD to quantify the expected loss for this specific contract.</p>
+                <p><strong className="text-foreground">2. Set Credit Limits with PFE:</strong> The PFE of <strong className="text-orange-600">{formatNumber(result.pfe)}</strong> is the key metric for setting credit limits. A bank would compare this "worst-case" exposure against the total credit limit it has for the counterparty to ensure it is not taking on excessive risk.</p>
+                <p><strong className="text-foreground">3. Determine Regulatory Capital:</strong> Banking regulations (like Basel III) require banks to hold capital in reserve against unexpected losses. The PFE metric is a primary input into the models used to calculate the amount of regulatory capital needed for counterparty credit risk.</p>
+                <p><strong className="text-foreground">Action:</strong> Notice how many simulations fall into the first bin (close to zero). This represents the probability of the option expiring worthless. Now, increase the volatility in the inputs and re-run. You will see the histogram spread out, the tail will get fatter, and both EAD and PFE will increase, demonstrating that higher volatility creates a riskier position.</p>
+            </CardContent>
+          </Card>
         </div>
       )}
 
