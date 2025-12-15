@@ -110,8 +110,8 @@ export default function TimeZoneOverlapCalculator() {
    const resetForm = () => {
     form.reset({
       members: [
-        { name: 'You', timezone: undefined, startWork: '09:00', endWork: '17:00' },
-        { name: 'Teammate', timezone: undefined, startWork: '09:00', endWork: '17:00' },
+        { name: '', timezone: undefined, startWork: '09:00', endWork: '17:00' },
+        { name: '', timezone: undefined, startWork: '09:00', endWork: '17:00' },
       ],
     });
     setResult(null);
