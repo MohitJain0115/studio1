@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -217,7 +218,7 @@ export default function ContractDurationCalculator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
             <CardDescription>Explore other employment and career planning tools.</CardDescription>
-          </HAshCardHeader>
+          </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
               <li><Link href="/employment/notice-period-calculator" className="hover:underline">Notice Period End Date Calculator</Link></li>
@@ -270,7 +271,7 @@ export default function ContractDurationCalculator() {
                 <li><strong className="font-semibold text-foreground">Ambiguous Start Dates:</strong> Does the contract start on the day it's signed or a specified "Effective Date"? This should always be clarified.</li>
                 <li><strong className="font-semibold text-foreground">"Business Days" vs. "Calendar Days":</strong> A "30-day" contract is very different from a "30-business-day" contract. Always ensure the language is specific. This calculator uses calendar days.</li>
                 <li><strong className="font-semibold text-foreground">Renewal Clauses:</strong> Many contracts have auto-renewal ("evergreen") clauses. Knowing your contract duration is key to providing timely notice if you do *not* wish to renew.</li>
-            </ol>
+            </ul>
         </section>
 
         <Card>
@@ -301,3 +302,5 @@ export default function ContractDurationCalculator() {
     </div>
   );
 }
+
+    
