@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, CalendarCheck, Info, TrendingUp, Shield } from 'lucide-react';
+import { CalendarIcon, CalendarCheck, Info, TrendingUp, Shield, Landmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -185,15 +185,28 @@ export default function NoticePeriodCalculator() {
               <div>
                   <h4 className="font-semibold text-foreground mb-2">End Date Calculation</h4>
                   <p className="font-mono bg-muted p-4 rounded-md">Last Day = Resignation Date + Notice Period Duration - 1 Day</p>
-                  <p className="mt-2">The calculator adds the specified duration to your resignation date to find the end of the period. For example, a 2-week notice given on a Monday results in a final day on the Friday two weeks later, not the Monday.</p>
+                  <p className="mt-2">The calculator adds the specified duration (e.g., 14 days for a 2-week notice) to your resignation date and then subtracts one day. This correctly finds the end of the period. For example, a 2-week notice given on a Monday results in a final day on the Sunday two weeks later, not the Monday.</p>
                    <ul className="list-disc pl-5 mt-2 space-y-1">
                       <li><strong className="text-foreground">Days:</strong> A 14-day notice adds 14 calendar days.</li>
                       <li><strong className="text-foreground">Weeks:</strong> A 2-week notice adds 14 calendar days.</li>
-                      <li><strong className="text-foreground">Months:</strong> A 1-month notice adds one calendar month. The calculation adjusts for the varying lengths of months.</li>
+                      <li><strong className="text-foreground">Months:</strong> A 1-month notice adds one calendar month.</li>
                   </ul>
                   <p className="mt-2">This tool calculates the end of the notice period itself. Your actual last working day might be different if this date falls on a weekend or public holiday. Use the <Link href="/employment/last-working-day-calculator" className="text-primary hover:underline">Last Working Day Calculator</Link> for a more detailed analysis including holidays.</p>
               </div>
             </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
+            <CardDescription>Explore other employment and career planning tools.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5 text-sm text-primary">
+              <li><Link href="/employment/last-working-day-calculator" className="hover:underline">Last Working Day Calculator</Link></li>
+              <li><Link href="/employment/probation-period-calculator" className="hover:underline">Probation Period End Date Calculator</Link></li>
+            </ul>
+          </CardContent>
         </Card>
         
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
@@ -249,22 +262,30 @@ export default function NoticePeriodCalculator() {
                 <li><strong className="font-semibold text-foreground">Offer to Help with the Transition:</strong> Express your commitment to ensuring a smooth handover. Offer to document your processes, organize your files, and help train your replacement if possible.</li>
                 <li><strong className="font-semibold text-foreground">Stay Productive and Positive:</strong> Avoid "checking out" during your notice period. Continue to perform your duties to the best of your ability. Your final impression is a lasting one.</li>
             </ol>
-
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Frequently Asked Questions During Notice Periods</h2>
-             <ul className="list-disc ml-6 space-y-3">
-                <li><strong className="font-semibold text-foreground">Can an employer terminate me immediately after I resign?</strong> Yes, in an at-will employment state. An employer can accept your resignation effective immediately. Some companies do this for security reasons, especially for employees going to a competitor. In such cases, they may pay you for your notice period, but this is not always required.</li>
-                <li><strong className="font-semibold text-foreground">Do I have to work my full notice period?</strong> If it's a contractual requirement, failing to do so could be a breach of contract, potentially leading to legal action or the forfeiture of certain payments. If it's a courtesy, you can leave earlier, but it may harm your professional reputation.</li>
-                <li><strong className="font-semibold text-foreground">What about unused vacation time?</strong> This depends on state law and company policy. Some states require employers to pay out accrued, unused vacation time. Others do not. Check your employee handbook and local labor laws.</li>
-            </ul>
-
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion</h2>
-            <p>Handling your resignation with professionalism and providing an appropriate notice period is an investment in your career. It preserves professional relationships, protects your reputation, and ensures you leave a positive, lasting legacy with your former employer. Use this calculator to clarify your timeline and plan for a smooth and graceful transition to your next opportunity.</p>
         </section>
 
         <Card>
-          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Disclaimer</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Info className="h-5 w-5" />Frequently Asked Questions</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Can an employer terminate me immediately after I resign?</h4>
+                <p className="text-muted-foreground">Yes, in an "at-will" employment state. An employer can accept your resignation effective immediately. Some companies do this for security reasons, especially for employees going to a competitor. In such cases, they may pay you for your notice period, but this is not always required.</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Do I have to work my full notice period?</h4>
+                <p className="text-muted-foreground">If it's a contractual requirement, failing to do so could be a breach of contract, potentially leading to legal action or the forfeiture of certain payments. If it's a courtesy, you can leave earlier, but it may harm your professional reputation.</p>
+              </div>
+               <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What about unused vacation time?</h4>
+                <p className="text-muted-foreground">This depends on state law and company policy. Some states require employers to pay out accrued, unused vacation time. Others do not. Check your employee handbook and local labor laws.</p>
+              </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Summary</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator provides an estimated end date based on calendar days. It does not account for public holidays or weekends, which might affect your actual last working day. Employment laws and contractual obligations vary significantly by region and role. This tool is for informational purposes only and is not legal advice. Always consult your employment contract and HR department for definitive information.</p>
+            <p>This calculator determines the raw end date of an employment notice period. By providing a resignation date and the length of the notice in days, weeks, or months, it projects the calendar end date. This tool is useful for establishing the basic timeline for an employee's departure, before accounting for weekends or holidays.</p>
           </CardContent>
         </Card>
       </div>

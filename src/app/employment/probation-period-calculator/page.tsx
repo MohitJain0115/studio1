@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, UserCheck, Info, TrendingUp, Shield } from 'lucide-react';
+import { CalendarIcon, UserCheck, Info, TrendingUp, Shield, Landmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -183,14 +183,27 @@ export default function ProbationPeriodCalculator() {
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <div>
                   <h4 className="font-semibold text-foreground mb-2">Date Calculation</h4>
-                  <p className="font-mono bg-muted p-4 rounded-md">End Date = Start Date + Duration</p>
-                  <p className="mt-2">The calculation is straightforward but requires careful handling of dates:</p>
+                  <p className="font-mono bg-muted p-4 rounded-md">End Date = Start Date + Duration - 1 Day</p>
+                  <p className="mt-2">The calculation adds the specified duration to the start date and then subtracts one day. This is because a probation period starting on a Monday and lasting 7 days should end on the following Sunday, not the next Monday.</p>
                   <ul className="list-disc pl-5 mt-2 space-y-1">
                       <li><strong className="text-foreground">Days/Weeks:</strong> The specified number of days or weeks is added directly to the start date.</li>
-                      <li><strong className="text-foreground">Months:</strong> When adding months, the calculator accounts for the varying lengths of months. For example, adding one month to January 31st will result in February 28th (or 29th in a leap year). The end date is typically the day before the corresponding date in the end month (e.g., a 3-month period starting Jan 15 ends on Apr 14).</li>
+                      <li><strong className="text-foreground">Months:</strong> When adding months, the calculator accounts for the varying lengths of months. For example, adding one month to January 31st will result in February 28th (or 29th in a leap year).</li>
                   </ul>
               </div>
             </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
+            <CardDescription>Explore other employment and career planning tools.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5 text-sm text-primary">
+              <li><Link href="/employment/notice-period-calculator" className="hover:underline">Notice Period End Date Calculator</Link></li>
+              <li><Link href="/employment/employment-anniversary-calculator" className="hover:underline">Employment Anniversary Calculator</Link></li>
+            </ul>
+          </CardContent>
         </Card>
         
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
@@ -241,14 +254,6 @@ export default function ProbationPeriodCalculator() {
                 </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Key Legal Considerations</h2>
-            <p>In the United States, the concept of "at-will" employment is dominant. This means that an employer can terminate an employee for any reason, at any time (as long as it's not an illegal reason, like discrimination), and an employee can quit for any reason. During a probation period, this principle still holds. However, the probation period often has specific implications:</p>
-            <ul className="list-disc ml-6 space-y-2">
-                <li><strong className="font-semibold text-foreground">Termination Process:</strong> Companies often have a more streamlined termination process for employees on probation, requiring less documentation or fewer review steps than for a long-term employee.</li>
-                <li><strong className="font-semibold text-foreground">Benefits Eligibility:</strong> Access to certain benefits, like health insurance, retirement plans (401k), or paid time off, may be delayed until after the successful completion of the probationary period. This is a crucial detail to clarify in your employment contract.</li>
-                <li><strong className="font-semibold text-foreground">Contractual vs. At-Will:</strong> The terms of the probation period should be clearly stated in the written employment offer. This contract defines the expectations and the length of the trial period.</li>
-            </ul>
-
             <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Tips for a Successful Probation Period</h2>
             <p>For the employee, the goal is to turn a new job into a secure, long-term position. Here’s how to make a great impression:</p>
              <ul className="list-disc ml-6 space-y-3">
@@ -257,15 +262,30 @@ export default function ProbationPeriodCalculator() {
                 <li><strong className="font-semibold text-foreground">Document Your Achievements:</strong> Keep a running list of your accomplishments, successful projects, and positive feedback. This will be invaluable during your performance reviews.</li>
                 <li><strong className="font-semibold text-foreground">Build Relationships:</strong> Make an effort to get to know your colleagues. Building positive relationships not only makes work more enjoyable but also demonstrates your ability to be a good team member.</li>
             </ul>
-
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion</h2>
-            <p>The probation period is a foundational stage of your employment journey. By understanding its purpose, clarifying expectations, and proactively demonstrating your value, you can navigate this phase with confidence and set yourself up for a successful, long-term career with your new employer.</p>
         </section>
 
         <Card>
-          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Disclaimer</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Info className="h-5 w-5" />Frequently Asked Questions</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What legal rights do I have during a probation period?</h4>
+                <p className="text-muted-foreground">In an "at-will" employment state like most of the U.S., your rights are largely the same as a permanent employee. You cannot be terminated for illegal reasons (discrimination based on race, gender, religion, etc.). However, the termination process may be simpler for the employer. Always check your employment contract for specific terms.</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Am I eligible for benefits during probation?</h4>
+                <p className="text-muted-foreground">It depends on company policy. Some companies delay eligibility for benefits like health insurance or retirement plan contributions until after the successful completion of the probationary period. This should be clearly stated in your employment offer.</p>
+              </div>
+               <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Can a probation period be extended?</h4>
+                <p className="text-muted-foreground">Yes, if it is allowed for in your employment contract or by company policy. An employer might extend a probation period if they need more time to assess your performance. This should be communicated to you formally in writing.</p>
+              </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Summary</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator provides an estimate based on the inputs provided. It does not account for public holidays or company-specific policies which may alter the final date. The calculated date should be considered informational. Always refer to your official employment contract and consult with your HR department for the definitive end date of your probation period.</p>
+            <p>This calculator determines the end date of a new employee's trial period. By inputting the start date and the duration in days, weeks, or months, it provides a clear date, helping both employees and managers track this important initial phase of employment. This allows for timely performance reviews and confirmation of permanent status.</p>
           </CardContent>
         </Card>
       </div>

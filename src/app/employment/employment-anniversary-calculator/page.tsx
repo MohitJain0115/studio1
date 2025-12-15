@@ -9,10 +9,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, Cake, Info, TrendingUp, Shield } from 'lucide-react';
+import { CalendarIcon, Cake, Info, TrendingUp, Shield, Landmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format, differenceInYears, addYears, differenceInDays } from 'date-fns';
 import { calculateAnniversaries } from '@/lib/employment-calculators';
+import Link from 'next/link';
 
 const formSchema = z.object({
   hireDate: z.date({
@@ -184,6 +185,34 @@ export default function EmploymentAnniversaryCalculator() {
           </CardContent>
         </Card>
 
+        <Card>
+            <CardHeader><CardTitle className="flex items-center gap-2"><TrendingUp className="h-5 w-5" />Calculation Logic</CardTitle></CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+              <div>
+                  <h4 className="font-semibold text-foreground mb-2">Date Calculation</h4>
+                  <p className="mt-2">The calculator performs the following steps:</p>
+                  <ol className="list-decimal pl-5 mt-2 space-y-1">
+                      <li><strong className="text-foreground">Calculate Total Years:</strong> It determines the number of full years you have worked by comparing your hire date to today's date.</li>
+                      <li><strong className="text-foreground">Identify Anniversaries:</strong> It then calculates the specific dates for your past and upcoming anniversaries by adding the corresponding number of years to your original hire date.</li>
+                       <li><strong className="text-foreground">Find Days Until/Ago:</strong> It measures the difference in days between today and each anniversary to show you how close the next one is or how long ago the last one was.</li>
+                  </ol>
+              </div>
+            </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
+            <CardDescription>Explore other employment and career planning tools.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5 text-sm text-primary">
+              <li><Link href="/employment/probation-period-calculator" className="hover:underline">Probation Period End Date Calculator</Link></li>
+              <li><Link href="/employment/last-working-day-calculator" className="hover:underline">Last Working Day Calculator</Link></li>
+            </ul>
+          </CardContent>
+        </Card>
+
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
             <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Leveraging Your Work Anniversary for Career Growth</h1>
             <p className="text-lg italic">Your work anniversary isn't just for cake in the breakroom. It's a strategic opportunity to take stock of your career, negotiate your worth, and plan for the future. Here’s how to make the most of it.</p>
@@ -240,9 +269,23 @@ export default function EmploymentAnniversaryCalculator() {
         </section>
 
         <Card>
-          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Disclaimer</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Info className="h-5 w-5" />Frequently Asked Questions</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a "vesting cliff"?</h4>
+                <p className="text-muted-foreground">A vesting cliff is a common feature in stock option grants. For example, a "1-year cliff" means you receive 0% of your grant if you leave before your first anniversary, but you receive a large chunk (often 25%) on the day of your anniversary. Knowing this date is crucial to avoid leaving just before a major payday.</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Does this calculator account for leap years?</h4>
+                <p className="text-muted-foreground">Yes, the underlying date functions are leap-year aware, so the anniversary dates will be accurate even over long periods.</p>
+              </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Summary</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator provides date information based on your input. It does not reflect any specific company's policies on benefits, vesting, or reviews. Always consult your employee handbook and HR department for official information regarding your employment terms and benefits eligibility.</p>
+            <p>This calculator helps employees track key career milestones by determining their total years of service, and listing past and upcoming work anniversaries. It is a valuable tool for timing career discussions, monitoring benefit vesting schedules, and reflecting on professional growth over time.</p>
           </CardContent>
         </Card>
       </div>

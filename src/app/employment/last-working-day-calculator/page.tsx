@@ -11,10 +11,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, CalendarOff, Info, TrendingUp, Shield } from 'lucide-react';
+import { CalendarIcon, CalendarOff, Info, TrendingUp, Shield, Landmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { calculateLastWorkingDay } from '@/lib/employment-calculators';
+import Link from 'next/link';
 
 const formSchema = z.object({
   resignationDate: z.date({
@@ -211,12 +212,24 @@ export default function LastWorkingDayCalculator() {
                   <ol className="list-decimal pl-5 mt-2 space-y-2">
                       <li><strong className="text-foreground">Calculate Raw End Date:</strong> The notice period (in calendar days, weeks, or months) is added to the resignation date. This gives a theoretical end date.</li>
                       <li><strong className="text-foreground">Handle "Working Days" Notice:</strong> If the notice is specified in "working days", the calculator iteratively adds days, skipping weekends and any provided public holidays, until the count is met.</li>
-                      <li><strong className="text-foreground">Adjust for Weekends:</strong> If the raw end date falls on a Saturday or Sunday, the calculator adjusts it. Typically, if the end date lands on a weekend, the last working day is the preceding Friday.</li>
-                      <li><strong className="text-foreground">Adjust for Public Holidays:</strong> The calculator checks if the adjusted date is a public holiday you've entered. If so, it moves the last working day to the preceding business day.</li>
+                      <li><strong className="text-foreground">Adjust for Weekends & Holidays:</strong> If the raw end date falls on a Saturday, Sunday, or a specified public holiday, the calculator adjusts it to the preceding business day.</li>
                   </ol>
                   <p className="mt-2">This multi-step process ensures a more accurate final date compared to a simple calendar addition.</p>
               </div>
             </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
+            <CardDescription>Explore other employment and career planning tools.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5 text-sm text-primary">
+              <li><Link href="/employment/notice-period-calculator" className="hover:underline">Notice Period End Date Calculator</Link></li>
+              <li><Link href="/employment/probation-period-calculator" className="hover:underline">Probation Period End Date Calculator</Link></li>
+            </ul>
+          </CardContent>
         </Card>
         
         <section className="space-y-6 text-muted-foreground leading-relaxed bg-card p-6 md:p-10 rounded-lg shadow-lg">
@@ -265,15 +278,26 @@ export default function LastWorkingDayCalculator() {
                     </tbody>
                 </table>
             </div>
-
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Conclusion</h2>
-            <p>Your last working day marks the end of one chapter and the beginning of another. By calculating it accurately and managing your final weeks with professionalism and a focus on a smooth transition, you solidify your reputation as a reliable and responsible professional, which is an invaluable asset for your entire career.</p>
         </section>
 
         <Card>
-          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Disclaimer</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Info className="h-5 w-5" />Frequently Asked Questions</CardTitle></CardHeader>
+          <CardContent className="space-y-4">
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">My last day landed on a Friday, but that's a public holiday. What happens?</h4>
+                <p className="text-muted-foreground">In most cases, your last working day would become the preceding Thursday. The calculator automatically handles this adjustment if you input the holiday date.</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What's the difference between this and the Notice Period Calculator?</h4>
+                <p className="text-muted-foreground">The Notice Period Calculator gives you the raw calendar end date of your notice. This Last Working Day calculator takes it a step further by adjusting that date to account for weekends and holidays, giving you your true final day of work.</p>
+              </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Summary</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>This calculator provides an estimate for your last working day based on standard business practices (Monday-Friday work week). Company-specific policies, employment contracts, and local labor laws can vary. This tool is for informational purposes only and is not a substitute for legal advice. Always confirm your last day of employment with your HR department.</p>
+            <p>This calculator provides a precise estimate for your last working day by adjusting the raw notice period end date for weekends and public holidays. It is an essential tool for employees and HR managers to accurately plan handovers, final payroll, and off-boarding procedures, ensuring a smooth and professional transition out of a role.</p>
           </CardContent>
         </Card>
       </div>
