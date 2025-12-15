@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -120,7 +121,7 @@ export default function ShiftRotationCalculator() {
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             captionLayout="dropdown-buttons"
-                            fromYear={new Date().getFullYear() - 5}
+                            fromYear={1900}
                             toYear={new Date().getFullYear() + 5}
                             mode="single"
                             selected={field.value}
