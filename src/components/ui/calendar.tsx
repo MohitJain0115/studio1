@@ -3,10 +3,17 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker } from "react-day-picker"
+import { DayPicker, useDayPicker, useNavigation } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -24,7 +31,8 @@ function Calendar({
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium",
+        caption_label: "hidden",
+        caption_dropdowns: "flex gap-2",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
@@ -57,6 +65,53 @@ function Calendar({
       components={{
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        Caption: () => {
+          const { goToMonth, displayMonth } = useNavigation();
+          const { fromYear, toYear } = useDayPicker();
+
+          const years = fromYear
+            ? Array.from({ length: toYear! - fromYear + 1 }, (_, i) => fromYear + i)
+            : [];
+          
+          return (
+            <div className="flex justify-center items-center gap-2">
+                 <Select
+                  value={displayMonth.getFullYear().toString()}
+                  onValueChange={(value) => {
+                    goToMonth(new Date(parseInt(value), displayMonth.getMonth()));
+                  }}
+                >
+                  <SelectTrigger className="w-[100px] py-1 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((year) => (
+                      <SelectItem key={year} value={year.toString()}>
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={displayMonth.getMonth().toString()}
+                  onValueChange={(value) => {
+                    goToMonth(new Date(displayMonth.getFullYear(), parseInt(value)));
+                  }}
+                >
+                  <SelectTrigger className="w-[120px] py-1 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <SelectItem key={i} value={i.toString()}>
+                        {new Date(0, i).toLocaleString('default', { month: 'long' })}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+            </div>
+          );
+        },
       }}
       {...props}
     />
