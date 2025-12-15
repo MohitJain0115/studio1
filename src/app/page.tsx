@@ -11,6 +11,31 @@ import Link from 'next/link';
 
 const calculators = [
   {
+    href: '/employment/probation-period-calculator',
+    title: 'Probation Period End Date Calculator',
+    description: 'Calculate the end date of a probationary period.',
+  },
+  {
+    href: '/employment/notice-period-calculator',
+    title: 'Notice Period End Date Calculator',
+    description: 'Determine the end date of a notice period after resignation.',
+  },
+  {
+    href: '/employment/last-working-day-calculator',
+    title: 'Last Working Day Calculator',
+    description: 'Calculate the last working day, excluding weekends and holidays.',
+  },
+  {
+    href: '/employment/employment-anniversary-calculator',
+    title: 'Employment Anniversary Calculator',
+    description: 'Track and calculate your work anniversaries.',
+  },
+  {
+    href: '/employment/shift-rotation-calculator',
+    title: 'Shift Rotation Calculator',
+    description: 'Visualize your repeating shift work schedule.',
+  },
+  {
     href: '/investment/habit-based-wealth-growth-estimator',
     title: 'Habit-based Wealth Growth Estimator',
     description: 'See how much wealth you could build by redirecting spending from daily habits to investments.',
@@ -105,7 +130,7 @@ export default function CalculatorsPage() {
         Your suite of financial calculators. Get started by selecting a calculator below.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {calculators.map((calculator) => (
+        {calculators.sort((a, b) => a.title.localeCompare(b.title)).map((calculator) => (
           <Link href={calculator.href} key={calculator.href} className="block hover:no-underline">
             <Card className="h-full hover:shadow-lg transition-shadow duration-300">
               <CardHeader>

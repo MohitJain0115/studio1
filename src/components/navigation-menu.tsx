@@ -7,65 +7,15 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   {
-    href: '/investment/habit-based-wealth-growth-estimator',
-    label: 'Habit-based Wealth Growth',
-    icon: Zap,
-  },
-  {
-    href: '/investment/hsa-tax-benefit-calculator',
-    label: 'HSA Tax Benefit',
-    icon: ShieldPlus,
-  },
-  {
-    href: '/investment/long-term-care-cost-estimator',
-    label: 'Long-Term Care Cost',
-    icon: Bed,
-  },
-  {
-    href: '/investment/hospital-stay-cost-by-specialty-calculator',
-    label: 'Hospital Stay Cost',
-    icon: Hospital,
-  },
-  {
-    href: '/investment/dental-cost-comparison-calculator',
-    label: 'Dental Cost Comparison',
-    icon: Smile,
-  },
-  {
-    href: '/investment/prescription-refill-cost-estimator',
-    label: 'Prescription Refill Cost',
-    icon: Pill,
-  },
-  {
-    href: '/investment/health-plan-coverage-gap-estimator',
-    label: 'Health Plan Coverage Gap',
-    icon: WholeWord,
-  },
-  {
-    href: '/investment/copay-vs-deductible-breakeven-calculator',
-    label: 'Copay vs. Deductible',
-    icon: Scale,
-  },
-  {
     href: '/investment/health-insurance-subsidy-eligibility-calculator',
     label: 'ACA Subsidy Eligibility',
     icon: Users,
-  },
-  {
-    href: '/investment/spending-pattern-analyzer',
-    label: 'Spending Pattern Analyzer',
-    icon: PieChart,
-  },
-  {
-    href: '/investment/delayed-gratification-roi-calculator',
-    label: 'Delayed Gratification ROI',
-    icon: Clock,
   },
   {
     href: '/investment/career-roi-calculator',
@@ -73,14 +23,29 @@ const menuItems = [
     icon: Briefcase,
   },
   {
-    href: '/investment/savings-rate-vs-goal-timeline-visualizer',
-    label: 'Savings Rate vs. Goal',
-    icon: Target,
+    href: '/investment/collateral-haircut-impact-calculator',
+    label: 'Collateral Haircut',
+    icon: Scissors,
   },
   {
-    href: '/investment/expected-exposure-calculator',
-    label: 'Expected Exposure',
-    icon: TrendingUp,
+    href: '/investment/copay-vs-deductible-breakeven-calculator',
+    label: 'Copay vs. Deductible',
+    icon: Scale,
+  },
+  {
+    href: '/investment/delayed-gratification-roi-calculator',
+    label: 'Delayed Gratification ROI',
+    icon: Clock,
+  },
+  {
+    href: '/investment/dental-cost-comparison-calculator',
+    label: 'Dental Cost Comparison',
+    icon: Smile,
+  },
+  {
+    href: '/employment/employment-anniversary-calculator',
+    label: 'Employment Anniversary',
+    icon: Cake,
   },
   {
     href: '/investment/exposure-at-default-simulation',
@@ -88,14 +53,74 @@ const menuItems = [
     icon: Activity,
   },
   {
+    href: '/investment/expected-exposure-calculator',
+    label: 'Expected Exposure',
+    icon: TrendingUp,
+  },
+  {
+    href: '/investment/habit-based-wealth-growth-estimator',
+    label: 'Habit-based Wealth Growth',
+    icon: Zap,
+  },
+  {
+    href: '/investment/health-plan-coverage-gap-estimator',
+    label: 'Health Plan Coverage Gap',
+    icon: WholeWord,
+  },
+  {
+    href: '/investment/hospital-stay-cost-by-specialty-calculator',
+    label: 'Hospital Stay Cost',
+icon: Hospital,
+  },
+  {
+    href: '/investment/hsa-tax-benefit-calculator',
+    label: 'HSA Tax Benefit',
+    icon: ShieldPlus,
+  },
+  {
+    href: '/employment/last-working-day-calculator',
+    label: 'Last Working Day',
+    icon: CalendarOff,
+  },
+  {
     href: '/investment/loss-given-default-backtest-calculator',
     label: 'LGD Backtest',
     icon: TestTube,
   },
   {
-    href: '/investment/collateral-haircut-impact-calculator',
-    label: 'Collateral Haircut',
-    icon: Scissors,
+    href: '/investment/long-term-care-cost-estimator',
+    label: 'Long-Term Care Cost',
+    icon: Bed,
+  },
+  {
+    href: '/employment/notice-period-calculator',
+    label: 'Notice Period',
+    icon: CalendarCheck,
+  },
+  {
+    href: '/investment/prescription-refill-cost-estimator',
+    label: 'Prescription Refill Cost',
+    icon: Pill,
+  },
+  {
+    href: '/employment/probation-period-calculator',
+    label: 'Probation Period',
+    icon: UserCheck,
+  },
+  {
+    href: '/investment/savings-rate-vs-goal-timeline-visualizer',
+    label: 'Savings Rate vs. Goal',
+    icon: Target,
+  },
+  {
+    href: '/employment/shift-rotation-calculator',
+    label: 'Shift Rotation',
+    icon: RefreshCw,
+  },
+  {
+    href: '/investment/spending-pattern-analyzer',
+    label: 'Spending Pattern Analyzer',
+    icon: PieChart,
   },
 ];
 
@@ -109,7 +134,7 @@ export default function NavigationMenu() {
 
   return (
     <SidebarMenu>
-      {isClient && menuItems.map((item) => (
+      {isClient && menuItems.sort((a,b) => a.label.localeCompare(b.label)).map((item) => (
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
