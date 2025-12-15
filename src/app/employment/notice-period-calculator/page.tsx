@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -14,6 +15,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon, CalendarCheck, Info, TrendingUp, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import Link from 'next/link';
 import { calculateNoticePeriodEndDate } from '@/lib/employment-calculators';
 
 const formSchema = z.object({
@@ -217,7 +219,7 @@ export default function NoticePeriodCalculator() {
                         </tr>
                         <tr>
                             <td className="p-4 border">United Kingdom</td>
-                            <td className="p-4 border">Statutory minimum of 1 week (if employed >1 month). Contractually often 1 to 3 months.</td>
+                            <td className="p-4 border">Statutory minimum of 1 week (if employed &gt;1 month). Contractually often 1 to 3 months.</td>
                             <td className="p-4 border">Notice periods are a firm legal requirement. Senior executives can have 6-12 month notice periods.</td>
                         </tr>
                         <tr>
