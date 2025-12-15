@@ -1,4 +1,4 @@
-import { addDays, addWeeks, addMonths, isSaturday, isSunday, isSameDay, parseISO, subDays, differenceInYears, addYears, differenceInDays } from 'date-fns';
+import { addDays, addWeeks, addMonths, isSaturday, isSunday, isSameDay, parseISO, subDays, differenceInYears, addYears, differenceInDays, differenceInMinutes, intervalToDuration } from 'date-fns';
 
 type ProbationParams = {
   startDate: Date;
@@ -148,4 +148,47 @@ export const calculateAnniversaries = (hireDate: Date) => {
     }
 
     return { nextAnniversary, pastAnniversaries, upcomingAnniversaries, totalYearsOfService };
+};
+
+export const calculateTimeDuration = (startTime: string, endTime: string, isOvernight: boolean) => {
+  const [startHours, startMinutes] = startTime.split(':').map(Number);
+  const [endHours, endMinutes] = endTime.split(':').map(Number);
+  
+  let start = new Date();
+  start.setHours(startHours, startMinutes, 0, 0);
+
+  let end = new Date();
+  end.setHours(endHours, endMinutes, 0, 0);
+
+  if (isOvernight && end <= start) {
+    end = addDays(end, 1);
+  }
+
+  const totalMinutes = differenceInMinutes(end, start);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  const decimalHours = totalMinutes / 60;
+
+  return { hours, minutes, totalMinutes, decimalHours };
+};
+
+export const calculateContractDuration = (startDate: Date, endDate: Date) => {
+    const totalDays = differenceInDays(endDate, startDate) + 1;
+    const totalWeeks = totalDays / 7;
+    const totalMonths = totalDays / 30.437; // Average days in a month
+
+    const duration = intervalToDuration({ start: startDate, end: endDate });
+
+    // Adjust for inclusive end date
+    const adjustedEndDate = addDays(endDate, 1);
+    const adjustedDuration = intervalToDuration({ start: startDate, end: adjustedEndDate });
+
+    return {
+        totalDays,
+        totalWeeks,
+        totalMonths,
+        years: adjustedDuration.years || 0,
+        months: adjustedDuration.months || 0,
+        days: adjustedDuration.days || 0,
+    }
 };

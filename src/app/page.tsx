@@ -120,6 +120,31 @@ const calculators = [
     title: 'Collateral Haircut Impact Calculator',
     description: 'Calculate the required collateral haircut and its impact on covering a given exposure.',
   },
+  {
+    href: '/employment/night-shift-duration-calculator',
+    title: 'Night Shift Duration Calculator',
+    description: 'Calculate the duration of a work shift that crosses midnight.',
+  },
+  {
+    href: '/employment/split-shift-hours-calculator',
+    title: 'Split Shift Hours Calculator',
+    description: 'Calculate the total hours for a split shift, including the duration of the break.',
+  },
+  {
+    href: '/employment/freelance-billable-hours-calculator',
+    title: 'Freelance Billable Hours Calculator',
+    description: 'Sum up your billable hours and calculate your total invoice amount.',
+  },
+  {
+    href: '/employment/contract-duration-calculator',
+    title: 'Contract Duration Calculator',
+    description: 'Calculate the precise duration between a contract\'s start and end dates.',
+  },
+  {
+    href: '/employment/remote-work-time-zone-overlap-calculator',
+    title: 'Remote Work Time Zone Overlap Calculator',
+    description: 'Find the overlapping work hours for a distributed team.',
+  },
 ];
 
 export default function CalculatorsPage() {

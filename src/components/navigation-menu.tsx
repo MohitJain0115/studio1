@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw, Moon, Split, FileClock, CalendarRange, Globe } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -26,6 +26,11 @@ const menuItems = [
     href: '/investment/collateral-haircut-impact-calculator',
     label: 'Collateral Haircut',
     icon: Scissors,
+  },
+  {
+    href: '/employment/contract-duration-calculator',
+    label: 'Contract Duration',
+    icon: CalendarRange,
   },
   {
     href: '/investment/copay-vs-deductible-breakeven-calculator',
@@ -56,6 +61,11 @@ const menuItems = [
     href: '/investment/expected-exposure-calculator',
     label: 'Expected Exposure',
     icon: TrendingUp,
+  },
+  {
+    href: '/employment/freelance-billable-hours-calculator',
+    label: 'Freelance Billable Hours',
+    icon: FileClock,
   },
   {
     href: '/investment/habit-based-wealth-growth-estimator',
@@ -93,6 +103,11 @@ icon: Hospital,
     icon: Bed,
   },
   {
+    href: '/employment/night-shift-duration-calculator',
+    label: 'Night Shift Duration',
+    icon: Moon,
+  },
+  {
     href: '/employment/notice-period-calculator',
     label: 'Notice Period',
     icon: CalendarCheck,
@@ -108,6 +123,11 @@ icon: Hospital,
     icon: UserCheck,
   },
   {
+    href: '/employment/remote-work-time-zone-overlap-calculator',
+    label: 'Remote Time Zone Overlap',
+    icon: Globe,
+  },
+  {
     href: '/investment/savings-rate-vs-goal-timeline-visualizer',
     label: 'Savings Rate vs. Goal',
     icon: Target,
@@ -121,6 +141,11 @@ icon: Hospital,
     href: '/investment/spending-pattern-analyzer',
     label: 'Spending Pattern Analyzer',
     icon: PieChart,
+  },
+  {
+    href: '/employment/split-shift-hours-calculator',
+    label: 'Split Shift Hours',
+    icon: Split,
   },
 ];
 
