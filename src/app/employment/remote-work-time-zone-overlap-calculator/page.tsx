@@ -171,7 +171,7 @@ export default function TimeZoneOverlapCalculator() {
                 <div>
                   <h4 className="text-center text-lg font-semibold mb-4">Optimal Collaboration Window(s)</h4>
                   <p className="text-center text-sm text-muted-foreground mb-4">(Shown in {form.getValues('members.0.name')}'s timezone)</p>
-                   {result.overlapWindows.length > 0 ? (
+                   {result.overlapWindows.length > 0 && result.overlapHours > 0 ? (
                         result.overlapWindows.map((window, i) => (
                            <div key={i} className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg text-center">
                                 <p className="text-3xl font-bold text-green-600">{window.start} - {window.end}</p>
@@ -231,14 +231,64 @@ export default function TimeZoneOverlapCalculator() {
                 </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Strategies for Maximizing Overlap Time</h2>
-            <p>Your overlap window is valuable. Protect it fiercely.</p>
-            <ul className="list-disc ml-6 space-y-3">
-                <li><strong className="font-semibold text-foreground">Block for Collaboration:</strong> Reserve the calculated overlap window for collaborative, synchronous work only. Encourage deep, focused work outside of these hours.</li>
-                <li><strong className="font-semibold text-foreground">Have a Clear Agenda:</strong> Never schedule a meeting in the overlap window without a clear, shared agenda. Every minute is precious.</li>
-                <li><strong className="font-semibold text-foreground">Embrace "Asynchronous by Default":</strong> Challenge every potential meeting. Could this be a document? Could this be a recorded video update (e.g., using Loom)? Make synchronous meetings the exception, not the rule.</li>
-                <li><strong className="font-semibold text-foreground">Rotate Meeting Times:</strong> If the overlap is small, be fair. Don't always schedule meetings at a time that is convenient for HQ. Rotate times so the inconvenience is shared across the team.</li>
-            </ul>
+            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Common Time Zones</h2>
+            <p>This table lists some major time zones to help you configure the calculator. Remember to account for Daylight Saving Time (DST) where applicable.</p>
+            <div className="overflow-x-auto mt-4">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-muted">
+                            <th className="p-4 border">Time Zone (UTC)</th>
+                            <th className="p-4 border">Offset</th>
+                            <th className="p-4 border">Example Cities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td className="p-4 border font-semibold">UTC-8 (PST/PDT)</td><td className="p-4 border">-8 / -7</td><td className="p-4 border">Los Angeles, Vancouver, Seattle</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC-7 (MST)</td><td className="p-4 border">-7</td><td className="p-4 border">Phoenix, Denver, Calgary</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC-6 (CST/CDT)</td><td className="p-4 border">-6 / -5</td><td className="p-4 border">Chicago, Mexico City, Winnipeg</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC-5 (EST/EDT)</td><td className="p-4 border">-5 / -4</td><td className="p-4 border">New York, Toronto, Lima</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC-3</td><td className="p-4 border">-3</td><td className="p-4 border">São Paulo, Buenos Aires</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+0 (GMT/BST)</td><td className="p-4 border">+0 / +1</td><td className="p-4 border">London, Dublin, Lisbon</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+1 (CET/CEST)</td><td className="p-4 border">+1 / +2</td><td className="p-4 border">Paris, Berlin, Rome</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+3</td><td className="p-4 border">+3</td><td className="p-4 border">Moscow, Istanbul, Nairobi</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+5:30 (IST)</td><td className="p-4 border">+5.5</td><td className="p-4 border">Mumbai, New Delhi, Bangalore</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+8 (SGT/CST)</td><td className="p-4 border">+8</td><td className="p-4 border">Singapore, Hong Kong, Perth</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+9 (JST/KST)</td><td className="p-4 border">+9</td><td className="p-4 border">Tokyo, Seoul</td></tr>
+                        <tr><td className="p-4 border font-semibold">UTC+10 (AEST/AEDT)</td><td className="p-4 border">+10 / +11</td><td className="p-4 border">Sydney, Melbourne, Brisbane</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Strategies by Overlap Amount</h2>
+            <p>Your strategy should adapt based on the amount of synchronous time your team has.</p>
+            <div className="overflow-x-auto mt-4">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-muted">
+                            <th className="p-4 border">Overlap Amount</th>
+                            <th className="p-4 border">Primary Strategy</th>
+                            <th className="p-4 border">Key Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="p-4 border font-semibold">High Overlap (4+ hours)</td>
+                            <td className="p-4 border">Balanced Communication</td>
+                            <td className="p-4 border">Use overlap for daily stand-ups, collaborative sessions, and quick questions. Reserve non-overlap time for deep focus work.</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 border font-semibold">Low Overlap (1-3 hours)</td>
+                            <td className="p-4 border">Asynchronous First</td>
+                            <td className="p-4 border">Protect the overlap window for critical, high-bandwidth meetings only. Default to asynchronous communication for all status updates and non-urgent matters. Rotate meeting times to be fair.</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 border font-semibold">No Overlap (0 hours)</td>
+                            <td className="p-4 border">Fully Asynchronous</td>
+                            <td className="p-4 border">Abandon the idea of real-time meetings. Rely on excellent documentation, recorded video updates (e.g., using Loom), and structured hand-offs. One team member's end-of-day summary is the next member's start-of-day brief.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <Card>
