@@ -1,7 +1,6 @@
 
 "use client"
 
-import 'react-day-picker/dist/style.css';
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
