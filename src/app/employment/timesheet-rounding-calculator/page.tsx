@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -233,7 +234,7 @@ export default function TimesheetRoundingCalculator() {
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <p>The calculator converts all times to minutes from the start of the day to perform the math, then converts them back.</p>
               <ul className="list-disc pl-5 mt-2 space-y-2">
-                  <li><strong className="text-foreground">Nearest 5 or 15:</strong> The total minutes are divided by the increment (5 or 15), rounded to the nearest whole number, and then multiplied back by the increment. For example, 8:07 (487 minutes) rounded to the nearest 15 is 487/15 = 32.46 -> 32 -> 32*15 = 480 minutes, or 8:00. 8:08 (488 minutes) becomes 488/15 = 32.53 -> 33 -> 33*15 = 495 minutes, or 8:15.</li>
+                  <li><strong className="text-foreground">Nearest 5 or 15:</strong> The total minutes are divided by the increment (5 or 15), rounded to the nearest whole number, and then multiplied back by the increment. For example, 8:07 (487 minutes) rounded to the nearest 15 is 487/15 = 32.46 -&gt; 32 -&gt; 32*15 = 480 minutes, or 8:00. 8:08 (488 minutes) becomes 488/15 = 32.53 -&gt; 33 -&gt; 33*15 = 495 minutes, or 8:15.</li>
                   <li><strong className="text-foreground">Rounding Down:</strong> The total minutes are divided by the increment, the decimal is dropped (floored), and then multiplied back. This always favors the employer and is a legally risky practice.</li>
               </ul>
             </CardContent>
