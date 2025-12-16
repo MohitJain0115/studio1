@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw, Moon, Split, FileClock, CalendarRange, Globe } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw, Moon, Split, FileClock, CalendarRange, Globe, CalendarDays, Hourglass, Timer, Phone } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -26,6 +26,11 @@ const menuItems = [
     href: '/investment/collateral-haircut-impact-calculator',
     label: 'Collateral Haircut',
     icon: Scissors,
+  },
+  {
+    href: '/employment/compensatory-off-days-calculator',
+    label: 'Compensatory Time',
+    icon: Hourglass,
   },
   {
     href: '/employment/contract-duration-calculator',
@@ -113,6 +118,11 @@ icon: Hospital,
     icon: CalendarCheck,
   },
   {
+    href: '/employment/on-call-hours-calculator',
+    label: 'On-Call Pay',
+    icon: Phone,
+  },
+  {
     href: '/investment/prescription-refill-cost-estimator',
     label: 'Prescription Refill Cost',
     icon: Pill,
@@ -121,6 +131,11 @@ icon: Hospital,
     href: '/employment/probation-period-calculator',
     label: 'Probation Period',
     icon: UserCheck,
+  },
+  {
+    href: '/employment/pto-accrual-calculator',
+    label: 'PTO Accrual',
+    icon: CalendarDays,
   },
   {
     href: '/employment/remote-work-time-zone-overlap-calculator',
@@ -146,6 +161,16 @@ icon: Hospital,
     href: '/employment/split-shift-hours-calculator',
     label: 'Split Shift Hours',
     icon: Split,
+  },
+  {
+    href: '/employment/timesheet-rounding-calculator',
+    label: 'Timesheet Rounding',
+    icon: Timer,
+  },
+  {
+    href: '/employment/work-from-home-hours-calculator',
+    label: 'Work From Home Hours',
+    icon: Home,
   },
 ];
 

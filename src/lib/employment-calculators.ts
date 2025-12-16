@@ -192,3 +192,29 @@ export const calculateContractDuration = (startDate: Date, endDate: Date) => {
         days: adjustedDuration.days || 0,
     }
 };
+
+export const PAY_PERIODS_PER_YEAR = {
+  weekly: 52,
+  'bi-weekly': 26,
+  'semi-monthly': 24,
+  monthly: 12,
+  annually: 1,
+};
+
+export const calculatePtoAccrual = (values: {
+  accrualRate: number;
+  accrualFrequency: keyof typeof PAY_PERIODS_PER_YEAR;
+  hoursWorked?: number;
+  payPeriods?: number;
+}) => {
+  let ptoAccrued = 0;
+  if (values.hoursWorked) {
+    // Accrual per hour worked
+    ptoAccrued = values.accrualRate * values.hoursWorked;
+  } else {
+    // Accrual per pay period
+    const numPeriods = values.payPeriods || PAY_PERIODS_PER_YEAR[values.accrualFrequency];
+    ptoAccrued = values.accrualRate * numPeriods;
+  }
+  return ptoAccrued;
+};

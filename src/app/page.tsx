@@ -145,6 +145,31 @@ const calculators = [
     title: 'Remote Work Time Zone Overlap Calculator',
     description: 'Find the overlapping work hours for a distributed team.',
   },
+  {
+    href: '/employment/pto-accrual-calculator',
+    title: 'PTO Accrual Calculator',
+    description: 'Calculate the amount of Paid Time Off (PTO) accrued over a specific period.',
+  },
+  {
+    href: '/employment/compensatory-off-days-calculator',
+    title: 'Compensatory Time Off Calculator',
+    description: 'Calculate compensatory time ("comp time") earned for working overtime.',
+  },
+  {
+    href: '/employment/work-from-home-hours-calculator',
+    title: 'Work From Home Hours Calculator',
+    description: 'Track and calculate your total daily work hours with complex breaks.',
+  },
+  {
+    href: '/employment/on-call-hours-calculator',
+    title: 'On-Call Pay Calculator',
+    description: 'Calculate total compensation for on-call or standby time.',
+  },
+  {
+    href: '/employment/timesheet-rounding-calculator',
+    title: 'Timesheet Rounding Calculator',
+    description: 'See how different timesheet rounding rules affect total paid hours.',
+  },
 ];
 
 export default function CalculatorsPage() {
