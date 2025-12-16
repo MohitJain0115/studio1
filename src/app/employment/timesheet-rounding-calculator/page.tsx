@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -12,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, Timer } from 'lucide-react';
 import Link from 'next/link';
+import { calculateTimesheetRounding } from '@/lib/employment-calculators';
 
 const formSchema = z.object({
   timeIn: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time format (HH:MM)"),
@@ -28,26 +28,6 @@ interface CalculationResult {
   roundedDuration: string;
   timeDifference: string;
 }
-
-const timeToMinutes = (time: string) => {
-  const [hours, minutes] = time.split(':').map(Number);
-  return hours * 60 + minutes;
-};
-
-const minutesToTime = (minutes: number) => {
-    if (minutes < 0) minutes = 0;
-    const h = Math.floor(minutes / 60);
-    const m = Math.round(minutes % 60);
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-};
-
-const formatDuration = (totalMinutes: number) => {
-    if (totalMinutes < 0) totalMinutes = 0;
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = Math.round(totalMinutes % 60);
-    return `${hours}h ${minutes}m`;
-};
-
 
 export default function TimesheetRoundingCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -71,41 +51,8 @@ export default function TimesheetRoundingCalculator() {
   };
 
   const onSubmit = (values: FormValues) => {
-    const { timeIn, timeOut, roundingRule } = values;
-
-    const actualInMinutes = timeToMinutes(timeIn);
-    const actualOutMinutes = timeToMinutes(timeOut);
-    const actualDurationMinutes = actualOutMinutes - actualInMinutes;
-
-    let roundedInMinutes: number;
-    let roundedOutMinutes: number;
-
-    switch (roundingRule) {
-      case 'nearest_5':
-        roundedInMinutes = Math.round(actualInMinutes / 5) * 5;
-        roundedOutMinutes = Math.round(actualOutMinutes / 5) * 5;
-        break;
-      case 'nearest_15':
-        roundedInMinutes = Math.round(actualInMinutes / 15) * 15;
-        roundedOutMinutes = Math.round(actualOutMinutes / 15) * 15;
-        break;
-      case 'down_15':
-        roundedInMinutes = Math.floor(actualInMinutes / 15) * 15;
-        roundedOutMinutes = Math.floor(actualOutMinutes / 15) * 15;
-        break;
-    }
-    
-    const roundedDurationMinutes = roundedOutMinutes - roundedInMinutes;
-    const timeDifferenceMinutes = roundedDurationMinutes - actualDurationMinutes;
-    const timeDifference = `${timeDifferenceMinutes >= 0 ? '+' : '-'} ${formatDuration(Math.abs(timeDifferenceMinutes))}`;
-
-    setResult({
-      actualDuration: formatDuration(actualDurationMinutes),
-      roundedIn: minutesToTime(roundedInMinutes),
-      roundedOut: minutesToTime(roundedOutMinutes),
-      roundedDuration: formatDuration(roundedDurationMinutes),
-      timeDifference,
-    });
+    const calculation = calculateTimesheetRounding(values as { timeIn: string; timeOut: string; roundingRule: 'nearest_5' | 'nearest_15' | 'down_15'; });
+    setResult(calculation);
   };
 
   return (
@@ -316,5 +263,3 @@ export default function TimesheetRoundingCalculator() {
     </div>
   );
 }
-
-    

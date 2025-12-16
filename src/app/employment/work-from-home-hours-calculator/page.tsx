@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, Home, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { calculateWfhHours } from '@/lib/employment-calculators';
 
 const workSegmentSchema = z.object({
   startTime: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, "Invalid time (HH:MM)"),
@@ -28,19 +29,6 @@ interface CalculationResult {
   totalNetDuration: string;
   totalDecimalHours: number;
 }
-
-const timeToMinutes = (time: string) => {
-  const [hours, minutes] = time.split(':').map(Number);
-  return hours * 60 + minutes;
-};
-
-const formatDuration = (totalMinutes: number) => {
-    if (totalMinutes < 0) totalMinutes = 0;
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = Math.round(totalMinutes % 60);
-    return `${hours}h ${minutes}m`;
-};
-
 
 export default function WorkFromHomeHoursCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -67,20 +55,8 @@ export default function WorkFromHomeHoursCalculator() {
   };
   
   const onSubmit = (values: FormValues) => {
-    const grossMinutes = values.segments.reduce((acc, segment) => {
-        if (!segment.startTime || !segment.endTime) return acc;
-        const start = timeToMinutes(segment.startTime);
-        const end = timeToMinutes(segment.endTime);
-        return acc + (end - start);
-    }, 0);
-
-    const netMinutes = grossMinutes - (values.unpaidBreakMinutes || 0);
-
-    setResult({
-      totalGrossDuration: formatDuration(grossMinutes),
-      totalNetDuration: formatDuration(netMinutes),
-      totalDecimalHours: netMinutes / 60,
-    });
+    const calculation = calculateWfhHours(values);
+    setResult(calculation);
   };
 
   return (

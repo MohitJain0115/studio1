@@ -218,3 +218,112 @@ export const calculatePtoAccrual = (values: {
   }
   return ptoAccrued;
 };
+
+export const calculateCompTime = (values: {
+  overtimeHours: number;
+  overtimeMinutes?: number;
+  compTimeRate: number;
+}) => {
+  const totalOvertimeMinutes = (values.overtimeHours * 60) + (values.overtimeMinutes || 0);
+  const compTimeMinutes = totalOvertimeMinutes * values.compTimeRate;
+  const compTimeHours = compTimeMinutes / 60;
+  const compTimeDays = compTimeHours / 8; // Assuming an 8-hour workday
+
+  return {
+    totalOvertimeMinutes,
+    compTimeMinutes,
+    compTimeHours,
+    compTimeDays,
+  };
+};
+
+const timeStringToMinutes = (time: string) => {
+  if (!time) return 0;
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
+export const calculateWfhHours = (values: {
+  segments: { startTime: string; endTime: string }[];
+  unpaidBreakMinutes?: number;
+}) => {
+  const grossMinutes = values.segments.reduce((acc, segment) => {
+    if (!segment.startTime || !segment.endTime) return acc;
+    const start = timeStringToMinutes(segment.startTime);
+    const end = timeStringToMinutes(segment.endTime);
+    // Handle overnight segments
+    const duration = end >= start ? end - start : (24 * 60 - start) + end;
+    return acc + duration;
+  }, 0);
+
+  const netMinutes = grossMinutes - (values.unpaidBreakMinutes || 0);
+
+  const formatDuration = (totalMinutes: number) => {
+    if (totalMinutes < 0) totalMinutes = 0;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    return `${hours}h ${minutes}m`;
+  };
+
+  return {
+    totalGrossDuration: formatDuration(grossMinutes),
+    totalNetDuration: formatDuration(netMinutes),
+    totalDecimalHours: netMinutes / 60,
+  };
+};
+
+const formatDurationFromMinutes = (totalMinutes: number) => {
+    if (totalMinutes < 0) totalMinutes = 0;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    return `${hours}h ${minutes}m`;
+};
+
+export const calculateTimesheetRounding = (values: {
+  timeIn: string;
+  timeOut: string;
+  roundingRule: 'nearest_5' | 'nearest_15' | 'down_15';
+}) => {
+    const { timeIn, timeOut, roundingRule } = values;
+
+    const actualInMinutes = timeStringToMinutes(timeIn);
+    const actualOutMinutes = timeStringToMinutes(timeOut);
+    const actualDurationMinutes = actualOutMinutes - actualInMinutes;
+
+    let roundedInMinutes: number;
+    let roundedOutMinutes: number;
+    
+    const minutesToTime = (minutes: number) => {
+        if (minutes < 0) minutes = 0;
+        const h = Math.floor(minutes / 60);
+        const m = Math.round(minutes % 60);
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+    };
+
+    switch (roundingRule) {
+      case 'nearest_5':
+        roundedInMinutes = Math.round(actualInMinutes / 5) * 5;
+        roundedOutMinutes = Math.round(actualOutMinutes / 5) * 5;
+        break;
+      case 'nearest_15':
+        roundedInMinutes = Math.round(actualInMinutes / 15) * 15;
+        roundedOutMinutes = Math.round(actualOutMinutes / 15) * 15;
+        break;
+      case 'down_15':
+        roundedInMinutes = Math.floor(actualInMinutes / 15) * 15;
+        roundedOutMinutes = Math.floor(actualOutMinutes / 15) * 15;
+        break;
+    }
+    
+    const roundedDurationMinutes = roundedOutMinutes - roundedInMinutes;
+    const timeDifferenceMinutes = roundedDurationMinutes - actualDurationMinutes;
+    const timeDifference = `${timeDifferenceMinutes >= 0 ? '+' : '-'} ${formatDurationFromMinutes(Math.abs(timeDifferenceMinutes))}`;
+
+    return {
+      actualDuration: formatDurationFromMinutes(actualDurationMinutes),
+      roundedIn: minutesToTime(roundedInMinutes),
+      roundedOut: minutesToTime(roundedOutMinutes),
+      roundedDuration: formatDurationFromMinutes(roundedDurationMinutes),
+      timeDifference,
+    };
+};

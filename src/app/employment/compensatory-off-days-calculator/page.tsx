@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, Hourglass } from 'lucide-react';
 import Link from 'next/link';
+import { calculateCompTime } from '@/lib/employment-calculators';
 
 const formSchema = z.object({
   overtimeHours: z.number().positive("Overtime hours must be positive."),
@@ -49,17 +50,8 @@ export default function CompensatoryOffDaysCalculator() {
   };
 
   const onSubmit = (values: FormValues) => {
-    const totalOvertimeMinutes = (values.overtimeHours * 60) + (values.overtimeMinutes || 0);
-    const compTimeMinutes = totalOvertimeMinutes * values.compTimeRate;
-    const compTimeHours = compTimeMinutes / 60;
-    const compTimeDays = compTimeHours / 8; // Assuming an 8-hour workday
-
-    setResult({
-      totalOvertimeMinutes,
-      compTimeMinutes,
-      compTimeHours,
-      compTimeDays,
-    });
+    const calculation = calculateCompTime(values);
+    setResult(calculation);
   };
 
   return (

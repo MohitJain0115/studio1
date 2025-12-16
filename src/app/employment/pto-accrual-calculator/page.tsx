@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, CalendarDays } from 'lucide-react';
 import Link from 'next/link';
+import { calculatePtoAccrual, PAY_PERIODS_PER_YEAR } from '@/lib/employment-calculators';
 
 const formSchema = z.object({
   accrualRate: z.number().positive("Accrual rate must be positive."),
@@ -24,14 +25,6 @@ type FormValues = z.infer<typeof formSchema>;
 interface CalculationResult {
   ptoAccrued: number;
 }
-
-const PAY_PERIODS_PER_YEAR = {
-  weekly: 52,
-  'bi-weekly': 26,
-  'semi-monthly': 24,
-  monthly: 12,
-  annually: 1,
-};
 
 export default function PtoAccrualCalculator() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -57,16 +50,7 @@ export default function PtoAccrualCalculator() {
   };
 
   const onSubmit = (values: FormValues) => {
-    let ptoAccrued = 0;
-    if (values.hoursWorked) {
-        // Accrual per hour worked
-        ptoAccrued = values.accrualRate * values.hoursWorked;
-    } else {
-        // Accrual per pay period
-        const numPeriods = values.payPeriods || PAY_PERIODS_PER_YEAR[values.accrualFrequency];
-        ptoAccrued = values.accrualRate * numPeriods;
-    }
-
+    const ptoAccrued = calculatePtoAccrual(values as { accrualRate: number; accrualFrequency: keyof typeof PAY_PERIODS_PER_YEAR; hoursWorked?: number; payPeriods?: number; });
     setResult({ ptoAccrued });
   };
 
