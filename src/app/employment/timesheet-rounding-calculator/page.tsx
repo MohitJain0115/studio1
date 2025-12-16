@@ -55,16 +55,16 @@ export default function TimesheetRoundingCalculator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      timeIn: undefined,
-      timeOut: undefined,
+      timeIn: '',
+      timeOut: '',
       roundingRule: 'nearest_15',
     },
   });
 
   const resetForm = () => {
     form.reset({
-      timeIn: undefined,
-      timeOut: undefined,
+      timeIn: '',
+      timeOut: '',
       roundingRule: 'nearest_15',
     });
     setResult(null);
@@ -316,3 +316,5 @@ export default function TimesheetRoundingCalculator() {
     </div>
   );
 }
+
+    
