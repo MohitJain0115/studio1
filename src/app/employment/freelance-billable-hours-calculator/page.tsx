@@ -40,7 +40,7 @@ export default function FreelanceBillableHoursCalculator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      tasks: [{ name: '', hours: 0, minutes: 0 }],
+      tasks: [{ name: '', hours: undefined, minutes: undefined }],
       hourlyRate: undefined,
     },
   });
@@ -73,7 +73,7 @@ export default function FreelanceBillableHoursCalculator() {
 
   const resetForm = () => {
     form.reset({
-      tasks: [{ name: '', hours: 0, minutes: 0 }],
+      tasks: [{ name: '', hours: undefined, minutes: undefined }],
       hourlyRate: undefined,
     });
     setResult(null);
@@ -144,7 +144,7 @@ export default function FreelanceBillableHoursCalculator() {
                     </div>
                   ))}
                 </div>
-                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', hours: 0, minutes: 0 })}>
+                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', hours: undefined, minutes: undefined })}>
                   <PlusCircle className="mr-2 h-4 w-4" /> Add Task
                 </Button>
               </div>

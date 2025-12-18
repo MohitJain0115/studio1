@@ -37,7 +37,7 @@ export default function WorkFromHomeHoursCalculator() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       segments: [{ startTime: '', endTime: '' }],
-      unpaidBreakMinutes: 0,
+      unpaidBreakMinutes: undefined,
     },
   });
 
@@ -49,7 +49,7 @@ export default function WorkFromHomeHoursCalculator() {
   const resetForm = () => {
     form.reset({
       segments: [{ startTime: '', endTime: '' }],
-      unpaidBreakMinutes: 0,
+      unpaidBreakMinutes: undefined,
     });
     setResult(null);
   };
@@ -123,7 +123,7 @@ export default function WorkFromHomeHoursCalculator() {
                     <FormItem>
                       <FormLabel>Total Unpaid Break (Minutes)</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="e.g., 60" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                        <Input type="number" placeholder="e.g., 60" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value) || undefined)} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

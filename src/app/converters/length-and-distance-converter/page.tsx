@@ -27,7 +27,7 @@ export default function LengthAndDistanceConverter() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      value: 1,
+      value: undefined,
       fromUnit: 'meter',
       toUnit: 'foot',
     },
@@ -55,7 +55,7 @@ export default function LengthAndDistanceConverter() {
     
     if (currentValue !== undefined) {
        const newResult = convertLength(currentValue, to, from);
-       setValue('value', result ?? 1); // Use the old result as the new value
+       setValue('value', result ?? undefined); // Use the old result as the new value
     }
   };
 
@@ -135,7 +135,7 @@ export default function LengthAndDistanceConverter() {
             </form>
           </Form>
 
-           {result !== null && (
+           {result !== null && watchedValues.value !== undefined && (
                 <div className="mt-8 pt-6 border-t">
                     <p className="text-center text-lg text-muted-foreground">Result</p>
                     <p className="text-center text-4xl font-bold text-primary mt-2">

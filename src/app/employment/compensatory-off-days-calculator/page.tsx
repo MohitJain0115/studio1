@@ -35,7 +35,7 @@ export default function CompensatoryOffDaysCalculator() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       overtimeHours: undefined,
-      overtimeMinutes: 0,
+      overtimeMinutes: undefined,
       compTimeRate: 1.5,
     },
   });
@@ -43,7 +43,7 @@ export default function CompensatoryOffDaysCalculator() {
   const resetForm = () => {
     form.reset({
       overtimeHours: undefined,
-      overtimeMinutes: 0,
+      overtimeMinutes: undefined,
       compTimeRate: 1.5,
     });
     setResult(null);
@@ -91,7 +91,7 @@ export default function CompensatoryOffDaysCalculator() {
                       <FormItem>
                         <FormLabel>Overtime Minutes</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 30" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || 0)} />
+                          <Input type="number" placeholder="e.g., 30" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseInt(e.target.value, 10) || undefined)} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
