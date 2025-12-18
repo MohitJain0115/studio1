@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Landmark, Info, Shield, TrendingUp, Ruler, ArrowRightLeft } from 'lucide-react';
 import Link from 'next/link';
-import { convertLength, UNITS } from '@/lib/converters';
+import { convertLength, LENGTH_UNITS } from '@/lib/converters';
 
 const formSchema = z.object({
   value: z.number().optional(),
@@ -82,7 +82,7 @@ export default function LengthAndDistanceConverter() {
                     <FormItem>
                       <FormLabel>Value</FormLabel>
                       <FormControl>
-                        <Input type="number" placeholder="e.g., 10" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || 0)} />
+                        <Input type="number" placeholder="e.g., 10" {...field} value={field.value ?? ''} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -101,7 +101,7 @@ export default function LengthAndDistanceConverter() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {UNITS.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
+                          {LENGTH_UNITS.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -121,7 +121,7 @@ export default function LengthAndDistanceConverter() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {UNITS.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
+                          {LENGTH_UNITS.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -142,7 +142,7 @@ export default function LengthAndDistanceConverter() {
                         {result.toPrecision(6)}
                     </p>
                     <p className="text-center text-sm text-muted-foreground mt-1">
-                        {watchedValues.value} {UNITS.find(u => u.value === watchedValues.fromUnit)?.label} = {result.toPrecision(6)} {UNITS.find(u => u.value === watchedValues.toUnit)?.label}
+                        {watchedValues.value} {LENGTH_UNITS.find(u => u.value === watchedValues.fromUnit)?.label} = {result.toPrecision(6)} {LENGTH_UNITS.find(u => u.value === watchedValues.toUnit)?.label}
                     </p>
                 </div>
             )}
@@ -281,3 +281,5 @@ export default function LengthAndDistanceConverter() {
     </div>
   );
 }
+
+    
