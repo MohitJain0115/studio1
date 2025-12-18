@@ -7,13 +7,15 @@ const LENGTH_CONVERSION_FACTORS: { [key: string]: number } = {
   inch: 0.0254,
   foot: 0.3048,
   yard: 0.9144,
-  mile: 1609.34,
+  mile: 1609.344,
   'nautical-mile': 1852,
   micron: 1e-6,
   nanometer: 1e-9,
 };
 
 export const LENGTH_UNITS = [
+    { value: 'nanometer', label: 'Nanometer (nm)' },
+    { value: 'micron', label: 'Micron (μm)' },
     { value: 'millimeter', label: 'Millimeter (mm)' },
     { value: 'centimeter', label: 'Centimeter (cm)' },
     { value: 'meter', label: 'Meter (m)' },
@@ -23,8 +25,6 @@ export const LENGTH_UNITS = [
     { value: 'yard', label: 'Yard (yd)' },
     { value: 'mile', label: 'Mile (mi)' },
     { value: 'nautical-mile', label: 'Nautical Mile (nmi)' },
-    { value: 'micron', label: 'Micron (μm)' },
-    { value: 'nanometer', label: 'Nanometer (nm)' },
 ];
 
 export const convertLength = (value: number, fromUnit: string, toUnit: string): number => {
@@ -46,11 +46,11 @@ const WEIGHT_CONVERSION_FACTORS: { [key: string]: number } = {
     hectogram: 0.1,
     kilogram: 1,
     'metric-tonne': 1000,
-    ounce: 0.0283495,
-    pound: 0.453592,
-    stone: 6.35029,
-    'short-ton': 907.185,
-    'long-ton': 1016.05,
+    ounce: 0.0283495231,
+    pound: 0.45359237,
+    stone: 6.35029318,
+    'short-ton': 907.18474,
+    'long-ton': 1016.0469088,
 };
 
 export const WEIGHT_UNITS = [
@@ -87,10 +87,10 @@ const AREA_CONVERSION_FACTORS: { [key: string]: number } = {
     hectare: 10000,
     'square-kilometer': 1e6,
     'square-inch': 0.00064516,
-    'square-foot': 0.092903,
-    'square-yard': 0.836127,
-    acre: 4046.86,
-    'square-mile': 2.59e6,
+    'square-foot': 0.09290304,
+    'square-yard': 0.83612736,
+    acre: 4046.8564224,
+    'square-mile': 2589988.110336,
 };
 
 export const AREA_UNITS = [
@@ -113,3 +113,5 @@ export const convertArea = (value: number, fromUnit: string, toUnit: string): nu
     const valueInSquareMeters = value * AREA_CONVERSION_FACTORS[fromUnit];
     return valueInSquareMeters / AREA_CONVERSION_FACTORS[toUnit];
 };
+
+    

@@ -142,7 +142,7 @@ export default function LengthAndDistanceConverter() {
                         {result.toPrecision(6)}
                     </p>
                     <p className="text-center text-sm text-muted-foreground mt-1">
-                        {watchedValues.value} {LENGTH_UNITS.find(u => u.value === watchedValues.fromUnit)?.label} = {result.toPrecision(6)} {LENGTH_UNITS.find(u => u.value === watchedValues.toUnit)?.label}
+                        {watchedValues.value} {LENGTH_UNITS.find(u => u.value === watchedValues.fromUnit)?.label.split(' ')[0]} = {result.toPrecision(6)} {LENGTH_UNITS.find(u => u.value === watchedValues.toUnit)?.label.split(' ')[0]}
                     </p>
                 </div>
             )}
@@ -177,12 +177,12 @@ export default function LengthAndDistanceConverter() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Calculators</CardTitle>
-            <CardDescription>Explore other conversion tools.</CardDescription>
+            <CardTitle className="flex items-center gap-2"><Landmark className="h-5 w-5" />Related Converters</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              {/* Add links to other converters when they exist */}
+              <li><Link href="/converters/weight-and-mass-converter" className="hover:underline">Weight & Mass Converter</Link></li>
+              <li><Link href="/converters/area-converter" className="hover:underline">Area Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -204,7 +204,7 @@ export default function LengthAndDistanceConverter() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td className="p-4 border font-semibold">Nanometer</td><td className="p-4 border">nm</td><td className="p-4 border">1 billionth of a meter (10<sup>-9</sup> m)</td><td className="p-4 border">Measuring atomic structures, integrated circuits, and light wavelengths.</td></tr>
+                        <tr><td className="p-4 border font-semibold">Nanometer</td><td className="p-4 border">nm</td><td className="p-4 border">1 billionth of a meter (10<sup>-9</sup> m)</td><td className="p-4 border">Nanotechnology, semiconductor manufacturing, microscopy.</td></tr>
                         <tr><td className="p-4 border font-semibold">Micron (Micrometer)</td><td className="p-4 border">μm</td><td className="p-4 border">1 millionth of a meter (10<sup>-6</sup> m)</td><td className="p-4 border">Biology (measuring cells), and industrial manufacturing for precision tolerances.</td></tr>
                         <tr><td className="p-4 border font-semibold">Millimeter</td><td className="p-4 border">mm</td><td className="p-4 border">1 thousandth of a meter (0.001 m)</td><td className="p-4 border">Small-scale engineering, crafts, and everyday small measurements.</td></tr>
                         <tr><td className="p-4 border font-semibold">Centimeter</td><td className="p-4 border">cm</td><td className="p-4 border">1 hundredth of a meter (0.01 m)</td><td className="p-4 border">Everyday measurements, body height, clothing sizes.</td></tr>
