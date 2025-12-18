@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw, Moon, Split, FileClock, CalendarRange, Globe, CalendarDays, Hourglass, Timer, Phone } from 'lucide-react';
+import { Home, ShieldPlus, Bed, Zap, Hospital, Smile, Pill, WholeWord, Scale, Users, PieChart, Clock, Briefcase, Target, TrendingUp, Activity, TestTube, Scissors, CalendarCheck, CalendarOff, UserCheck, Cake, RefreshCw, Moon, Split, FileClock, CalendarRange, Globe, CalendarDays, Hourglass, Timer, Phone, Ruler } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -96,6 +96,11 @@ icon: Hospital,
     href: '/employment/last-working-day-calculator',
     label: 'Last Working Day',
     icon: CalendarOff,
+  },
+    {
+    href: '/converters/length-and-distance-converter',
+    label: 'Length & Distance',
+    icon: Ruler,
   },
   {
     href: '/investment/loss-given-default-backtest-calculator',

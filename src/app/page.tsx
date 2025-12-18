@@ -138,7 +138,7 @@ const calculators = [
   {
     href: '/employment/contract-duration-calculator',
     title: 'Contract Duration Calculator',
-    description: 'Calculate the precise duration between a contract\'s start and end dates.',
+    description: "Calculate the precise duration between a contract's start and end dates.",
   },
   {
     href: '/employment/remote-work-time-zone-overlap-calculator',
@@ -169,6 +169,11 @@ const calculators = [
     href: '/employment/timesheet-rounding-calculator',
     title: 'Timesheet Rounding Calculator',
     description: 'See how different timesheet rounding rules affect total paid hours.',
+  },
+  {
+    href: '/converters/length-and-distance-converter',
+    title: 'Length & Distance Converter',
+    description: 'Quickly convert between various units of length and distance.',
   },
 ];
 
