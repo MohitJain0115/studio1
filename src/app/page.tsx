@@ -15,6 +15,16 @@ const calculators = [
     title: 'Length & Distance Converter',
     description: 'Quickly convert between various units of length and distance.',
   },
+  {
+    href: '/converters/weight-and-mass-converter',
+    title: 'Weight & Mass Converter',
+    description: 'Seamlessly convert between various units of weight and mass.',
+  },
+  {
+    href: '/converters/area-converter',
+    title: 'Area Converter',
+    description: 'Easily convert between different units of area.',
+  },
 ];
 
 export default function CalculatorsPage() {

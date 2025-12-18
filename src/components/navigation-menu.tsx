@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler } from 'lucide-react';
+import { Home, Ruler, Scale, Square } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -16,6 +16,16 @@ const menuItems = [
     href: '/converters/length-and-distance-converter',
     label: 'Length & Distance',
     icon: Ruler,
+  },
+  {
+    href: '/converters/weight-and-mass-converter',
+    label: 'Weight & Mass',
+    icon: Scale,
+  },
+  {
+    href: '/converters/area-converter',
+    label: 'Area',
+    icon: Square,
   },
 ];
 
