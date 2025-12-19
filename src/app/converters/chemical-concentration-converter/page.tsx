@@ -221,10 +221,6 @@ export default function ConcentrationConverter() {
                 <p className="text-muted-foreground">Molarity (M) is the most common unit of concentration. It is the number of moles of a substance (solute) dissolved in one liter of a solution.</p>
             </div>
             <div className="p-4 border rounded-lg">
-                <h4 className="font-semibold mb-2">What about Parts Per Million (PPM)?</h4>
-                <p className="text-muted-foreground">PPM is another common concentration unit, especially in environmental science. It's a mass-based ratio. Converting between molarity and PPM requires knowing the molar mass of the solute, so it is not included in this simple converter.</p>
-            </div>
-            <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">Why is temperature important for concentration?</h4>
                 <p className="text-muted-foreground">Molarity is based on the volume of the solution, which can change with temperature (most liquids expand when heated). For highly precise work, chemists may use molality (moles of solute per kg of solvent), which is independent of temperature.</p>
             </div>
