@@ -26,6 +26,16 @@ const calculators = [
     description: 'Convert between molar, millimolar, and other concentration units.',
   },
   {
+    href: '/converters/construction-converter',
+    title: 'Construction Units Converter',
+    description: 'Convert common units for length, area, and volume in construction.',
+  },
+  {
+    href: '/converters/cooking-converter',
+    title: 'Cooking Converter',
+    description: 'Convert between teaspoons, tablespoons, cups, and other kitchen units.',
+  },
+  {
     href: '/converters/data-storage-converter',
     title: 'Data Storage Converter',
     description: 'Convert between bits, bytes, kilobytes, and larger units of digital information.',
@@ -39,6 +49,11 @@ const calculators = [
     href: '/converters/density-converter',
     title: 'Density Converter',
     description: 'Convert between different units of density like kg/m³ and lb/ft³.',
+  },
+  {
+    href: '/converters/electrical-converter',
+    title: 'Electrical Converter (Ohm\'s Law)',
+    description: 'Calculate voltage, current, resistance, and power.',
   },
   {
     href: '/converters/energy-converter',
@@ -59,6 +74,11 @@ const calculators = [
     href: '/converters/frequency-converter',
     title: 'Frequency Converter',
     description: 'Convert between hertz, kilohertz, RPM, and other frequency units.',
+  },
+  {
+    href: '/converters/fuel-economy-converter',
+    title: 'Fuel Economy Converter',
+    description: 'Convert between MPG, L/100km, and other fuel efficiency units.',
   },
   {
     href: '/converters/length-and-distance-converter',

@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid, Waves, Radio, Sun, FlaskConical, Triangle } from 'lucide-react';
+import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid, Waves, Radio, Sun, FlaskConical, Triangle, ChefHat, Construction, Fuel, Bolt } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -28,6 +28,16 @@ const menuItems = [
     icon: FlaskConical,
   },
   {
+    href: '/converters/construction-converter',
+    label: 'Construction',
+    icon: Construction,
+  },
+  {
+    href: '/converters/cooking-converter',
+    label: 'Cooking',
+    icon: ChefHat,
+  },
+  {
     href: '/converters/data-storage-converter',
     label: 'Data Storage',
     icon: Database,
@@ -41,6 +51,11 @@ const menuItems = [
     href: '/converters/density-converter',
     label: 'Density',
     icon: Cuboid,
+  },
+  {
+    href: '/converters/electrical-converter',
+    label: 'Electrical',
+    icon: Bolt,
   },
   {
     href: '/converters/energy-converter',
@@ -61,6 +76,11 @@ const menuItems = [
     href: '/converters/frequency-converter',
     label: 'Frequency',
     icon: Radio,
+  },
+  {
+    href: '/converters/fuel-economy-converter',
+    label: 'Fuel Economy',
+    icon: Fuel,
   },
   {
     href: '/converters/length-and-distance-converter',

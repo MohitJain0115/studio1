@@ -408,7 +408,7 @@ const PRESSURE_CONVERSION_FACTORS: { [key: string]: number } = {
 export const PRESSURE_UNITS = [
     { value: 'pascal', label: 'Pascal (Pa)' },
     { value: 'bar', label: 'Bar (bar)' },
-    { value: 'psi', label: 'Pound-force/sq inch (psi)' },
+    { value: 'psi', label: 'Pounds per square inch (psi)' },
     { value: 'atm', label: 'Atmosphere (atm)' },
     { value: 'torr', label: 'Torr (Torr)' },
 ];
@@ -542,7 +542,6 @@ const CONCENTRATION_CONVERSION_FACTORS: { [key: string]: number } = {
     'moles-per-liter': 1,
     'millimoles-per-liter': 0.001,
     'micromoles-per-liter': 1e-6,
-    'parts-per-million': 1, // Placeholder, requires molar mass
 };
 
 export const CONCENTRATION_UNITS = [
@@ -582,4 +581,121 @@ export const convertAngle = (value: number, fromUnit: string, toUnit: string): n
     }
     const valueInRadians = value * ANGLE_CONVERSION_FACTORS[fromUnit];
     return valueInRadians / ANGLE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Liters
+const COOKING_CONVERSION_FACTORS: { [key: string]: number } = {
+    'us-teaspoon': 0.00492892,
+    'us-tablespoon': 0.0147868,
+    'us-fluid-ounce': 0.0295735,
+    'us-cup': 0.236588,
+    'milliliter': 0.001,
+    'liter': 1,
+};
+
+export const COOKING_UNITS = [
+    { value: 'us-teaspoon', label: 'US Teaspoon (tsp)' },
+    { value: 'us-tablespoon', label: 'US Tablespoon (tbsp)' },
+    { value: 'us-fluid-ounce', label: 'US Fluid Ounce (fl-oz)' },
+    { value: 'us-cup', label: 'US Cup' },
+    { value: 'milliliter', label: 'Milliliter (mL)' },
+    { value: 'liter', label: 'Liter (L)' },
+];
+
+export const convertCooking = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!COOKING_CONVERSION_FACTORS[fromUnit] || !COOKING_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for cooking conversion');
+    }
+    const valueInLiters = value * COOKING_CONVERSION_FACTORS[fromUnit];
+    return valueInLiters / COOKING_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Liters per 100 Kilometers
+const FUEL_ECONOMY_CONVERSION_FACTORS: { [key: string]: (value: number) => number } = {
+    'mpg-us': (value) => 235.214 / value,
+    'mpg-imperial': (value) => 282.481 / value,
+    'km-per-liter': (value) => 100 / value,
+    'liters-per-100km': (value) => value,
+};
+
+const FUEL_ECONOMY_REVERSE_CONVERSION_FACTORS: { [key: string]: (value: number) => number } = {
+    'mpg-us': (value) => 235.214 / value,
+    'mpg-imperial': (value) => 282.481 / value,
+    'km-per-liter': (value) => 100 / value,
+    'liters-per-100km': (value) => value,
+};
+
+export const FUEL_ECONOMY_UNITS = [
+    { value: 'mpg-us', label: 'Miles per Gallon (US)' },
+    { value: 'mpg-imperial', label: 'Miles per Gallon (Imperial)' },
+    { value: 'km-per-liter', label: 'Kilometers per Liter (km/L)' },
+    { value: 'liters-per-100km', label: 'Liters per 100km (L/100km)' },
+];
+
+export const convertFuelEconomy = (value: number, fromUnit: string, toUnit: string): number => {
+    if (value === 0) return 0;
+    if (!FUEL_ECONOMY_CONVERSION_FACTORS[fromUnit] || !FUEL_ECONOMY_REVERSE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for fuel economy conversion');
+    }
+    const valueInLitersPer100km = FUEL_ECONOMY_CONVERSION_FACTORS[fromUnit](value);
+    return FUEL_ECONOMY_REVERSE_CONVERSION_FACTORS[toUnit](valueInLitersPer100km);
+};
+
+export const calculateOhmsLaw = (
+    value: { voltage?: number; current?: number; resistance?: number; power?: number; },
+    calculate: 'voltage' | 'current' | 'resistance' | 'power'
+): { voltage: number; current: number; resistance: number; power: number } | null => {
+    const { voltage, current, resistance, power } = value;
+
+    // Check if at least two values are provided
+    const providedValues = [voltage, current, resistance, power].filter(v => v !== undefined && v !== null && v > 0);
+    if (providedValues.length < 2) {
+        return null;
+    }
+
+    let v = voltage ?? 0, i = current ?? 0, r = resistance ?? 0, p = power ?? 0;
+
+    switch (calculate) {
+        case 'voltage':
+            if (i && r) v = i * r;
+            else if (p && i) v = p / i;
+            else if (p && r) v = Math.sqrt(p * r);
+            else return null; // Not enough info
+            break;
+        case 'current':
+            if (v && r) i = v / r;
+            else if (p && v) i = p / v;
+            else if (p && r) i = Math.sqrt(p / r);
+            else return null;
+            break;
+        case 'resistance':
+            if (v && i) r = v / i;
+            else if (v && p) r = v ** 2 / p;
+            else if (p && i) r = p / i ** 2;
+            else return null;
+            break;
+        case 'power':
+            if (v && i) p = v * i;
+            else if (i && r) p = i ** 2 * r;
+            else if (v && r) p = v ** 2 / r;
+            else return null;
+            break;
+        default:
+            return null;
+    }
+
+    // After calculating the target, recalculate all others for consistency
+    if (v && i) r = v / i; p = v * i;
+    else if (v && r) i = v / r; p = v * i;
+    else if (i && r) v = i * r; p = v * i;
+    else if (p && v) i = p / v; r = v / i;
+    else if (p && i) v = p / i; r = v / i;
+    else if (p && r) v = Math.sqrt(p * r); i = v / r;
+    else { // Fallback if only two were provided and it wasn't enough for a full solve
+      if (v && i) { r = v/i; p = v*i; }
+      else if (v && r) { i = v/r; p = v*i; }
+      else if (i && r) { v = i*r; p = v*i; }
+    }
+
+    return { voltage: v, current: i, resistance: r, power: p };
 };
