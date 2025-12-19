@@ -130,6 +130,7 @@ const VOLUME_CONVERSION_FACTORS: { [key: string]: number } = {
     'imperial-gallon': 4.54609,
     'cubic-inch': 0.0163871,
     'cubic-foot': 28.3168,
+    'cubic-yard': 764.554858,
 };
 
 export const VOLUME_UNITS = [
@@ -138,6 +139,7 @@ export const VOLUME_UNITS = [
     { value: 'cubic-meter', label: 'Cubic Meter (m³)' },
     { value: 'cubic-inch', label: 'Cubic Inch (in³)' },
     { value: 'cubic-foot', label: 'Cubic Foot (ft³)' },
+    { value: 'cubic-yard', label: 'Cubic Yard (yd³)' },
     { value: 'us-fluid-ounce', label: 'US Fluid Ounce (fl-oz)' },
     { value: 'us-cup', label: 'US Cup' },
     { value: 'us-pint', label: 'US Pint (pt)' },
@@ -647,54 +649,40 @@ export const calculateOhmsLaw = (
 ): { voltage: number; current: number; resistance: number; power: number } | null => {
     const { voltage, current, resistance, power } = value;
 
-    // Check if at least two values are provided
-    const providedValues = [voltage, current, resistance, power].filter(v => v !== undefined && v !== null && v > 0);
+    const providedValues = [voltage, current, resistance, power].filter(v => v !== undefined && v !== null);
     if (providedValues.length < 2) {
         return null;
     }
 
-    let v = voltage ?? 0, i = current ?? 0, r = resistance ?? 0, p = power ?? 0;
+    let v = voltage, i = current, r = resistance, p = power;
 
-    switch (calculate) {
-        case 'voltage':
-            if (i && r) v = i * r;
-            else if (p && i) v = p / i;
-            else if (p && r) v = Math.sqrt(p * r);
-            else return null; // Not enough info
-            break;
-        case 'current':
-            if (v && r) i = v / r;
-            else if (p && v) i = p / v;
-            else if (p && r) i = Math.sqrt(p / r);
-            else return null;
-            break;
-        case 'resistance':
-            if (v && i) r = v / i;
-            else if (v && p) r = v ** 2 / p;
-            else if (p && i) r = p / i ** 2;
-            else return null;
-            break;
-        case 'power':
-            if (v && i) p = v * i;
-            else if (i && r) p = i ** 2 * r;
-            else if (v && r) p = v ** 2 / r;
-            else return null;
-            break;
-        default:
-            return null;
+    // This loop ensures that we keep calculating until all variables are solved.
+    // It will run a maximum of two times.
+    for (let k = 0; k < 2; k++) {
+        if (v === undefined) {
+            if (i !== undefined && r !== undefined) v = i * r;
+            else if (p !== undefined && i !== undefined) v = p / i;
+            else if (p !== undefined && r !== undefined) v = Math.sqrt(p * r);
+        }
+        if (i === undefined) {
+            if (v !== undefined && r !== undefined) i = v / r;
+            else if (p !== undefined && v !== undefined) i = p / v;
+            else if (p !== undefined && r !== undefined) i = Math.sqrt(p / r);
+        }
+        if (r === undefined) {
+            if (v !== undefined && i !== undefined) r = v / i;
+            else if (v !== undefined && p !== undefined) r = v ** 2 / p;
+            else if (p !== undefined && i !== undefined) r = p / i ** 2;
+        }
+        if (p === undefined) {
+            if (v !== undefined && i !== undefined) p = v * i;
+            else if (i !== undefined && r !== undefined) p = i ** 2 * r;
+            else if (v !== undefined && r !== undefined) p = v ** 2 / r;
+        }
     }
-
-    // After calculating the target, recalculate all others for consistency
-    if (v && i) r = v / i; p = v * i;
-    else if (v && r) i = v / r; p = v * i;
-    else if (i && r) v = i * r; p = v * i;
-    else if (p && v) i = p / v; r = v / i;
-    else if (p && i) v = p / i; r = v / i;
-    else if (p && r) v = Math.sqrt(p * r); i = v / r;
-    else { // Fallback if only two were provided and it wasn't enough for a full solve
-      if (v && i) { r = v/i; p = v*i; }
-      else if (v && r) { i = v/r; p = v*i; }
-      else if (i && r) { v = i*r; p = v*i; }
+    
+    if (v === undefined || i === undefined || r === undefined || p === undefined) {
+        return null; // Not enough information to solve completely
     }
 
     return { voltage: v, current: i, resistance: r, power: p };
