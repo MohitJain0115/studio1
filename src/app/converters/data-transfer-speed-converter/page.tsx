@@ -220,6 +220,8 @@ export default function DataTransferSpeedConverter() {
                         <tr><td className="p-4 border">300 Mbps</td><td className="p-4 border">37.5 MB/s</td></tr>
                         <tr><td className="p-4 border">500 Mbps</td><td className="p-4 border">62.5 MB/s</td></tr>
                         <tr><td className="p-4 border">1 Gbps (1,000 Mbps)</td><td className="p-4 border">125 MB/s</td></tr>
+                        <tr><td className="p-4 border">To download a 5 MB song</td><td className="p-4 border">~0.4s on 100 Mbps</td></tr>
+                        <tr><td className="p-4 border">To download a 1 GB movie</td><td className="p-4 border">~1m 20s on 100 Mbps</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -249,5 +251,3 @@ export default function DataTransferSpeedConverter() {
     </div>
   );
 }
-
-    

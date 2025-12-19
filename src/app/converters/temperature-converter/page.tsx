@@ -208,18 +208,17 @@ export default function TemperatureConverter() {
               <table className="w-full text-left border-collapse">
                   <thead>
                       <tr className="bg-muted">
-                          <th className="p-4 border">From Value</th>
-                          <th className="p-4 border">To Unit</th>
-                          <th className="p-4 border">Equivalent Value</th>
+                          <th className="p-4 border">Common Reference</th>
+                          <th className="p-4 border">Celsius</th>
+                          <th className="p-4 border">Fahrenheit</th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr><td className="p-4 border">0°C</td><td className="p-4 border">Fahrenheit</td><td className="p-4 border">32°F</td></tr>
-                      <tr><td className="p-4 border">100°C</td><td className="p-4 border">Fahrenheit</td><td className="p-4 border">212°F</td></tr>
-                      <tr><td className="p-4 border">32°F</td><td className="p-4 border">Celsius</td><td className="p-4 border">0°C</td></tr>
-                      <tr><td className="p-4 border">98.6°F</td><td className="p-4 border">Celsius</td><td className="p-4 border">37°C</td></tr>
-                      <tr><td className="p-4 border">0 K</td><td className="p-4 border">Celsius</td><td className="p-4 border">-273.15°C</td></tr>
-                      <tr><td className="p-4 border">273.15 K</td><td className="p-4 border">Celsius</td><td className="p-4 border">0°C</td></tr>
+                      <tr><td className="p-4 border">Absolute Zero</td><td className="p-4 border">-273.15°C</td><td className="p-4 border">-459.67°F</td></tr>
+                      <tr><td className="p-4 border">Water Freezes</td><td className="p-4 border">0°C</td><td className="p-4 border">32°F</td></tr>
+                      <tr><td className="p-4 border">Room Temperature</td><td className="p-4 border">20-22°C</td><td className="p-4 border">68-72°F</td></tr>
+                      <tr><td className="p-4 border">Human Body Temperature</td><td className="p-4 border">37°C</td><td className="p-4 border">98.6°F</td></tr>
+                      <tr><td className="p-4 border">Water Boils</td><td className="p-4 border">100°C</td><td className="p-4 border">212°F</td></tr>
                   </tbody>
               </table>
           </div>

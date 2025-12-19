@@ -210,18 +210,17 @@ export default function DataStorageConverter() {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-muted">
-                            <th className="p-4 border">From</th>
-                            <th className="p-4 border">To</th>
-                            <th className="p-4 border">Equivalent Value</th>
+                            <th className="p-4 border">Item</th>
+                            <th className="p-4 border">Typical Size</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td className="p-4 border">1 Byte</td><td className="p-4 border">Bits</td><td className="p-4 border">8 b</td></tr>
-                        <tr><td className="p-4 border">1 Kilobyte (KB)</td><td className="p-4 border">Bytes</td><td className="p-4 border">1,024 B</td></tr>
-                        <tr><td className="p-4 border">1 Megabyte (MB)</td><td className="p-4 border">Kilobytes</td><td className="p-4 border">1,024 KB</td></tr>
-                        <tr><td className="p-4 border">1 Gigabyte (GB)</td><td className="p-4 border">Megabytes</td><td className="p-4 border">1,024 MB</td></tr>
-                        <tr><td className="p-4 border">1 Terabyte (TB)</td><td className="p-4 border">Gigabytes</td><td className="p-4 border">1,024 GB</td></tr>
-                        <tr><td className="p-4 border">1 Petabyte (PB)</td><td className="p-4 border">Terabytes</td><td className="p-4 border">1,024 TB</td></tr>
+                        <tr><td className="p-4 border">1 page of plain text (.txt)</td><td className="p-4 border">~2 KB</td></tr>
+                        <tr><td className="p-4 border">1 high-quality photo</td><td className="p-4 border">2-5 MB</td></tr>
+                        <tr><td className="p-4 border">1 minute of MP3 audio</td><td className="p-4 border">~1 MB</td></tr>
+                        <tr><td className="p-4 border">1 minute of HD video</td><td className="p-4 border">~100 MB</td></tr>
+                        <tr><td className="p-4 border">1 Gigabyte (GB)</td><td className="p-4 border">1,024 Megabytes (MB)</td></tr>
+                        <tr><td className="p-4 border">1 Terabyte (TB)</td><td className="p-4 border">1,024 Gigabytes (GB)</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -251,5 +250,3 @@ export default function DataStorageConverter() {
     </div>
   );
 }
-
-    

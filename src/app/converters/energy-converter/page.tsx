@@ -219,6 +219,8 @@ export default function EnergyConverter() {
                         <tr><td className="p-4 border">1 British Thermal Unit (BTU)</td><td className="p-4 border">Joules</td><td className="p-4 border">~1,055 J</td></tr>
                         <tr><td className="p-4 border">1 Kilowatt-hour (kWh)</td><td className="p-4 border">Calories (kcal)</td><td className="p-4 border">~860 kcal</td></tr>
                         <tr><td className="p-4 border">1 Kilowatt-hour (kWh)</td><td className="p-4 border">BTU</td><td className="p-4 border">~3,412 BTU</td></tr>
+                        <tr><td className="p-4 border">1 Gallon of Gasoline</td><td className="p-4 border">kWh</td><td className="p-4 border">~33.7 kWh</td></tr>
+                        <tr><td className="p-4 border">1 Barrel of Oil</td><td className="p-4 border">kWh</td><td className="p-4 border">~1,700 kWh</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -248,5 +250,3 @@ export default function EnergyConverter() {
     </div>
   );
 }
-
-    

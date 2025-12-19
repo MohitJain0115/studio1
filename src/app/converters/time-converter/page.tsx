@@ -221,8 +221,8 @@ export default function TimeConverter() {
                         <tr><td className="p-4 border">1 Minute</td><td className="p-4 border">Seconds</td><td className="p-4 border">60 s</td></tr>
                         <tr><td className="p-4 border">1 Hour</td><td className="p-4 border">Minutes</td><td className="p-4 border">60 min</td></tr>
                         <tr><td className="p-4 border">1 Hour</td><td className="p-4 border">Seconds</td><td className="p-4 border">3,600 s</td></tr>
-                        <tr><td className="p-4 border">1 Day</td><td className="p-4 border">Hours</td><td className="p-4 border">24 hr</td></tr>
-                        <tr><td className="p-4 border">1 Week</td><td className="p-4 border">Days</td><td className="p-4 border">7 d</td></tr>
+                        <tr><td className="p-4 border">1 Day</td><td className="p-4 border">Minutes</td><td className="p-4 border">1,440 min</td></tr>
+                        <tr><td className="p-4 border">1 Week</td><td className="p-4 border">Hours</td><td className="p-4 border">168 hr</td></tr>
                         <tr><td className="p-4 border">1 Year</td><td className="p-4 border">Days</td><td className="p-4 border">~365.24 d</td></tr>
                     </tbody>
                 </table>

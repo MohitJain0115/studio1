@@ -220,6 +220,8 @@ export default function SpeedConverter() {
                         <tr><td className="p-4 border">1 Knot (kn)</td><td className="p-4 border">Miles per hour (mph)</td><td className="p-4 border">~1.151 mph</td></tr>
                         <tr><td className="p-4 border">1 Knot (kn)</td><td className="p-4 border">Kilometers per hour (kph)</td><td className="p-4 border">1.852 kph</td></tr>
                         <tr><td className="p-4 border">1 Mile per hour (mph)</td><td className="p-4 border">Feet per second (fps)</td><td className="p-4 border">~1.467 fps</td></tr>
+                        <tr><td className="p-4 border">Speed of Sound (in air)</td><td className="p-4 border">Meters per second</td><td className="p-4 border">~343 m/s</td></tr>
+                        <tr><td className="p-4 border">Speed of Light (in vacuum)</td><td className="p-4 border">Kilometers per second</td><td className="p-4 border">~299,792 km/s</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -249,5 +251,3 @@ export default function SpeedConverter() {
     </div>
   );
 }
-
-    

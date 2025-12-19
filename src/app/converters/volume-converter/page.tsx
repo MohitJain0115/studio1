@@ -243,12 +243,12 @@ export default function VolumeConverter() {
                       </tr>
                   </thead>
                   <tbody>
-                      <tr><td className="p-4 border">1 Liter</td><td className="p-4 border">Milliliters</td><td className="p-4 border">1,000 mL</td></tr>
-                      <tr><td className="p-4 border">1 US Gallon</td><td className="p-4 border">US Quarts</td><td className="p-4 border">4 US qt</td></tr>
+                      <tr><td className="p-4 border">1 Liter</td><td className="p-4 border">US Gallons</td><td className="p-4 border">~0.264 gal</td></tr>
                       <tr><td className="p-4 border">1 US Gallon</td><td className="p-4 border">Liters</td><td className="p-4 border">~3.785 L</td></tr>
                       <tr><td className="p-4 border">1 Imperial Gallon</td><td className="p-4 border">Liters</td><td className="p-4 border">~4.546 L</td></tr>
                       <tr><td className="p-4 border">1 US Pint</td><td className="p-4 border">US Fluid Ounces</td><td className="p-4 border">16 US fl-oz</td></tr>
                       <tr><td className="p-4 border">1 Imperial Pint</td><td className="p-4 border">Imperial Fluid Ounces</td><td className="p-4 border">20 Imp fl-oz</td></tr>
+                      <tr><td className="p-4 border">1 US Fluid Ounce</td><td className="p-4 border">Milliliters</td><td className="p-4 border">~29.57 mL</td></tr>
                       <tr><td className="p-4 border">1 Cubic Meter</td><td className="p-4 border">Liters</td><td className="p-4 border">1,000 L</td></tr>
                   </tbody>
               </table>

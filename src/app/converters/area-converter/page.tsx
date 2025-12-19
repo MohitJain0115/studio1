@@ -232,10 +232,11 @@ export default function AreaConverter() {
                     </thead>
                     <tbody>
                         <tr><td className="p-4 border">1 Square Foot</td><td className="p-4 border">Square Inches</td><td className="p-4 border">144 in²</td></tr>
+                        <tr><td className="p-4 border">1 Square Meter</td><td className="p-4 border">Square Feet</td><td className="p-4 border">~10.764 ft²</td></tr>
                         <tr><td className="p-4 border">1 Square Yard</td><td className="p-4 border">Square Feet</td><td className="p-4 border">9 ft²</td></tr>
                         <tr><td className="p-4 border">1 Acre</td><td className="p-4 border">Square Feet</td><td className="p-4 border">43,560 ft²</td></tr>
+                        <tr><td className="p-4 border">1 Acre</td><td className="p-4 border">Hectares</td><td className="p-4 border">~0.4047 ha</td></tr>
                         <tr><td className="p-4 border">1 Hectare</td><td className="p-4 border">Acres</td><td className="p-4 border">~2.471 ac</td></tr>
-                        <tr><td className="p-4 border">1 Hectare</td><td className="p-4 border">Square Meters</td><td className="p-4 border">10,000 m²</td></tr>
                         <tr><td className="p-4 border">1 Square Mile</td><td className="p-4 border">Acres</td><td className="p-4 border">640 ac</td></tr>
                         <tr><td className="p-4 border">1 Square Kilometer</td><td className="p-4 border">Hectares</td><td className="p-4 border">100 ha</td></tr>
                     </tbody>
