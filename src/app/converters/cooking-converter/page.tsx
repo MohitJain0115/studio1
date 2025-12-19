@@ -48,14 +48,8 @@ export default function CookingConverter() {
   const swapUnits = () => {
     const from = watchedValues.fromUnit;
     const to = watchedValues.toUnit;
-    const currentValue = watchedValues.value;
-
     setValue('fromUnit', to);
     setValue('toUnit', from);
-    
-    if (currentValue !== undefined) {
-      setValue('value', result ?? undefined);
-    }
   };
 
   return (

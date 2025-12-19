@@ -73,6 +73,13 @@ export default function ConstructionConverter() {
     }
   }, [watchedValues]);
 
+  const swapUnits = () => {
+    const from = watchedValues.fromUnit;
+    const to = watchedValues.toUnit;
+    setValue('fromUnit', to);
+    setValue('toUnit', from);
+  };
+
   const currentUnits = constructionUnits[watchedValues.unitType as keyof typeof constructionUnits] || [];
 
   return (
@@ -171,6 +178,9 @@ export default function ConstructionConverter() {
                   )}
                 />
               </div>
+               <Button type="button" variant="outline" onClick={swapUnits}>
+                <ArrowRightLeft className="mr-2 h-4 w-4" /> Swap Units
+              </Button>
             </form>
           </Form>
 
