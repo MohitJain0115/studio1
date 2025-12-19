@@ -74,7 +74,7 @@ export const convertWeight = (value: number, fromUnit: string, toUnit: string): 
     if (!WEIGHT_CONVERSION_FACTORS[fromUnit] || !WEIGHT_CONVERSION_FACTORS[toUnit]) {
         throw new Error('Invalid unit specified for weight conversion');
     }
-    const valueInKilograms = value * WEIGHT_CONversion_FACTORS[fromUnit];
+    const valueInKilograms = value * WEIGHT_CONVERSION_FACTORS[fromUnit];
     return valueInKilograms / WEIGHT_CONVERSION_FACTORS[toUnit];
 };
 
