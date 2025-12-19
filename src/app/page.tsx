@@ -25,6 +25,16 @@ const calculators = [
     title: 'Area Converter',
     description: 'Easily convert between different units of area.',
   },
+  {
+    href: '/converters/volume-converter',
+    title: 'Volume Converter',
+    description: 'Easily convert between different metric and imperial units of volume.',
+  },
+  {
+    href: '/converters/temperature-converter',
+    title: 'Temperature Converter',
+    description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
+  },
 ];
 
 export default function CalculatorsPage() {

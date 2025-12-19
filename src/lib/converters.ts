@@ -74,7 +74,7 @@ export const convertWeight = (value: number, fromUnit: string, toUnit: string): 
     if (!WEIGHT_CONVERSION_FACTORS[fromUnit] || !WEIGHT_CONVERSION_FACTORS[toUnit]) {
         throw new Error('Invalid unit specified for weight conversion');
     }
-    const valueInKilograms = value * WEIGHT_CONVERSION_FACTORS[fromUnit];
+    const valueInKilograms = value * WEIGHT_CONversion_FACTORS[fromUnit];
     return valueInKilograms / WEIGHT_CONVERSION_FACTORS[toUnit];
 };
 
@@ -114,4 +114,85 @@ export const convertArea = (value: number, fromUnit: string, toUnit: string): nu
     return valueInSquareMeters / AREA_CONVERSION_FACTORS[toUnit];
 };
 
-    
+// Conversion factors to liters
+const VOLUME_CONVERSION_FACTORS: { [key: string]: number } = {
+    'milliliter': 0.001,
+    'liter': 1,
+    'cubic-meter': 1000,
+    'us-fluid-ounce': 0.0295735,
+    'us-cup': 0.236588,
+    'us-pint': 0.473176,
+    'us-quart': 0.946353,
+    'us-gallon': 3.78541,
+    'imperial-fluid-ounce': 0.0284131,
+    'imperial-pint': 0.568261,
+    'imperial-quart': 1.13652,
+    'imperial-gallon': 4.54609,
+    'cubic-inch': 0.0163871,
+    'cubic-foot': 28.3168,
+};
+
+export const VOLUME_UNITS = [
+    { value: 'milliliter', label: 'Milliliter (mL)' },
+    { value: 'liter', label: 'Liter (L)' },
+    { value: 'cubic-meter', label: 'Cubic Meter (m³)' },
+    { value: 'cubic-inch', label: 'Cubic Inch (in³)' },
+    { value: 'cubic-foot', label: 'Cubic Foot (ft³)' },
+    { value: 'us-fluid-ounce', label: 'US Fluid Ounce (fl-oz)' },
+    { value: 'us-cup', label: 'US Cup' },
+    { value: 'us-pint', label: 'US Pint (pt)' },
+    { value: 'us-quart', label: 'US Quart (qt)' },
+    { value: 'us-gallon', label: 'US Gallon (gal)' },
+    { value: 'imperial-fluid-ounce', label: 'Imperial Fluid Ounce (fl-oz)' },
+    { value: 'imperial-pint', label: 'Imperial Pint (pt)' },
+    { value: 'imperial-quart', label: 'Imperial Quart (qt)' },
+    { value: 'imperial-gallon', label: 'Imperial Gallon (gal)' },
+];
+
+export const convertVolume = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!VOLUME_CONVERSION_FACTORS[fromUnit] || !VOLUME_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for volume conversion');
+    }
+    const valueInLiters = value * VOLUME_CONVERSION_FACTORS[fromUnit];
+    return valueInLiters / VOLUME_CONVERSION_FACTORS[toUnit];
+};
+
+
+export const TEMPERATURE_UNITS = [
+    { value: 'celsius', label: 'Celsius (°C)' },
+    { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
+    { value: 'kelvin', label: 'Kelvin (K)' },
+];
+
+export const convertTemperature = (value: number, fromUnit: string, toUnit: string): number => {
+    if (fromUnit === toUnit) {
+        return value;
+    }
+
+    let valueInCelsius: number;
+
+    // Convert input to Celsius
+    switch (fromUnit) {
+        case 'fahrenheit':
+            valueInCelsius = (value - 32) * 5 / 9;
+            break;
+        case 'kelvin':
+            valueInCelsius = value - 273.15;
+            break;
+        case 'celsius':
+        default:
+            valueInCelsius = value;
+            break;
+    }
+
+    // Convert from Celsius to target unit
+    switch (toUnit) {
+        case 'fahrenheit':
+            return (valueInCelsius * 9 / 5) + 32;
+        case 'kelvin':
+            return valueInCelsius + 273.15;
+        case 'celsius':
+        default:
+            return valueInCelsius;
+    }
+};
