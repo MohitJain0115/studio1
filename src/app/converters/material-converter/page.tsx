@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package, Info, Shield, TrendingUp, Landmark, ArrowRightLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -135,9 +135,10 @@ export default function MaterialConverter() {
                         </FormControl>
                         <SelectContent>
                           {unitGroups.map(group => (
-                            <optgroup key={group.label} label={group.label}>
+                            <SelectGroup key={group.label}>
+                              <SelectLabel>{group.label}</SelectLabel>
                               {group.units.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
-                            </optgroup>
+                            </SelectGroup>
                           ))}
                         </SelectContent>
                       </Select>
@@ -159,9 +160,10 @@ export default function MaterialConverter() {
                         </FormControl>
                         <SelectContent>
                           {unitGroups.map(group => (
-                            <optgroup key={group.label} label={group.label}>
+                             <SelectGroup key={group.label}>
+                              <SelectLabel>{group.label}</SelectLabel>
                               {group.units.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
-                            </optgroup>
+                            </SelectGroup>
                           ))}
                         </SelectContent>
                       </Select>
