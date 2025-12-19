@@ -35,6 +35,31 @@ const calculators = [
     title: 'Temperature Converter',
     description: 'Convert between Celsius, Fahrenheit, and Kelvin.',
   },
+  {
+    href: '/converters/time-converter',
+    title: 'Time Converter',
+    description: 'Convert between seconds, minutes, hours, days, and other units of time.',
+  },
+  {
+    href: '/converters/speed-converter',
+    title: 'Speed Converter',
+    description: 'Convert between different units of speed, such as kph, mph, and knots.',
+  },
+  {
+    href: '/converters/data-storage-converter',
+    title: 'Data Storage Converter',
+    description: 'Convert between bits, bytes, kilobytes, and larger units of digital information.',
+  },
+  {
+    href: '/converters/data-transfer-speed-converter',
+    title: 'Data Transfer Speed Converter',
+    description: 'Convert between various units of data transfer speed, like Mbps and MB/s.',
+  },
+  {
+    href: '/converters/energy-converter',
+    title: 'Energy Converter',
+    description: 'Convert between Joules, Calories, kWh, and other units of energy.',
+  },
 ];
 
 export default function CalculatorsPage() {
@@ -61,3 +86,5 @@ export default function CalculatorsPage() {
     </div>
   );
 }
+
+    

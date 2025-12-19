@@ -196,3 +196,154 @@ export const convertTemperature = (value: number, fromUnit: string, toUnit: stri
             return valueInCelsius;
     }
 };
+
+// Conversion factors to seconds
+const TIME_CONVERSION_FACTORS: { [key: string]: number } = {
+    nanosecond: 1e-9,
+    microsecond: 1e-6,
+    millisecond: 0.001,
+    second: 1,
+    minute: 60,
+    hour: 3600,
+    day: 86400,
+    week: 604800,
+    month: 2629746, // 30.436875 days
+    year: 31556952, // 365.2425 days
+};
+
+export const TIME_UNITS = [
+    { value: 'nanosecond', label: 'Nanosecond (ns)' },
+    { value: 'microsecond', label: 'Microsecond (μs)' },
+    { value: 'millisecond', label: 'Millisecond (ms)' },
+    { value: 'second', label: 'Second (s)' },
+    { value: 'minute', label: 'Minute (min)' },
+    { value: 'hour', label: 'Hour (hr)' },
+    { value: 'day', label: 'Day (d)' },
+    { value: 'week', label: 'Week (wk)' },
+    { value: 'month', label: 'Month (mo)' },
+    { value: 'year', label: 'Year (yr)' },
+];
+
+export const convertTime = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!TIME_CONVERSION_FACTORS[fromUnit] || !TIME_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for time conversion');
+    }
+    const valueInSeconds = value * TIME_CONVERSION_FACTORS[fromUnit];
+    return valueInSeconds / TIME_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to meters per second
+const SPEED_CONVERSION_FACTORS: { [key: string]: number } = {
+    'meters-per-second': 1,
+    'kilometers-per-hour': 1 / 3.6,
+    'miles-per-hour': 0.44704,
+    'feet-per-second': 0.3048,
+    'knots': 0.514444,
+};
+
+export const SPEED_UNITS = [
+    { value: 'meters-per-second', label: 'Meters per second (m/s)' },
+    { value: 'kilometers-per-hour', label: 'Kilometers per hour (kph)' },
+    { value: 'miles-per-hour', label: 'Miles per hour (mph)' },
+    { value: 'feet-per-second', label: 'Feet per second (fps)' },
+    { value: 'knots', label: 'Knots (kn)' },
+];
+
+export const convertSpeed = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!SPEED_CONVERSION_FACTORS[fromUnit] || !SPEED_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for speed conversion');
+    }
+    const valueInMetersPerSecond = value * SPEED_CONVERSION_FACTORS[fromUnit];
+    return valueInMetersPerSecond / SPEED_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to bytes
+const DATA_STORAGE_CONVERSION_FACTORS: { [key: string]: number } = {
+    bit: 1 / 8,
+    byte: 1,
+    kilobyte: 1024,
+    megabyte: 1024 ** 2,
+    gigabyte: 1024 ** 3,
+    terabyte: 1024 ** 4,
+    petabyte: 1024 ** 5,
+};
+
+export const DATA_STORAGE_UNITS = [
+    { value: 'bit', label: 'Bit (b)' },
+    { value: 'byte', label: 'Byte (B)' },
+    { value: 'kilobyte', label: 'Kilobyte (KB)' },
+    { value: 'megabyte', label: 'Megabyte (MB)' },
+    { value: 'gigabyte', label: 'Gigabyte (GB)' },
+    { value: 'terabyte', label: 'Terabyte (TB)' },
+    { value: 'petabyte', label: 'Petabyte (PB)' },
+];
+
+export const convertDataStorage = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!DATA_STORAGE_CONVERSION_FACTORS[fromUnit] || !DATA_STORAGE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for data storage conversion');
+    }
+    const valueInBytes = value * DATA_STORAGE_CONVERSION_FACTORS[fromUnit];
+    return valueInBytes / DATA_STORAGE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to bits per second
+const DATA_TRANSFER_CONVERSION_FACTORS: { [key: string]: number } = {
+    'bits-per-second': 1,
+    'kilobits-per-second': 1000,
+    'megabits-per-second': 1e6,
+    'gigabits-per-second': 1e9,
+    'bytes-per-second': 8,
+    'kilobytes-per-second': 8000,
+    'megabytes-per-second': 8e6,
+    'gigabytes-per-second': 8e9,
+};
+
+export const DATA_TRANSFER_UNITS = [
+    { value: 'bits-per-second', label: 'Bits per second (bps)' },
+    { value: 'kilobits-per-second', label: 'Kilobits per second (Kbps)' },
+    { value: 'megabits-per-second', label: 'Megabits per second (Mbps)' },
+    { value: 'gigabits-per-second', label: 'Gigabits per second (Gbps)' },
+    { value: 'bytes-per-second', label: 'Bytes per second (B/s)' },
+    { value: 'kilobytes-per-second', label: 'Kilobytes per second (KB/s)' },
+    { value: 'megabytes-per-second', label: 'Megabytes per second (MB/s)' },
+    { value: 'gigabytes-per-second', label: 'Gigabytes per second (GB/s)' },
+];
+
+export const convertDataTransferSpeed = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!DATA_TRANSFER_CONVERSION_FACTORS[fromUnit] || !DATA_TRANSFER_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for data transfer speed conversion');
+    }
+    const valueInBps = value * DATA_TRANSFER_CONVERSION_FACTORS[fromUnit];
+    return valueInBps / DATA_TRANSFER_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Joules
+const ENERGY_CONVERSION_FACTORS: { [key: string]: number } = {
+    joule: 1,
+    kilojoule: 1000,
+    calorie: 4.184,
+    kilocalorie: 4184,
+    'watt-hour': 3600,
+    'kilowatt-hour': 3.6e6,
+    'btu': 1055.06,
+};
+
+export const ENERGY_UNITS = [
+    { value: 'joule', label: 'Joule (J)' },
+    { value: 'kilojoule', label: 'Kilojoule (kJ)' },
+    { value: 'calorie', label: 'Calorie (cal)' },
+    { value: 'kilocalorie', label: 'Kilocalorie (kcal)' },
+    { value: 'watt-hour', label: 'Watt-hour (Wh)' },
+    { value: 'kilowatt-hour', label: 'Kilowatt-hour (kWh)' },
+    { value: 'btu', label: 'British Thermal Unit (BTU)' },
+];
+
+export const convertEnergy = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!ENERGY_CONVERSION_FACTORS[fromUnit] || !ENERGY_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for energy conversion');
+    }
+    const valueInJoules = value * ENERGY_CONVERSION_FACTORS[fromUnit];
+    return valueInJoules / ENERGY_CONVERSION_FACTORS[toUnit];
+};
+
+    

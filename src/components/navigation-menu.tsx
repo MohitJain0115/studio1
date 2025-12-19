@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler, Scale, Square, Thermometer, Beaker } from 'lucide-react';
+import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -36,6 +36,31 @@ const menuItems = [
     href: '/converters/temperature-converter',
     label: 'Temperature',
     icon: Thermometer,
+  },
+  {
+    href: '/converters/time-converter',
+    label: 'Time',
+    icon: Timer,
+  },
+  {
+    href: '/converters/speed-converter',
+    label: 'Speed',
+    icon: Gauge,
+  },
+  {
+    href: '/converters/data-storage-converter',
+    label: 'Data Storage',
+    icon: Database,
+  },
+  {
+    href: '/converters/data-transfer-speed-converter',
+    label: 'Data Transfer',
+    icon: Network,
+  },
+  {
+    href: '/converters/energy-converter',
+    label: 'Energy',
+    icon: Flame,
   },
 ];
 
@@ -67,3 +92,5 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
+
+    
