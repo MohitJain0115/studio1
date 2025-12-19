@@ -118,7 +118,7 @@ export default function VolumeConverter() {
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select unit" />
-                          </Trigger>
+                          </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {VOLUME_UNITS.map(u => <SelectItem key={u.value} value={u.value}>{u.label}</SelectItem>)}
