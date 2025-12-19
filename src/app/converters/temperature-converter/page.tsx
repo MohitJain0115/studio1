@@ -202,6 +202,27 @@ export default function TemperatureConverter() {
 
           <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Kelvin (K)</h2>
           <p>The Kelvin scale is the base unit of thermodynamic temperature in the International System of Units (SI). It is an absolute scale, meaning its zero point, 0 K, is absolute zero—the theoretical point at which all thermal motion ceases. Because it lacks negative numbers, Kelvin is the standard for scientific and engineering applications, particularly in fields like thermodynamics, astronomy, and materials science. A change of one Kelvin is equivalent to a change of one degree Celsius.</p>
+
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Common Conversions at a Glance</h2>
+          <div className="overflow-x-auto mt-4">
+              <table className="w-full text-left border-collapse">
+                  <thead>
+                      <tr className="bg-muted">
+                          <th className="p-4 border">From Value</th>
+                          <th className="p-4 border">To Unit</th>
+                          <th className="p-4 border">Equivalent Value</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><td className="p-4 border">0°C</td><td className="p-4 border">Fahrenheit</td><td className="p-4 border">32°F</td></tr>
+                      <tr><td className="p-4 border">100°C</td><td className="p-4 border">Fahrenheit</td><td className="p-4 border">212°F</td></tr>
+                      <tr><td className="p-4 border">32°F</td><td className="p-4 border">Celsius</td><td className="p-4 border">0°C</td></tr>
+                      <tr><td className="p-4 border">98.6°F</td><td className="p-4 border">Celsius</td><td className="p-4 border">37°C</td></tr>
+                      <tr><td className="p-4 border">0 K</td><td className="p-4 border">Celsius</td><td className="p-4 border">-273.15°C</td></tr>
+                      <tr><td className="p-4 border">273.15 K</td><td className="p-4 border">Celsius</td><td className="p-4 border">0°C</td></tr>
+                  </tbody>
+              </table>
+          </div>
         </section>
 
         <Card>

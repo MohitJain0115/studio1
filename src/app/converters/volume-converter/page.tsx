@@ -231,6 +231,28 @@ export default function VolumeConverter() {
               </tbody>
             </table>
           </div>
+
+          <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Common Conversions at a Glance</h2>
+          <div className="overflow-x-auto mt-4">
+              <table className="w-full text-left border-collapse">
+                  <thead>
+                      <tr className="bg-muted">
+                          <th className="p-4 border">From</th>
+                          <th className="p-4 border">To</th>
+                          <th className="p-4 border">Equivalent Value</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><td className="p-4 border">1 Liter</td><td className="p-4 border">Milliliters</td><td className="p-4 border">1,000 mL</td></tr>
+                      <tr><td className="p-4 border">1 US Gallon</td><td className="p-4 border">US Quarts</td><td className="p-4 border">4 US qt</td></tr>
+                      <tr><td className="p-4 border">1 US Gallon</td><td className="p-4 border">Liters</td><td className="p-4 border">~3.785 L</td></tr>
+                      <tr><td className="p-4 border">1 Imperial Gallon</td><td className="p-4 border">Liters</td><td className="p-4 border">~4.546 L</td></tr>
+                      <tr><td className="p-4 border">1 US Pint</td><td className="p-4 border">US Fluid Ounces</td><td className="p-4 border">16 US fl-oz</td></tr>
+                      <tr><td className="p-4 border">1 Imperial Pint</td><td className="p-4 border">Imperial Fluid Ounces</td><td className="p-4 border">20 Imp fl-oz</td></tr>
+                      <tr><td className="p-4 border">1 Cubic Meter</td><td className="p-4 border">Liters</td><td className="p-4 border">1,000 L</td></tr>
+                  </tbody>
+              </table>
+          </div>
         </section>
 
         <Card>

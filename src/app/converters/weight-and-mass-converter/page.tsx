@@ -218,6 +218,29 @@ export default function WeightAndMassConverter() {
                     </tbody>
                 </table>
             </div>
+
+            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Common Conversions at a Glance</h2>
+            <div className="overflow-x-auto mt-4">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-muted">
+                            <th className="p-4 border">From</th>
+                            <th className="p-4 border">To</th>
+                            <th className="p-4 border">Equivalent Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td className="p-4 border">1 Ounce</td><td className="p-4 border">Grams</td><td className="p-4 border">~28.35 g</td></tr>
+                        <tr><td className="p-4 border">1 Pound</td><td className="p-4 border">Ounces</td><td className="p-4 border">16 oz</td></tr>
+                        <tr><td className="p-4 border">1 Pound</td><td className="p-4 border">Kilograms</td><td className="p-4 border">~0.454 kg</td></tr>
+                        <tr><td className="p-4 border">1 Kilogram</td><td className="p-4 border">Grams</td><td className="p-4 border">1,000 g</td></tr>
+                        <tr><td className="p-4 border">1 Kilogram</td><td className="p-4 border">Pounds</td><td className="p-4 border">~2.205 lb</td></tr>
+                        <tr><td className="p-4 border">1 Stone</td><td className="p-4 border">Pounds</td><td className="p-4 border">14 lb</td></tr>
+                        <tr><td className="p-4 border">1 Metric Tonne</td><td className="p-4 border">Kilograms</td><td className="p-4 border">1,000 kg</td></tr>
+                        <tr><td className="p-4 border">1 Short Ton (US)</td><td className="p-4 border">Pounds</td><td className="p-4 border">2,000 lb</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <Card>

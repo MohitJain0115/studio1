@@ -251,6 +251,31 @@ export default function LengthAndDistanceConverter() {
                     </tbody>
                 </table>
             </div>
+
+            <h2 className="text-2xl font-bold text-foreground mt-8 mb-4">Common Conversions at a Glance</h2>
+            <div className="overflow-x-auto mt-4">
+                 <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-muted">
+                            <th className="p-4 border">From</th>
+                            <th className="p-4 border">To</th>
+                            <th className="p-4 border">Equivalent Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td className="p-4 border">1 Inch</td><td className="p-4 border">Centimeters</td><td className="p-4 border">2.54 cm</td></tr>
+                        <tr><td className="p-4 border">1 Foot</td><td className="p-4 border">Inches</td><td className="p-4 border">12 in</td></tr>
+                        <tr><td className="p-4 border">1 Yard</td><td className="p-4 border">Feet</td><td className="p-4 border">3 ft</td></tr>
+                        <tr><td className="p-4 border">1 Meter</td><td className="p-4 border">Centimeters</td><td className="p-4 border">100 cm</td></tr>
+                        <tr><td className="p-4 border">1 Meter</td><td className="p-4 border">Feet</td><td className="p-4 border">~3.281 ft</td></tr>
+                        <tr><td className="p-4 border">1 Kilometer</td><td className="p-4 border">Meters</td><td className="p-4 border">1,000 m</td></tr>
+                        <tr><td className="p-4 border">1 Kilometer</td><td className="p-4 border">Miles</td><td className="p-4 border">~0.621 mi</td></tr>
+                        <tr><td className="p-4 border">1 Mile</td><td className="p-4 border">Feet</td><td className="p-4 border">5,280 ft</td></tr>
+                        <tr><td className="p-4 border">1 Mile</td><td className="p-4 border">Kilometers</td><td className="p-4 border">~1.609 km</td></tr>
+                        <tr><td className="p-4 border">1 Nautical Mile</td><td className="p-4 border">Kilometers</td><td className="p-4 border">1.852 km</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <Card>
@@ -281,5 +306,3 @@ export default function LengthAndDistanceConverter() {
     </div>
   );
 }
-
-    
