@@ -91,6 +91,11 @@ const calculators = [
     description: 'Convert between candela/m², nits, lamberts, and other light units.',
   },
   {
+    href: '/converters/material-converter',
+    title: 'Material-Based Weight ↔ Volume Converter',
+    description: 'Convert between weight and volume for common materials like water, steel, and sand.',
+  },
+  {
     href: '/converters/power-converter',
     title: 'Power Converter',
     description: 'Convert between watts, horsepower, and other units of power.',

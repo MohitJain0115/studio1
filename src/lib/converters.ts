@@ -36,7 +36,7 @@ export const convertLength = (value: number, fromUnit: string, toUnit: string): 
 };
 
 // Conversion factors to kilograms
-const WEIGHT_CONVERSION_FACTORS: { [key: string]: number } = {
+export const WEIGHT_CONVERSION_FACTORS: { [key: string]: number } = {
     carat: 0.0002,
     milligram: 1e-6,
     centigram: 1e-5,
@@ -115,7 +115,7 @@ export const convertArea = (value: number, fromUnit: string, toUnit: string): nu
 };
 
 // Conversion factors to liters
-const VOLUME_CONVERSION_FACTORS: { [key: string]: number } = {
+export const VOLUME_CONVERSION_FACTORS: { [key: string]: number } = {
     'milliliter': 0.001,
     'liter': 1,
     'cubic-meter': 1000,
@@ -686,4 +686,52 @@ export const calculateOhmsLaw = (
     }
 
     return { voltage: v, current: i, resistance: r, power: p };
+};
+
+// Approximate densities in kg/m³
+export const MATERIAL_DENSITIES: { [key: string]: number } = {
+    'cement': 1440,
+    'sand': 1600,
+    'gravel': 1680,
+    'water': 1000,
+    'oil': 870, // Average for crude oil
+    'milk': 1030,
+    'flour': 593, // All-purpose, sifted
+    'rice': 850, // Uncooked white rice
+    'steel': 7850,
+};
+
+export const MATERIAL_UNITS = [
+    { value: 'cement', label: 'Cement' },
+    { value: 'sand', label: 'Sand' },
+    { value: 'gravel', label: 'Gravel' },
+    { value: 'water', label: 'Water' },
+    { value: 'oil', label: 'Oil' },
+    { value: 'milk', label: 'Milk' },
+    { value: 'flour', label: 'Flour' },
+    { value: 'rice', label: 'Rice' },
+    { value: 'steel', label: 'Steel' },
+];
+
+export const convertMaterialMassVolume = (value: number, fromUnit: string, toUnit: string, material: string): number => {
+    const fromUnitType = WEIGHT_CONVERSION_FACTORS[fromUnit] ? 'mass' : 'volume';
+    const toUnitType = WEIGHT_CONVERSION_FACTORS[toUnit] ? 'mass' : 'volume';
+    const density = MATERIAL_DENSITIES[material]; // in kg/m³
+
+    if (fromUnitType === toUnitType || !density) {
+        throw new Error('Invalid conversion. Must convert between mass and volume for a valid material.');
+    }
+
+    if (fromUnitType === 'mass' && toUnitType === 'volume') {
+        // Convert mass to volume
+        const massInKg = value * WEIGHT_CONVERSION_FACTORS[fromUnit];
+        const volumeInCubicMeters = massInKg / density;
+        const volumeInLiters = volumeInCubicMeters * 1000;
+        return volumeInLiters / VOLUME_CONVERSION_FACTORS[toUnit];
+    } else { // from volume to mass
+        const volumeInLiters = value * VOLUME_CONVERSION_FACTORS[fromUnit];
+        const volumeInCubicMeters = volumeInLiters / 1000;
+        const massInKg = volumeInCubicMeters * density;
+        return massInKg / WEIGHT_CONVERSION_FACTORS[toUnit];
+    }
 };

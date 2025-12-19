@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid, Waves, Radio, Sun, FlaskConical, Triangle, ChefHat, Construction, Fuel, Bolt } from 'lucide-react';
+import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid, Waves, Radio, Sun, FlaskConical, Triangle, ChefHat, Construction, Fuel, Bolt, Package } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -91,6 +91,11 @@ const menuItems = [
     href: '/converters/luminance-and-light-converter',
     label: 'Luminance',
     icon: Sun,
+  },
+  {
+    href: '/converters/material-converter',
+    label: 'Material',
+    icon: Package,
   },
   {
     href: '/converters/power-converter',
