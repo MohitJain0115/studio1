@@ -464,3 +464,122 @@ export const convertDensity = (value: number, fromUnit: string, toUnit: string):
     const valueInKgPerCubicMeter = value * DENSITY_CONVERSION_FACTORS[fromUnit];
     return valueInKgPerCubicMeter / DENSITY_CONVERSION_FACTORS[toUnit];
 };
+
+// Conversion factors to cubic meters per second
+const FLOW_RATE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'cubic-meter-per-second': 1,
+    'liter-per-second': 0.001,
+    'us-gallon-per-minute': 0.0000630902,
+    'imperial-gallon-per-minute': 0.0000757682,
+    'cubic-foot-per-minute': 0.000471947,
+};
+
+export const FLOW_RATE_UNITS = [
+    { value: 'cubic-meter-per-second', label: 'Cubic Meter/Second (m³/s)' },
+    { value: 'liter-per-second', label: 'Liter/Second (L/s)' },
+    { value: 'us-gallon-per-minute', label: 'US Gallon/Minute (GPM)' },
+    { value: 'imperial-gallon-per-minute', label: 'Imperial Gallon/Minute (GPM)' },
+    { value: 'cubic-foot-per-minute', label: 'Cubic Foot/Minute (CFM)' },
+];
+
+export const convertFlowRate = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!FLOW_RATE_CONVERSION_FACTORS[fromUnit] || !FLOW_RATE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for flow rate conversion');
+    }
+    const valueInCubicMetersPerSecond = value * FLOW_RATE_CONVERSION_FACTORS[fromUnit];
+    return valueInCubicMetersPerSecond / FLOW_RATE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to hertz
+const FREQUENCY_CONVERSION_FACTORS: { [key: string]: number } = {
+    'hertz': 1,
+    'kilohertz': 1000,
+    'megahertz': 1e6,
+    'gigahertz': 1e9,
+    'rpm': 1 / 60,
+};
+
+export const FREQUENCY_UNITS = [
+    { value: 'hertz', label: 'Hertz (Hz)' },
+    { value: 'kilohertz', label: 'Kilohertz (kHz)' },
+    { value: 'megahertz', label: 'Megahertz (MHz)' },
+    { value: 'gigahertz', label: 'Gigahertz (GHz)' },
+    { value: 'rpm', label: 'Revolutions per minute (rpm)' },
+];
+
+export const convertFrequency = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!FREQUENCY_CONVERSION_FACTORS[fromUnit] || !FREQUENCY_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for frequency conversion');
+    }
+    const valueInHertz = value * FREQUENCY_CONVERSION_FACTORS[fromUnit];
+    return valueInHertz / FREQUENCY_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to candela/square meter
+const LUMINANCE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'candela-per-square-meter': 1,
+    'nit': 1,
+    'lambert': 1 / Math.PI * 10000,
+    'foot-lambert': 3.426,
+};
+
+export const LUMINANCE_UNITS = [
+    { value: 'candela-per-square-meter', label: 'Candela/m² (nit)' },
+    { value: 'lambert', label: 'Lambert (L)' },
+    { value: 'foot-lambert', label: 'Foot-lambert (fL)' },
+];
+
+export const convertLuminance = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!LUMINANCE_CONVERSION_FACTORS[fromUnit] || !LUMINANCE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for luminance conversion');
+    }
+    const valueInCandelaPerSquareMeter = value * LUMINANCE_CONVERSION_FACTORS[fromUnit];
+    return valueInCandelaPerSquareMeter / LUMINANCE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to moles per liter (Molarity)
+const CONCENTRATION_CONVERSION_FACTORS: { [key: string]: number } = {
+    'moles-per-liter': 1,
+    'millimoles-per-liter': 0.001,
+    'micromoles-per-liter': 1e-6,
+    'parts-per-million': 1, // Placeholder, requires molar mass
+};
+
+export const CONCENTRATION_UNITS = [
+    { value: 'moles-per-liter', label: 'Moles/Liter (M)' },
+    { value: 'millimoles-per-liter', label: 'Millimoles/Liter (mM)' },
+    { value: 'micromoles-per-liter', label: 'Micromoles/Liter (µM)' },
+];
+
+export const convertConcentration = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!CONCENTRATION_CONVERSION_FACTORS[fromUnit] || !CONCENTRATION_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for concentration conversion');
+    }
+    const valueInMolesPerLiter = value * CONCENTRATION_CONVERSION_FACTORS[fromUnit];
+    return valueInMolesPerLiter / CONCENTRATION_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to radians
+const ANGLE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'degree': Math.PI / 180,
+    'radian': 1,
+    'gradian': Math.PI / 200,
+    'arcminute': Math.PI / 10800,
+    'arcsecond': Math.PI / 648000,
+};
+
+export const ANGLE_UNITS = [
+    { value: 'degree', label: 'Degree (°)' },
+    { value: 'radian', label: 'Radian (rad)' },
+    { value: 'gradian', label: 'Gradian (grad)' },
+    { value: 'arcminute', label: 'Arcminute (′)' },
+    { value: 'arcsecond', label: 'Arcsecond (″)' },
+];
+
+export const convertAngle = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!ANGLE_CONVERSION_FACTORS[fromUnit] || !ANGLE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for angle conversion');
+    }
+    const valueInRadians = value * ANGLE_CONVERSION_FACTORS[fromUnit];
+    return valueInRadians / ANGLE_CONVERSION_FACTORS[toUnit];
+};

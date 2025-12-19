@@ -7,15 +7,25 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid } from 'lucide-react';
+import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid, Waves, Radio, Sun, FlaskConical, Triangle } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   {
+    href: '/converters/angle-converter',
+    label: 'Angle',
+    icon: Triangle,
+  },
+  {
     href: '/converters/area-converter',
     label: 'Area',
     icon: Square,
+  },
+  {
+    href: '/converters/chemical-concentration-converter',
+    label: 'Concentration',
+    icon: FlaskConical,
   },
   {
     href: '/converters/data-storage-converter',
@@ -38,14 +48,29 @@ const menuItems = [
     icon: Flame,
   },
   {
+    href: '/converters/flow-rate-converter',
+    label: 'Flow Rate',
+    icon: Waves,
+  },
+  {
     href: '/converters/force-converter',
     label: 'Force',
     icon: Hammer,
   },
   {
+    href: '/converters/frequency-converter',
+    label: 'Frequency',
+    icon: Radio,
+  },
+  {
     href: '/converters/length-and-distance-converter',
     label: 'Length & Distance',
     icon: Ruler,
+  },
+  {
+    href: '/converters/luminance-and-light-converter',
+    label: 'Luminance',
+    icon: Sun,
   },
   {
     href: '/converters/power-converter',
