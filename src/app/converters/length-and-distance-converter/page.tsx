@@ -183,6 +183,7 @@ export default function LengthAndDistanceConverter() {
             <ul className="list-disc pl-5 text-sm text-primary">
               <li><Link href="/converters/weight-and-mass-converter" className="hover:underline">Weight & Mass Converter</Link></li>
               <li><Link href="/converters/area-converter" className="hover:underline">Area Converter</Link></li>
+              <li><Link href="/converters/volume-converter" className="hover:underline">Volume Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -290,6 +291,10 @@ export default function LengthAndDistanceConverter() {
               <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">What is the base unit for length in the SI system?</h4>
                 <p className="text-muted-foreground">The base unit for length is the meter (m). All other metric units of length, like the kilometer or millimeter, are derived from the meter using prefixes that denote powers of ten.</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How was the meter originally defined?</h4>
+                <p className="text-muted-foreground">The meter was originally defined in the 18th century as one ten-millionth of the distance from the Earth's equator to the North Pole. Today, it is defined more precisely using the speed of light: the distance light travels in a vacuum in 1/299,792,458 of a second.</p>
               </div>
           </CardContent>
         </Card>

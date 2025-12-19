@@ -233,6 +233,14 @@ export default function PowerConverter() {
                 <h4 className="font-semibold mb-2">Is power the same as energy?</h4>
                 <p className="text-muted-foreground">No. Power is the rate at which energy is used. Energy is the total amount of work done. For example, a 100-watt light bulb uses 100 joules of energy every second. If you leave it on for an hour, it consumes 100 watt-hours of energy.</p>
             </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What does 'kilowatt' mean?</h4>
+                <p className="text-muted-foreground">A kilowatt (kW) is simply 1,000 watts. The prefix "kilo-" is a standard metric prefix denoting a factor of one thousand. It's a more convenient unit for measuring the power of larger items like car engines or home appliances.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How was horsepower originally defined?</h4>
+                <p className="text-muted-foreground">James Watt, an 18th-century inventor, determined that a draft horse could lift 550 pounds at a rate of one foot per second. This rate of work became the definition of one horsepower (hp). It was a marketing tool to compare his steam engines to the horses they were replacing.</p>
+            </div>
           </CardContent>
         </Card>
 

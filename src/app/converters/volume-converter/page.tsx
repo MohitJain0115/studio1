@@ -266,6 +266,14 @@ export default function VolumeConverter() {
               <h4 className="font-semibold mb-2">Is a fluid ounce the same as a regular ounce?</h4>
               <p className="text-muted-foreground">No. A fluid ounce is a unit of volume, while a regular (avoirdupois) ounce is a unit of weight/mass. For water, one US fluid ounce weighs approximately 1.04 regular ounces, so they are close but not interchangeable.</p>
             </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is the difference between a US pint and an Imperial pint?</h4>
+                <p className="text-muted-foreground">An Imperial pint (568 mL) is about 20% larger than a US liquid pint (473 mL). This is why a pint of beer in a British pub is larger than one in the US.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How is a liter defined?</h4>
+                <p className="text-muted-foreground">A liter is a metric unit of volume. It is defined as a special name for a cubic decimeter (1 L = 1 dm³). This also means 1,000 liters is equal to one cubic meter.</p>
+            </div>
           </CardContent>
         </Card>
 

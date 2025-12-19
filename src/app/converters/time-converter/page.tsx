@@ -240,6 +240,14 @@ export default function TimeConverter() {
                 <h4 className="font-semibold mb-2">What is the SI unit for time?</h4>
                 <p className="text-muted-foreground">The base unit for time in the International System of Units (SI) is the second (s). It is defined by the electronic transition frequency of a cesium-133 atom.</p>
             </div>
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a leap year?</h4>
+                <p className="text-muted-foreground">A leap year occurs every 4 years to keep our calendar aligned with the Earth's revolutions around the Sun. An extra day, February 29th, is added. A year is a leap year if it is divisible by 4, except for end-of-century years, which must be divisible by 400.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How is a "second" officially defined?</h4>
+                <p className="text-muted-foreground">The second is scientifically defined as the duration of 9,192,631,770 periods of the radiation corresponding to the transition between the two hyperfine levels of the ground state of the caesium-133 atom. This provides an extremely precise and stable standard.</p>
+            </div>
           </CardContent>
         </Card>
 

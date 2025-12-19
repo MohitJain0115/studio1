@@ -227,6 +227,18 @@ export default function TorqueConverter() {
                 <h4 className="font-semibold mb-2">Is torque the same as work or energy?</h4>
                 <p className="text-muted-foreground">No. While both torque and energy can be expressed in units of force times distance (like newton-meters and joules), they are different concepts. Torque is a vector quantity that causes rotation, while energy (and work) is a scalar quantity representing the capacity to do work. In SI units, torque is always expressed as newton-meters (N·m), while energy is expressed in Joules (J), even though 1 J = 1 N·m dimensionally.</p>
             </div>
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Why is torque important for cars?</h4>
+                <p className="text-muted-foreground">Torque is the twisting force an engine produces, and it's what gets your car moving. High torque at low RPMs means the car can accelerate quickly from a standstill. Horsepower (which is related to torque and RPM) determines how fast the car can go.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is the difference between pound-foot (lbf·ft) and foot-pound (ft·lbf)?</h4>
+                <p className="text-muted-foreground">Functionally, they represent the same amount of torque. However, "pound-foot" (lbf·ft) is the more formally correct term for torque, as it emphasizes the unit of force (lbf) being applied at a distance (ft). "Foot-pound" is more commonly associated with work or energy.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How do I use a torque wrench?</h4>
+                <p className="text-muted-foreground">A torque wrench is a tool used to apply a specific amount of torque to a fastener like a nut or bolt. You set the desired torque value on the wrench, and it will indicate (often with a click or beep) when you have reached that value, preventing over-tightening or under-tightening.</p>
+            </div>
           </CardContent>
         </Card>
 

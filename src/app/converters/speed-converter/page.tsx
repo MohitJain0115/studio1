@@ -238,6 +238,14 @@ export default function SpeedConverter() {
                 <h4 className="font-semibold mb-2">Is there a difference between kph and km/h?</h4>
                 <p className="text-muted-foreground">No, they are different abbreviations for the same unit: kilometers per hour. While "km/h" is the official SI abbreviation, "kph" is commonly used informally in many countries.</p>
             </div>
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is the difference between speed and velocity?</h4>
+                <p className="text-muted-foreground">In everyday language, they are used interchangeably. In physics, they are different. Speed is a scalar quantity (how fast you are going), while velocity is a vector quantity (how fast you are going and in what direction).</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is Mach number?</h4>
+                <p className="text-muted-foreground">Mach number is the ratio of an object's speed to the speed of sound in the surrounding medium. Mach 1 is the speed of sound, Mach 2 is twice the speed of sound, and so on. It's not a unit of speed itself, as the speed of sound changes with temperature and altitude.</p>
+            </div>
           </CardContent>
         </Card>
 

@@ -184,8 +184,8 @@ export default function TemperatureConverter() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-              <li><Link href="/converters/length-and-distance-converter" className="hover:underline">Length & Distance Converter</Link></li>
-              <li><Link href="/converters/volume-converter" className="hover:underline">Volume Converter</Link></li>
+              <li><Link href="/converters/energy-converter" className="hover:underline">Energy Converter</Link></li>
+              <li><Link href="/converters/power-converter" className="hover:underline">Power Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -234,6 +234,14 @@ export default function TemperatureConverter() {
             <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">Why isn't Kelvin measured in degrees?</h4>
               <p className="text-muted-foreground">Unlike Celsius and Fahrenheit, Kelvin is an absolute scale with a true zero point. It measures thermodynamic temperature directly. For this reason, it is referred to simply as "Kelvin" (K), not "degrees Kelvin." A change of 1 K is the same magnitude as a change of 1°C.</p>
+            </div>
+             <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold mb-2">Is there a point where Celsius and Fahrenheit are equal?</h4>
+              <p className="text-muted-foreground">Yes, the Celsius and Fahrenheit scales meet at -40 degrees. So, -40°C is equal to -40°F. It's the only point where the two scales intersect.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold mb-2">Which temperature scale is used in science?</h4>
+              <p className="text-muted-foreground">For scientific work, the Kelvin (K) scale is the standard because it is an absolute scale. However, Celsius is also widely used in many scientific contexts, especially when absolute temperature is not required, as the degree size is the same as Kelvin.</p>
             </div>
           </CardContent>
         </Card>

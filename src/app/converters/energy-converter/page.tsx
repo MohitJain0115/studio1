@@ -179,7 +179,7 @@ export default function EnergyConverter() {
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 text-sm text-primary">
-                <li><Link href="/converters/power-converter" className="hover:underline">Power Converter (coming soon)</Link></li>
+                <li><Link href="/converters/power-converter" className="hover:underline">Power Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -236,6 +236,14 @@ export default function EnergyConverter() {
             <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">Is energy the same as power?</h4>
                 <p className="text-muted-foreground">No. Energy is the capacity to do work, while power is the rate at which energy is used or transferred. For example, a light bulb has a power rating in Watts (Joules per second), and the total energy it uses over time is measured in kilowatt-hours (kWh).</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a BTU?</h4>
+                <p className="text-muted-foreground">A British Thermal Unit (BTU) is a unit of heat energy. It is defined as the amount of heat required to raise the temperature of one pound of water by one degree Fahrenheit. It's commonly used in the US for air conditioners and heating systems.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How are kilowatt-hours (kWh) used?</h4>
+                <p className="text-muted-foreground">The kilowatt-hour is the standard unit of energy used on electricity bills. It represents the total energy consumed by an appliance over a period. For example, a 1,000-watt appliance running for one hour consumes 1 kWh of energy.</p>
             </div>
           </CardContent>
         </Card>

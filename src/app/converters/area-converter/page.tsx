@@ -182,6 +182,7 @@ export default function AreaConverter() {
             <ul className="list-disc pl-5 text-sm text-primary">
               <li><Link href="/converters/length-and-distance-converter" className="hover:underline">Length & Distance Converter</Link></li>
                <li><Link href="/converters/weight-and-mass-converter" className="hover:underline">Weight & Mass Converter</Link></li>
+               <li><Link href="/converters/volume-converter" className="hover:underline">Volume Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -254,6 +255,14 @@ export default function AreaConverter() {
             <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">How big is an acre?</h4>
               <p className="text-muted-foreground">An acre is an imperial unit of land area equal to 43,560 square feet. It's often visualized as being roughly the size of an American football field without the end zones.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Is "square foot" the same as "foot square"?</h4>
+                <p className="text-muted-foreground">No, they are different. A "square foot" is a unit of area (1 foot by 1 foot). A "foot square" describes a shape, meaning a square that is 1 foot on each side. While a 1-foot square has an area of 1 square foot, a 2-foot square has an area of 4 square feet.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Why is the SI unit for area the square meter?</h4>
+                <p className="text-muted-foreground">The square meter (m²) is a derived SI unit. Since the base SI unit for length is the meter, the unit for area is naturally derived from it by squaring it. This maintains consistency within the metric system.</p>
             </div>
           </CardContent>
         </Card>

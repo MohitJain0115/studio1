@@ -237,6 +237,14 @@ export default function DataStorageConverter() {
                 <h4 className="font-semibold mb-2">What's the difference between a bit and a byte?</h4>
                 <p className="text-muted-foreground">A bit is the most basic unit of data, a single binary value of either 0 or 1. A byte is a group of 8 bits. Because all letters, numbers, and symbols on a computer are represented by combinations of bits, the byte is the fundamental unit for measuring file sizes.</p>
             </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a kibibyte (KiB)?</h4>
+                <p className="text-muted-foreground">A kibibyte (KiB) is a unit of digital information storage. It is equal to 1,024 bytes. It was created to avoid confusion between the binary (1024) and decimal (1000) meanings of the "kilo" prefix. So, 1 KiB = 1024 bytes, while 1 KB often means 1000 bytes, especially in marketing.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How many megabytes are in a gigabyte?</h4>
+                <p className="text-muted-foreground">In the context of computer memory and file storage (which this converter uses), there are 1,024 megabytes (MB) in one gigabyte (GB). In other contexts like data transmission or storage device marketing, it can sometimes mean 1,000 megabytes.</p>
+            </div>
           </CardContent>
         </Card>
 

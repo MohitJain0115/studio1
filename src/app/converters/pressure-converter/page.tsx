@@ -231,6 +231,18 @@ export default function PressureConverter() {
                 <h4 className="font-semibold mb-2">What is atmospheric pressure?</h4>
                 <p className="text-muted-foreground">Atmospheric pressure is the pressure exerted by the weight of the atmosphere. At sea level, this pressure is about 1 atm, 1.013 bar, or 14.7 psi. It's the baseline we experience every day.</p>
             </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is 'gauge pressure' vs. 'absolute pressure'?</h4>
+                <p className="text-muted-foreground">Absolute pressure is measured relative to a perfect vacuum (0 psi). Gauge pressure is measured relative to the surrounding atmospheric pressure. A tire pressure gauge reading 32 psi is showing gauge pressure; its absolute pressure is 32 psi + ~14.7 psi = 46.7 psi.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Why is Torr used for vacuums?</h4>
+                <p className="text-muted-foreground">The Torr unit is very small (1 atm = 760 Torr), making it convenient for measuring very low pressures found in vacuum systems. It's named after Evangelista Torricelli, who invented the barometer.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Why do meteorologists use millibars?</h4>
+                <p className="text-muted-foreground">A millibar (mbar) is one-thousandth of a bar. Since 1 bar is very close to 1 atmosphere, millibars provide a convenient scale for reporting the small variations in atmospheric pressure that drive weather patterns. 1 mbar is equal to 1 hectopascal (hPa), another common meteorological unit.</p>
+            </div>
           </CardContent>
         </Card>
 

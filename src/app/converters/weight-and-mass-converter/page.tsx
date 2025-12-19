@@ -182,6 +182,7 @@ export default function WeightAndMassConverter() {
             <ul className="list-disc pl-5 text-sm text-primary">
                 <li><Link href="/converters/length-and-distance-converter" className="hover:underline">Length & Distance Converter</Link></li>
                 <li><Link href="/converters/area-converter" className="hover:underline">Area Converter</Link></li>
+                 <li><Link href="/converters/volume-converter" className="hover:underline">Volume Converter</Link></li>
             </ul>
           </CardContent>
         </Card>
@@ -253,6 +254,14 @@ export default function WeightAndMassConverter() {
             <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">Why are there two types of tons?</h4>
                 <p className="text-muted-foreground">The "short ton" (2,000 lbs) is standard in the United States. The "long ton" (2,240 lbs) is a British imperial unit. The metric "tonne" (1,000 kg or ~2,204.6 lbs) is the international standard. This converter uses all three to avoid confusion.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a "stone" and where is it used?</h4>
+                <p className="text-muted-foreground">The stone is a unit of mass equal to 14 pounds. It is still commonly used in the United Kingdom and Ireland to measure human body weight. For example, a person might say they weigh "11 stone 4" (11 stone and 4 pounds).</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Is an ounce of gold the same as an ounce of feathers?</h4>
+                <p className="text-muted-foreground">It depends on the ounce! Feathers are weighed using the standard (avoirdupois) ounce (about 28.35 grams). Precious metals like gold are weighed using the troy ounce (about 31.1 grams). So, a troy ounce of gold is heavier than a standard ounce of feathers.</p>
             </div>
           </CardContent>
         </Card>

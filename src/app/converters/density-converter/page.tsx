@@ -229,6 +229,18 @@ export default function DensityConverter() {
                 <h4 className="font-semibold mb-2">Why is the density of water 1 g/cm³?</h4>
                 <p className="text-muted-foreground">This is not a coincidence. The gram was originally defined as the mass of one cubic centimeter of water at its maximum density (at 4°C). This makes 1 g/cm³ (or 1 g/mL) a very convenient reference point for the metric system.</p>
             </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">How does temperature affect density?</h4>
+                <p className="text-muted-foreground">Generally, as you heat a substance, its particles move faster and spread out, causing it to expand and its density to decrease. Conversely, cooling a substance usually increases its density. Water is a famous exception, as it becomes less dense when it freezes into ice.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Is density the same as weight?</h4>
+                <p className="text-muted-foreground">No. Weight is the force of gravity on an object (mass × gravity), while density is the object's mass contained within a specific volume (mass / volume). A large, light object can have the same mass (and weight) as a small, heavy object, but they will have very different densities.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is the densest element?</h4>
+                <p className="text-muted-foreground">Under standard conditions, Osmium (Os) is the densest naturally occurring element, with a density of about 22.59 g/cm³. It's closely followed by Iridium (Ir). A shoebox-sized container of Osmium would weigh over 500 pounds (about 227 kg)!</p>
+            </div>
           </CardContent>
         </Card>
 

@@ -227,7 +227,19 @@ export default function ForceConverter() {
           <CardContent className="space-y-4">
             <div className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">What is the difference between a pound (lb) and a pound-force (lbf)?</h4>
-                <p className="text-muted-foreground">A pound (lb) is a unit of mass, while a pound-force (lbf) is the unit of force exerted by gravity on an object with a one-pound mass. On Earth, the two values are numerically equal, which is why they are often used interchangeably in non-scientific contexts. However, they are fundamentally different physical quantities.</p>
+                <p className="text-muted-foreground">A pound (lb) is a unit of mass, while a pound-force (lbf) is the unit of force exerted by gravity on an object with a one-pound mass. On Earth, the two values are numerically similar, which is why they are often used interchangeably in non-scientific contexts. However, they are fundamentally different physical quantities.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a Newton (N)?</h4>
+                <p className="text-muted-foreground">A newton is the SI unit of force. It is defined as the force required to accelerate a mass of one kilogram at a rate of one meter per second squared (1 N = 1 kg·m/s²). An apple falling from a tree exerts about 1 newton of force.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Is force the same as pressure?</h4>
+                <p className="text-muted-foreground">No. Force is a total influence on an object, while pressure is that force distributed over an area (Pressure = Force / Area). A sharp needle can create very high pressure with very little force because the area is tiny.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is a kilopond or kilogram-force?</h4>
+                <p className="text-muted-foreground">A kilogram-force (kgf) or kilopond (kp) is an older, non-SI unit of force. It's the force that gravity exerts on a one-kilogram mass. Since gravity varies slightly across the Earth, the newton is preferred for precise scientific work. 1 kgf is approximately 9.8 N.</p>
             </div>
           </CardContent>
         </Card>

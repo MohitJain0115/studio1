@@ -238,6 +238,14 @@ export default function DataTransferSpeedConverter() {
                 <h4 className="font-semibold mb-2">What's the difference between "MB/s" and "mbps"?</h4>
                 <p className="text-muted-foreground">The capitalization is key. "MB/s" stands for Megabytes per second, while "Mbps" or "mbps" stands for Megabits per second. A megabyte is 8 times larger than a megabit, so it's a critical distinction.</p>
             </div>
+             <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">Does upload speed matter?</h4>
+                <p className="text-muted-foreground">Yes, especially for activities like video conferencing, online gaming, and uploading large files. Many internet plans have asymmetrical speeds, meaning the download speed is much faster than the upload speed (e.g., 100/10 Mbps).</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+                <h4 className="font-semibold mb-2">What is latency?</h4>
+                <p className="text-muted-foreground">Latency, or ping, is the time it takes for a signal to travel from your computer to a server and back. It's measured in milliseconds (ms). Low latency is crucial for real-time applications like gaming and video calls, while high bandwidth (speed) is more important for streaming or downloading.</p>
+            </div>
           </CardContent>
         </Card>
 
