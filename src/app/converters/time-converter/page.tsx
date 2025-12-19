@@ -241,7 +241,7 @@ export default function TimeConverter() {
                 <p className="text-muted-foreground">The base unit for time in the International System of Units (SI) is the second (s). It is defined by the electronic transition frequency of a cesium-133 atom.</p>
             </div>
           </CardContent>
-        Card>
+        </Card>
 
         <Card>
           <CardHeader><CardTitle className="flex items-center gap-2"><Shield className="h-5 w-5" />Summary</CardTitle></CardHeader>
@@ -253,5 +253,3 @@ export default function TimeConverter() {
     </div>
   );
 }
-
-    
