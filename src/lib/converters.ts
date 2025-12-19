@@ -346,4 +346,121 @@ export const convertEnergy = (value: number, fromUnit: string, toUnit: string): 
     return valueInJoules / ENERGY_CONVERSION_FACTORS[toUnit];
 };
 
-    
+// Conversion factors to Watts
+const POWER_CONVERSION_FACTORS: { [key: string]: number } = {
+    'watt': 1,
+    'kilowatt': 1000,
+    'megawatt': 1e6,
+    'gigawatt': 1e9,
+    'horsepower-metric': 735.49875,
+    'horsepower-mechanical': 745.699872,
+};
+
+export const POWER_UNITS = [
+    { value: 'watt', label: 'Watt (W)' },
+    { value: 'kilowatt', label: 'Kilowatt (kW)' },
+    { value: 'megawatt', label: 'Megawatt (MW)' },
+    { value: 'gigawatt', label: 'Gigawatt (GW)' },
+    { value: 'horsepower-metric', label: 'Horsepower (metric)' },
+    { value: 'horsepower-mechanical', label: 'Horsepower (mechanical)' },
+];
+
+export const convertPower = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!POWER_CONVERSION_FACTORS[fromUnit] || !POWER_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for power conversion');
+    }
+    const valueInWatts = value * POWER_CONVERSION_FACTORS[fromUnit];
+    return valueInWatts / POWER_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Newtons
+const FORCE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'newton': 1,
+    'dyne': 1e-5,
+    'pound-force': 4.44822162,
+    'kilogram-force': 9.80665,
+};
+
+export const FORCE_UNITS = [
+    { value: 'newton', label: 'Newton (N)' },
+    { value: 'dyne', label: 'Dyne (dyn)' },
+    { value: 'pound-force', label: 'Pound-force (lbf)' },
+    { value: 'kilogram-force', label: 'Kilogram-force (kgf)' },
+];
+
+export const convertForce = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!FORCE_CONVERSION_FACTORS[fromUnit] || !FORCE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for force conversion');
+    }
+    const valueInNewtons = value * FORCE_CONVERSION_FACTORS[fromUnit];
+    return valueInNewtons / FORCE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Pascals
+const PRESSURE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'pascal': 1,
+    'bar': 100000,
+    'psi': 6894.76,
+    'atm': 101325,
+    'torr': 133.322,
+};
+
+export const PRESSURE_UNITS = [
+    { value: 'pascal', label: 'Pascal (Pa)' },
+    { value: 'bar', label: 'Bar (bar)' },
+    { value: 'psi', label: 'Pound-force/sq inch (psi)' },
+    { value: 'atm', label: 'Atmosphere (atm)' },
+    { value: 'torr', label: 'Torr (Torr)' },
+];
+
+export const convertPressure = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!PRESSURE_CONVERSION_FACTORS[fromUnit] || !PRESSURE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for pressure conversion');
+    }
+    const valueInPascals = value * PRESSURE_CONVERSION_FACTORS[fromUnit];
+    return valueInPascals / PRESSURE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to Newton-meters
+const TORQUE_CONVERSION_FACTORS: { [key: string]: number } = {
+    'newton-meter': 1,
+    'pound-foot': 1.35581795,
+    'pound-inch': 0.112984829,
+};
+
+export const TORQUE_UNITS = [
+    { value: 'newton-meter', label: 'Newton-meter (N·m)' },
+    { value: 'pound-foot', label: 'Pound-foot (lbf·ft)' },
+    { value: 'pound-inch', label: 'Pound-inch (lbf·in)' },
+];
+
+export const convertTorque = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!TORQUE_CONVERSION_FACTORS[fromUnit] || !TORQUE_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for torque conversion');
+    }
+    const valueInNewtonMeters = value * TORQUE_CONVERSION_FACTORS[fromUnit];
+    return valueInNewtonMeters / TORQUE_CONVERSION_FACTORS[toUnit];
+};
+
+// Conversion factors to kg/m³
+const DENSITY_CONVERSION_FACTORS: { [key: string]: number } = {
+    'kg-per-cubic-meter': 1,
+    'g-per-cubic-cm': 1000,
+    'lb-per-cubic-foot': 16.0185,
+    'lb-per-cubic-inch': 27679.9,
+};
+
+export const DENSITY_UNITS = [
+    { value: 'kg-per-cubic-meter', label: 'Kilogram/cubic meter (kg/m³)' },
+    { value: 'g-per-cubic-cm', label: 'Gram/cubic centimeter (g/cm³)' },
+    { value: 'lb-per-cubic-foot', label: 'Pound/cubic foot (lb/ft³)' },
+    { value: 'lb-per-cubic-inch', label: 'Pound/cubic inch (lb/in³)' },
+];
+
+export const convertDensity = (value: number, fromUnit: string, toUnit: string): number => {
+    if (!DENSITY_CONVERSION_FACTORS[fromUnit] || !DENSITY_CONVERSION_FACTORS[toUnit]) {
+        throw new Error('Invalid unit specified for density conversion');
+    }
+    const valueInKgPerCubicMeter = value * DENSITY_CONVERSION_FACTORS[fromUnit];
+    return valueInKgPerCubicMeter / DENSITY_CONVERSION_FACTORS[toUnit];
+};

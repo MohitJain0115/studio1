@@ -60,6 +60,31 @@ const calculators = [
     title: 'Energy Converter',
     description: 'Convert between Joules, Calories, kWh, and other units of energy.',
   },
+  {
+    href: '/converters/power-converter',
+    title: 'Power Converter',
+    description: 'Convert between watts, horsepower, and other units of power.',
+  },
+  {
+    href: '/converters/force-converter',
+    title: 'Force Converter',
+    description: 'Convert between newtons, dyne, and other units of force.',
+  },
+  {
+    href: '/converters/pressure-converter',
+    title: 'Pressure Converter',
+    description: 'Convert between pascals, bars, psi, and other pressure units.',
+  },
+  {
+    href: '/converters/torque-converter',
+    title: 'Torque Converter',
+    description: 'Convert between newton-meters, pound-feet, and other torque units.',
+  },
+  {
+    href: '/converters/density-converter',
+    title: 'Density Converter',
+    description: 'Convert between different units of density like kg/m³ and lb/ft³.',
+  },
 ];
 
 export default function CalculatorsPage() {
@@ -86,5 +111,3 @@ export default function CalculatorsPage() {
     </div>
   );
 }
-
-    

@@ -7,45 +7,15 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame } from 'lucide-react';
+import { Home, Ruler, Scale, Square, Thermometer, Beaker, Timer, Gauge, Database, Network, Flame, Zap, Hammer, RotateCw, Cuboid } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   {
-    href: '/converters/length-and-distance-converter',
-    label: 'Length & Distance',
-    icon: Ruler,
-  },
-  {
-    href: '/converters/weight-and-mass-converter',
-    label: 'Weight & Mass',
-    icon: Scale,
-  },
-  {
     href: '/converters/area-converter',
     label: 'Area',
     icon: Square,
-  },
-  {
-    href: '/converters/volume-converter',
-    label: 'Volume',
-    icon: Beaker,
-  },
-  {
-    href: '/converters/temperature-converter',
-    label: 'Temperature',
-    icon: Thermometer,
-  },
-  {
-    href: '/converters/time-converter',
-    label: 'Time',
-    icon: Timer,
-  },
-  {
-    href: '/converters/speed-converter',
-    label: 'Speed',
-    icon: Gauge,
   },
   {
     href: '/converters/data-storage-converter',
@@ -58,9 +28,64 @@ const menuItems = [
     icon: Network,
   },
   {
+    href: '/converters/density-converter',
+    label: 'Density',
+    icon: Cuboid,
+  },
+  {
     href: '/converters/energy-converter',
     label: 'Energy',
     icon: Flame,
+  },
+  {
+    href: '/converters/force-converter',
+    label: 'Force',
+    icon: Hammer,
+  },
+  {
+    href: '/converters/length-and-distance-converter',
+    label: 'Length & Distance',
+    icon: Ruler,
+  },
+  {
+    href: '/converters/power-converter',
+    label: 'Power',
+    icon: Zap,
+  },
+  {
+    href: '/converters/pressure-converter',
+    label: 'Pressure',
+    icon: Gauge,
+  },
+  {
+    href: '/converters/speed-converter',
+    label: 'Speed',
+    icon: Gauge,
+  },
+  {
+    href: '/converters/temperature-converter',
+    label: 'Temperature',
+    icon: Thermometer,
+  },
+  {
+    href: '/converters/time-converter',
+    label: 'Time',
+    icon: Timer,
+  },
+  {
+    href: '/converters/torque-converter',
+    label: 'Torque',
+    icon: RotateCw,
+  },
+  {
+    href: '/converters/volume-converter',
+    label: 'Volume',
+    icon: Beaker,
+  },
+  {
+    href: '/converters/weight-and-mass-converter',
+    label: 'Weight & Mass',
+    icon: Scale,
   },
 ];
 
@@ -92,5 +117,3 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
-
-    
