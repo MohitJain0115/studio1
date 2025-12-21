@@ -302,7 +302,7 @@ export default function DistanceBetweenCitiesCalculator() {
               <AccordionTrigger>Does this calculator work for driving distance?</AccordionTrigger>
               <AccordionContent>
                 No. This calculator provides the "as the crow flies" or great-circle distance, which is the shortest geographical path. Driving distance is always longer because roads must go around obstacles like mountains, buildings, and bodies of water. For driving distances, you should use a dedicated mapping service that uses road network data.
-              </P>
+              </p>
             </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
