@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 const travelTimeSchema = z.object({
@@ -9,7 +10,7 @@ const travelTimeSchema = z.object({
 
 const MILES_TO_KM = 1.60934;
 
-export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): string {
+export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): { text: string, totalHours: number } {
   let distanceInKm = data.distance;
   if (data.distanceUnit === 'miles') {
     distanceInKm = data.distance * MILES_TO_KM;
@@ -21,7 +22,7 @@ export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): str
   }
 
   if (speedInKmh === 0) {
-    return 'Speed cannot be zero.';
+    return { text: 'Speed cannot be zero.', totalHours: 0 };
   }
 
   const timeInHours = distanceInKm / speedInKmh;
@@ -37,10 +38,10 @@ export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): str
   if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
   
   if (parts.length === 0 && timeInHours > 0) {
-     return 'Less than a minute';
+     return { text: 'Less than a minute', totalHours: timeInHours };
   }
 
-  return parts.join(', ');
+  return { text: parts.join(', '), totalHours: timeInHours };
 }
 
 
@@ -54,55 +55,58 @@ const flightDurationSchema = z.object({
 // A comprehensive list of IANA time zones
 export const timeZones: string[] = Intl.supportedValuesOf('timeZone');
 
-
-// Helper function to get date in a specific timezone
-function getZonedTime(date: Date, timeZone: string) {
-    const zonedDate = new Date(date.toLocaleString('en-US', { timeZone }));
-    const offset = (date.getTime() - zonedDate.getTime()) / (1000 * 60 * 60);
-    const correctedDate = new Date(date.getTime() + offset * 1000 * 60 * 60);
-    return correctedDate;
+function getOffset(timeZone: string) {
+    const date = new Date();
+    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+    const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
+    return (utcDate.getTime() - tzDate.getTime()) / 36e5;
 }
 
-export function calculateFlightDuration(data: z.infer<typeof flightDurationSchema>): string {
+export function calculateFlightDuration(data: z.infer<typeof flightDurationSchema>): { text: string, totalMinutes: number } {
   try {
+    // This is a simplified approach and can have issues with DST transitions.
+    // A robust library like `date-fns-tz` is better for production.
     const departureDate = new Date(data.departureDateTime);
     const arrivalDate = new Date(data.arrivalDateTime);
     
-    // This is a simplified way to get the UTC time by accounting for the timezone offset.
-    // A robust library like `date-fns-tz` would be better for production.
-    const departureUTC = new Date(departureDate.toLocaleString('en-US', { timeZone: data.departureTimeZone }));
-    const arrivalUTC = new Date(arrivalDate.toLocaleString('en-US', { timeZone: data.arrivalTimeZone }));
-    
-    // Get the offset of the local time from UTC for the specific dates
-    const departureOffset = (new Date(departureDate.toUTCString()).getTime() - departureUTC.getTime()) / (60 * 60 * 1000);
-    const arrivalOffset = (new Date(arrivalDate.toUTCString()).getTime() - arrivalUTC.getTime()) / (60 * 60 * 1000);
-    
-    const departureFinalUTC = new Date(departureDate.getTime() - departureOffset * 60 * 60 * 1000);
-    const arrivalFinalUTC = new Date(arrivalDate.getTime() - arrivalOffset * 60 * 60 * 1000);
+    // Get the timezone offsets in hours
+    const departureOffset = getOffset(data.departureTimeZone);
+    const arrivalOffset = getOffset(data.arrivalTimeZone);
 
-    let durationInMs = arrivalFinalUTC.getTime() - departureFinalUTC.getTime();
+    // Get the UTC time by adding the offset
+    const departureUTC = new Date(departureDate.getTime() + departureOffset * 3600 * 1000);
+    const arrivalUTC = new Date(arrivalDate.getTime() + arrivalOffset * 3600 * 1000);
+    
+    let durationInMs = arrivalUTC.getTime() - departureUTC.getTime();
 
     if (durationInMs < 0) {
-        return "Arrival time cannot be before departure time.";
+        return { text: "Arrival time cannot be before departure time.", totalMinutes: -1 };
     }
+    
+    const totalMinutes = durationInMs / 60000;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
 
-    const hours = Math.floor(durationInMs / (1000 * 60 * 60));
-    durationInMs %= (1000 * 60 * 60);
-    const minutes = Math.floor(durationInMs / (1000 * 60));
-
-    return `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    return {
+      text: `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`,
+      totalMinutes: totalMinutes,
+    };
   } catch (error) {
-    return 'Invalid date or time zone provided.';
+    return { text: 'Invalid date or time zone provided.', totalMinutes: -1 };
   }
 }
 
 export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): { kilometers: number, miles: number } {
   const R = 6371; // Radius of the Earth in km
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const toRad = (deg: number) => deg * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const lat1Rad = toRad(lat1);
+  const lat2Rad = toRad(lat2);
+
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) *
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distanceKm = R * c;
@@ -111,38 +115,38 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   return { kilometers: distanceKm, miles: distanceMi };
 }
 
-function getOffset(timeZone: string): number {
-    const date = new Date();
-    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
-    const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
-    return (tzDate.getTime() - utcDate.getTime()) / (60 * 60 * 1000);
-}
 
 export function calculateTimeZoneDifference(tz1: string, tz2: string): string {
-    const offset1 = getOffset(tz1);
-    const offset2 = getOffset(tz2);
-    
-    const diff = offset2 - offset1;
-    
-    const hours = Math.trunc(diff);
-    const minutes = Math.round((diff % 1) * 60);
+    try {
+        const offset1 = getOffset(tz1);
+        const offset2 = getOffset(tz2);
+        
+        const diff = offset1 - offset2;
+        
+        const hours = Math.trunc(diff);
+        const minutes = Math.round(Math.abs(diff % 1) * 60);
 
-    if (diff === 0) {
-        return `${tz1} and ${tz2} are in the same time zone.`;
-    }
+        if (diff === 0) {
+            return `${tz1} and ${tz2} are in the same time zone.`;
+        }
 
-    const whoIsAhead = diff > 0 ? tz2 : tz1;
-    const absHours = Math.abs(hours);
-    const absMinutes = Math.abs(minutes);
+        const whoIsAhead = diff < 0 ? tz2 : tz1;
+        const absHours = Math.abs(hours);
+        const absMinutes = Math.abs(minutes);
 
-    let result = `${whoIsAhead} is ahead by `;
-    if (absHours > 0) {
-        result += `${absHours} hour${absHours > 1 ? 's' : ''}`;
+        let result = `${whoIsAhead} is ahead by `;
+        if (absHours > 0) {
+            result += `${absHours} hour${absHours > 1 ? 's' : ''}`;
+        }
+        if (absMinutes > 0) {
+            if (absHours > 0) result += ' and ';
+            result += `${absMinutes} minute${absMinutes > 1 ? 's' : ''}`;
+        }
+        result += '.';
+        return result;
+    } catch (error) {
+        return "Invalid time zone specified."
     }
-    if (absMinutes > 0) {
-        if (absHours > 0) result += ' and ';
-        result += `${absMinutes} minute${absMinutes > 1 ? 's' : ''}`;
-    }
-    result += '.';
-    return result;
 }
+
+    
