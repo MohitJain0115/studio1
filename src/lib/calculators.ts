@@ -317,30 +317,29 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     const drivingTimeHours = distanceInKm / speedInKmh;
     const drivingTimeMinutes = drivingTimeHours * 60;
     
-    const numberOfBreaks = data.breakFrequency > 0 ? Math.floor(drivingTimeHours / data.breakFrequency) : 0;
+    const numberOfBreaks = data.breakFrequency > 0 ? Math.ceil(drivingTimeHours / data.breakFrequency) - 1 : 0;
     const totalBreakTimeMinutes = numberOfBreaks * data.breakDuration;
     
     const totalJourneyMinutes = drivingTimeMinutes + totalBreakTimeMinutes;
 
     const timeline = [];
     let elapsedHours = 0;
+    let accumulatedTimeMinutes = 0;
 
     for (let i = 1; i <= numberOfBreaks; i++) {
-        elapsedHours += data.breakFrequency;
-        const driveSegmentEnd = elapsedHours * 60;
+        accumulatedTimeMinutes += data.breakFrequency * 60;
         timeline.push({
             event: `Drive Segment ${i}`,
-            time: formatDuration(driveSegmentEnd),
+            time: formatDuration(accumulatedTimeMinutes),
             notes: `Driven for ${data.breakFrequency} hours.`,
         });
 
-        const breakSegmentEnd = driveSegmentEnd + data.breakDuration;
+        accumulatedTimeMinutes += data.breakDuration;
         timeline.push({
             event: `Break ${i}`,
-            time: formatDuration(breakSegmentEnd),
+            time: formatDuration(accumulatedTimeMinutes),
             notes: `A ${data.breakDuration} minute break.`,
         });
-        elapsedHours += data.breakDuration / 60;
     }
 
 
