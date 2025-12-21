@@ -39,7 +39,7 @@ import {
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Globe, Clock, Map as MapIcon, Info, Shield, Compass, Calendar, Takeoff, Landfall } from 'lucide-react';
+import { Globe, Clock, Map as MapIcon, Info, Shield, Compass, Calendar, PlaneTakeoff, PlaneLanding } from 'lucide-react';
 
 
 const formSchema = z.object({
@@ -105,7 +105,7 @@ export default function FlightDurationCalculator() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2 p-4 border rounded-lg">
-                  <h3 className="text-lg font-semibold flex items-center gap-2"><Takeoff className="w-5 h-5 text-primary"/>Departure</h3>
+                  <h3 className="text-lg font-semibold flex items-center gap-2"><PlaneTakeoff className="w-5 h-5 text-primary"/>Departure</h3>
                   <FormField
                     control={form.control}
                     name="departureDateTime"
@@ -143,7 +143,7 @@ export default function FlightDurationCalculator() {
                   />
                 </div>
                  <div className="space-y-2 p-4 border rounded-lg">
-                  <h3 className="text-lg font-semibold flex items-center gap-2"><Landfall className="w-5 h-5 text-primary"/>Arrival</h3>
+                  <h3 className="text-lg font-semibold flex items-center gap-2"><PlaneLanding className="w-5 h-5 text-primary"/>Arrival</h3>
                   <FormField
                     control={form.control}
                     name="arrivalDateTime"
