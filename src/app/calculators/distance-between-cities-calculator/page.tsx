@@ -108,7 +108,7 @@ export default function DistanceBetweenCitiesCalculator() {
                       <FormItem>
                         <FormLabel>Latitude 1</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 34.0522" {...field} />
+                          <Input type="number" placeholder="e.g., 34.0522" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -121,7 +121,7 @@ export default function DistanceBetweenCitiesCalculator() {
                       <FormItem>
                         <FormLabel>Longitude 1</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., -118.2437" {...field} />
+                          <Input type="number" placeholder="e.g., -118.2437" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -137,7 +137,7 @@ export default function DistanceBetweenCitiesCalculator() {
                       <FormItem>
                         <FormLabel>Latitude 2</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 40.7128" {...field} />
+                          <Input type="number" placeholder="e.g., 40.7128" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -150,7 +150,7 @@ export default function DistanceBetweenCitiesCalculator() {
                       <FormItem>
                         <FormLabel>Longitude 2</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., -74.0060" {...field} />
+                          <Input type="number" placeholder="e.g., -74.0060" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -339,5 +339,3 @@ export default function DistanceBetweenCitiesCalculator() {
     </div>
   );
 }
-
-    

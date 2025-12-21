@@ -111,7 +111,7 @@ export default function TravelTimeCalculator() {
                     <FormLabel className="flex items-center gap-2"><Route className="w-4 h-4" />Distance</FormLabel>
                     <div className="flex gap-2">
                       <FormControl>
-                        <Input type="number" placeholder="e.g., 500" {...field} />
+                        <Input type="number" placeholder="e.g., 500" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormField
                         control={form.control}
@@ -143,7 +143,7 @@ export default function TravelTimeCalculator() {
                     <FormLabel className="flex items-center gap-2"><Gauge className="w-4 h-4" />Average Speed</FormLabel>
                      <div className="flex gap-2">
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 100" {...field} />
+                          <Input type="number" placeholder="e.g., 100" {...field} value={field.value ?? ''} />
                         </FormControl>
                          <FormField
                             control={form.control}
@@ -334,5 +334,3 @@ export default function TravelTimeCalculator() {
     </div>
   );
 }
-
-    

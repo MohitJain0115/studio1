@@ -113,7 +113,7 @@ export default function FlightDurationCalculator() {
                       <FormItem>
                         <FormLabel>Date and Time</FormLabel>
                         <FormControl>
-                          <Input type="datetime-local" {...field} />
+                          <Input type="datetime-local" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -151,7 +151,7 @@ export default function FlightDurationCalculator() {
                       <FormItem>
                         <FormLabel>Date and Time</FormLabel>
                         <FormControl>
-                          <Input type="datetime-local" {...field} />
+                          <Input type="datetime-local" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -362,5 +362,3 @@ export default function FlightDurationCalculator() {
     </div>
   );
 }
-
-    
