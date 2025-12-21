@@ -81,7 +81,7 @@ export default function TimeZoneDifferenceCalculator() {
     },
   });
 
-  const { watch, handleSubmit } = form;
+  const { watch, handleSubmit, trigger } = form;
   const timeZone1 = watch('timeZone1');
   const timeZone2 = watch('timeZone2');
   
@@ -89,31 +89,39 @@ export default function TimeZoneDifferenceCalculator() {
     const difference = calculateTimeZoneDifference(data.timeZone1, data.timeZone2);
     setResult(difference);
   };
+  
+  useEffect(() => {
+    trigger(); // Validate form on initial load
+    onSubmit(form.getValues()); // Initial calculation
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const updateClocks = () => {
       if (timeZone1 && timeZone2) {
         try {
           const now = new Date();
-          setClocks({
-            time1: now.toLocaleTimeString('en-US', { timeZone: timeZone1, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }),
-            time2: now.toLocaleTimeString('en-US', { timeZone: timeZone2, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }),
-          });
+          const time1 = now.toLocaleTimeString('en-US', { timeZone: timeZone1, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+          const time2 = now.toLocaleTimeString('en-US', { timeZone: timeZone2, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+          setClocks({ time1, time2 });
         } catch (e) {
           // Invalid timezone can cause crash
           setClocks(null);
         }
       }
     };
-
+    
     updateClocks();
     const interval = setInterval(updateClocks, 1000);
 
-    // Initial calculation and on change
-    handleSubmit(onSubmit)();
+    // Re-calculate on timezone change
+    if(form.formState.isDirty) {
+        onSubmit({timeZone1, timeZone2});
+    }
 
     return () => clearInterval(interval);
-  }, [timeZone1, timeZone2, handleSubmit, onSubmit]);
+  }, [timeZone1, timeZone2, form.formState.isDirty, onSubmit]);
+
 
   return (
     <div className="space-y-8">
