@@ -97,7 +97,7 @@ export default function ItineraryTimePlanner() {
                     <FormItem>
                       <FormLabel>Itinerary Start Time</FormLabel>
                       <FormControl>
-                        <Input type="datetime-local" {...field} />
+                        <Input type="datetime-local" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -110,7 +110,7 @@ export default function ItineraryTimePlanner() {
                     <FormItem>
                       <FormLabel>Itinerary End Time</FormLabel>
                       <FormControl>
-                        <Input type="datetime-local" {...field} />
+                        <Input type="datetime-local" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -366,5 +366,3 @@ export default function ItineraryTimePlanner() {
     </div>
   );
 }
-
-    

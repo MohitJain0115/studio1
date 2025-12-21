@@ -149,7 +149,7 @@ export default function JetLagCalculator() {
                     <FormItem>
                         <FormLabel className="flex items-center gap-2"><Plane className="h-4 w-4"/>Total Flight Duration (hours)</FormLabel>
                         <FormControl>
-                        <Input type="number" placeholder="e.g., 8" {...field} />
+                        <Input type="number" placeholder="e.g., 8" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -321,5 +321,3 @@ export default function JetLagCalculator() {
     </div>
   );
 }
-
-    

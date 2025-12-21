@@ -89,7 +89,7 @@ export default function LayoverTimeCalculator() {
                         <FormItem>
                           <FormLabel>Arrival Date & Time</FormLabel>
                           <FormControl>
-                            <Input type="datetime-local" {...field} />
+                            <Input type="datetime-local" {...field} value={field.value ?? ''} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -105,7 +105,7 @@ export default function LayoverTimeCalculator() {
                         <FormItem>
                           <FormLabel>Departure Date & Time</FormLabel>
                           <FormControl>
-                            <Input type="datetime-local" {...field} />
+                            <Input type="datetime-local" {...field} value={field.value ?? ''} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -287,5 +287,3 @@ export default function LayoverTimeCalculator() {
     </div>
   );
 }
-
-    

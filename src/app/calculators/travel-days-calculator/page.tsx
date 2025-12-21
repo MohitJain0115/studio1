@@ -87,7 +87,7 @@ export default function TravelDaysCalculator() {
                     <FormItem>
                       <FormLabel>Start Date</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -100,7 +100,7 @@ export default function TravelDaysCalculator() {
                     <FormItem>
                       <FormLabel>End Date</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} value={field.value ?? ''} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -280,5 +280,3 @@ export default function TravelDaysCalculator() {
     </div>
   );
 }
-
-    
