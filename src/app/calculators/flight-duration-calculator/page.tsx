@@ -36,10 +36,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Globe, Clock, Map as MapIcon, Info, Shield, Compass, Calendar, PlaneTakeoff, PlaneLanding } from 'lucide-react';
+import { Globe, Clock, Map as MapIcon, Info, Shield, Compass, PlaneTakeoff, PlaneLanding } from 'lucide-react';
 
 
 const formSchema = z.object({
@@ -56,19 +54,16 @@ const relatedCalculators = [
     name: 'Travel Time Calculator',
     href: '/calculators/travel-time-calculator',
     icon: <Clock className="w-8 h-8" />,
-    image: PlaceHolderImages.find(p => p.id === 'related-travel-time'),
   },
   {
     name: 'Distance Between Cities',
     href: '/calculators/distance-between-cities-calculator',
     icon: <MapIcon className="w-8 h-8" />,
-    image: PlaceHolderImages.find(p => p.id === 'related-distance'),
   },
   {
     name: 'Time Zone Difference',
     href: '/calculators/time-zone-difference-calculator',
     icon: <Globe className="w-8 h-8" />,
-    image: PlaceHolderImages.find(p => p.id === 'related-time-zone'),
   },
 ];
 
@@ -252,7 +247,6 @@ export default function FlightDurationCalculator() {
               <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
                 {calc.icon}
                 <span className="mt-2 font-semibold">{calc.name}</span>
-                 {calc.image && <Image src={calc.image.imageUrl} alt={calc.image.description} data-ai-hint={calc.image.imageHint} width={200} height={133} className="mt-2 rounded-md object-cover"/>}
               </Card>
             </Link>
           ))}

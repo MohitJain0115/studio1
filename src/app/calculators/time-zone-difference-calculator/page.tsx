@@ -35,8 +35,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, Plane, Map as MapIcon, Info, Shield, Compass, Globe } from 'lucide-react';
 
@@ -53,19 +51,16 @@ const relatedCalculators = [
         name: 'Flight Duration Calculator',
         href: '/calculators/flight-duration-calculator',
         icon: <Plane className="w-8 h-8" />,
-        image: PlaceHolderImages.find(p => p.id === 'related-flight-duration'),
     },
     {
         name: 'Travel Time Calculator',
         href: '/calculators/travel-time-calculator',
         icon: <Clock className="w-8 h-8" />,
-        image: PlaceHolderImages.find(p => p.id === 'related-travel-time'),
     },
     {
         name: 'Distance Between Cities',
         href: '/calculators/distance-between-cities-calculator',
         icon: <MapIcon className="w-8 h-8" />,
-        image: PlaceHolderImages.find(p => p.id === 'related-distance'),
     },
 ];
 
@@ -97,11 +92,12 @@ export default function TimeZoneDifferenceCalculator() {
   }, [onSubmit]);
 
   useEffect(() => {
-    // Re-calculate when timezone values change
-    if (form.formState.isDirty) {
-      onSubmit({ timeZone1, timeZone2 });
-    }
-    
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'timeZone1' || name === 'timeZone2') {
+        onSubmit({timeZone1: value.timeZone1!, timeZone2: value.timeZone2!});
+      }
+    });
+
     const updateClocks = () => {
       if (timeZone1 && timeZone2) {
         try {
@@ -119,8 +115,11 @@ export default function TimeZoneDifferenceCalculator() {
     updateClocks();
     const interval = setInterval(updateClocks, 1000);
 
-    return () => clearInterval(interval);
-  }, [timeZone1, timeZone2, form.formState.isDirty, onSubmit]);
+    return () => {
+      subscription.unsubscribe();
+      clearInterval(interval);
+    };
+  }, [watch, onSubmit, timeZone1, timeZone2]);
 
 
   return (
@@ -253,7 +252,6 @@ export default function TimeZoneDifferenceCalculator() {
               <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
                 {calc.icon}
                 <span className="mt-2 font-semibold">{calc.name}</span>
-                 {calc.image && <Image src={calc.image.imageUrl} alt={calc.image.description} data-ai-hint={calc.image.imageHint} width={200} height={133} className="mt-2 rounded-md object-cover"/>}
               </Card>
             </Link>
           ))}
@@ -362,5 +360,3 @@ export default function TimeZoneDifferenceCalculator() {
     </div>
   );
 }
-
-    
