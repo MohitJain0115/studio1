@@ -11,6 +11,10 @@ import {
   Map as MapIcon,
   Plane,
   Globe,
+  ClipboardList,
+  CalendarDays,
+  Hourglass,
+  Bed,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -34,6 +38,26 @@ const calculatorLinks = [
     href: '/calculators/travel-time-calculator',
     label: 'Travel Time Calculator',
     icon: <Clock className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/itinerary-time-planner',
+    label: 'Itinerary Time Planner',
+    icon: <ClipboardList className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/travel-days-calculator',
+    label: 'Travel Days Calculator',
+    icon: <CalendarDays className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/layover-time-calculator',
+    label: 'Layover Time Calculator',
+    icon: <Hourglass className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/jet-lag-calculator',
+    label: 'Jet Lag Calculator',
+    icon: <Bed className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
@@ -66,3 +90,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

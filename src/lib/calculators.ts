@@ -64,8 +64,6 @@ function getOffset(timeZone: string) {
 
 export function calculateFlightDuration(data: z.infer<typeof flightDurationSchema>): { text: string, totalMinutes: number } {
   try {
-    // This is a simplified approach and can have issues with DST transitions.
-    // A robust library like `date-fns-tz` is better for production.
     const departureDate = new Date(data.departureDateTime);
     const arrivalDate = new Date(data.arrivalDateTime);
     
@@ -147,6 +145,154 @@ export function calculateTimeZoneDifference(tz1: string, tz2: string): string {
     } catch (error) {
         return "Invalid time zone specified."
     }
+}
+
+export function calculateTravelDays(startDate: string, endDate: string): { totalDays: number, totalNights: number, formatted: string } {
+    try {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        if (end < start) {
+            return { totalDays: -1, totalNights: -1, formatted: 'End date cannot be before start date.' };
+        }
+
+        // To include both start and end days, we add 1
+        const diffTime = end.getTime() - start.getTime();
+        const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        const totalNights = totalDays - 1;
+
+        return {
+            totalDays,
+            totalNights,
+            formatted: `${totalDays} days, ${totalNights} nights`,
+        };
+    } catch (e) {
+        return { totalDays: -1, totalNights: -1, formatted: 'Invalid date format.' };
+    }
+}
+
+
+export function calculateLayoverTime(arrivalDateTime: string, departureDateTime: string): { totalMinutes: number, formatted: string } {
+    try {
+        const arrival = new Date(arrivalDateTime);
+        const departure = new Date(departureDateTime);
+        
+        if (departure < arrival) {
+            return { totalMinutes: -1, formatted: 'Departure cannot be before arrival.' };
+        }
+
+        const diffMs = departure.getTime() - arrival.getTime();
+        const totalMinutes = diffMs / 60000;
+        
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = Math.round(totalMinutes % 60);
+
+        return {
+            totalMinutes,
+            formatted: `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`,
+        };
+    } catch (e) {
+        return { totalMinutes: -1, formatted: 'Invalid date format.' };
+    }
+}
+
+export function calculateJetLag(timezonesCrossed: number, flightDuration: number) {
+    // A simplified model for jet lag recovery.
+    // General rule: 1 day of recovery per time zone crossed.
+    // Westward travel is often easier.
+    const recoveryDays = Math.abs(timezonesCrossed);
+    
+    // Flight duration can also contribute to fatigue.
+    const flightFatigueFactor = Math.floor(flightDuration / 12);
+    
+    const totalRecoveryDays = recoveryDays + flightFatigueFactor;
+
+    let advice = [];
+    if (timezonesCrossed > 0) { // Eastward
+        advice.push("You traveled east. Try to get morning sunlight to advance your body clock.");
+        advice.push("Avoid heavy meals and caffeine late at night in your new time zone.");
+    } else { // Westward
+        advice.push("You traveled west. Try to get afternoon/evening sunlight to delay your body clock.");
+        advice.push("Try to stay up until a reasonable local bedtime.");
+    }
+    
+    advice.push("Stay hydrated during and after your flight.");
+    advice.push("Adjust your meal times to the new time zone as quickly as possible.");
+    
+    return {
+        recoveryDays: `Approx. ${totalRecoveryDays} day${totalRecoveryDays !== 1 ? 's' : ''}`,
+        advice,
+    };
+}
+
+
+export function calculateItinerary(
+    itineraryStart: string,
+    itineraryEnd: string,
+    activities: { name: string; duration: number }[]
+) {
+    try {
+        const start = new Date(itineraryStart);
+        const end = new Date(itineraryEnd);
+
+        if (end < start) {
+            return { error: 'Itinerary end time cannot be before start time.' };
+        }
+        
+        const totalAvailableMinutes = (end.getTime() - start.getTime()) / 60000;
+        const totalActivityMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
+
+        const freeTimeMinutes = totalAvailableMinutes - totalActivityMinutes;
+
+        if (freeTimeMinutes < 0) {
+            return {
+                error: `Not enough time for all activities. You are short by ${formatDuration(Math.abs(freeTimeMinutes))}.`
+            };
+        }
+
+        return {
+            totalAvailableTime: formatDuration(totalAvailableMinutes),
+            totalActivityTime: formatDuration(totalActivityMinutes),
+            freeTime: formatDuration(freeTimeMinutes),
+            timeline: createTimeline(start, activities)
+        };
+    } catch (e) {
+        return { error: 'Invalid date or time format.' };
+    }
+}
+
+function formatDuration(totalMinutes: number): string {
+    if (totalMinutes < 0) totalMinutes = 0;
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60*24)) / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    const parts = [];
+    if (days > 0) parts.push(`${days}d`);
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
+    return parts.join(' ');
+}
+
+
+function createTimeline(start: Date, activities: { name: string; duration: number }[]) {
+    const timeline = [];
+    let currentTime = new Date(start);
+
+    for (const activity of activities) {
+        if (!activity.name || activity.duration <= 0) continue;
+        const activityStart = new Date(currentTime);
+        const activityEnd = new Date(currentTime.getTime() + activity.duration * 60000);
+        
+        timeline.push({
+            name: activity.name,
+            start: activityStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'}),
+            end: activityEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            duration: activity.duration,
+        });
+
+        currentTime = activityEnd;
+    }
+    return timeline;
 }
 
     

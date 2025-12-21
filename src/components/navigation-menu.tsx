@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe } from 'lucide-react';
+import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -31,6 +31,26 @@ const menuItems = [
     href: '/calculators/travel-time-calculator',
     label: 'Travel Time',
     icon: Clock,
+  },
+  {
+    href: '/calculators/itinerary-time-planner',
+    label: 'Itinerary Time Planner',
+    icon: ClipboardList,
+  },
+  {
+    href: '/calculators/travel-days-calculator',
+    label: 'Travel Days Calculator',
+    icon: CalendarDays,
+  },
+  {
+    href: '/calculators/layover-time-calculator',
+    label: 'Layover Time Calculator',
+    icon: Hourglass,
+  },
+  {
+    href: '/calculators/jet-lag-calculator',
+    label: 'Jet Lag Calculator',
+    icon: Bed,
   },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
@@ -62,3 +82,5 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
+
+    

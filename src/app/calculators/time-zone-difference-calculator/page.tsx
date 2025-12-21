@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -47,22 +46,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-    {
-        name: 'Flight Duration Calculator',
-        href: '/calculators/flight-duration-calculator',
-        icon: <Plane className="w-8 h-8" />,
-    },
-    {
-        name: 'Travel Time Calculator',
-        href: '/calculators/travel-time-calculator',
-        icon: <Clock className="w-8 h-8" />,
-    },
-    {
-        name: 'Distance Between Cities',
-        href: '/calculators/distance-between-cities-calculator',
-        icon: <MapIcon className="w-8 h-8" />,
-    },
-];
+    { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
+    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
+    { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
+    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
+    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
+    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
+    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
+].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function TimeZoneDifferenceCalculator() {
   const [result, setResult] = useState<string | null>(null);
@@ -76,7 +67,7 @@ export default function TimeZoneDifferenceCalculator() {
     },
   });
 
-  const { watch, handleSubmit } = form;
+  const { watch } = form;
   const timeZone1 = watch('timeZone1');
   const timeZone2 = watch('timeZone2');
   
@@ -86,18 +77,13 @@ export default function TimeZoneDifferenceCalculator() {
   }, []);
   
   useEffect(() => {
-    // Initial calculation on component mount
-    onSubmit(form.getValues());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onSubmit]);
+    if(timeZone1 && timeZone2) {
+      onSubmit({timeZone1, timeZone2});
+    }
+  }, [timeZone1, timeZone2, onSubmit]);
+
 
   useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      if (name === 'timeZone1' || name === 'timeZone2') {
-        onSubmit({timeZone1: value.timeZone1!, timeZone2: value.timeZone2!});
-      }
-    });
-
     const updateClocks = () => {
       if (timeZone1 && timeZone2) {
         try {
@@ -116,10 +102,9 @@ export default function TimeZoneDifferenceCalculator() {
     const interval = setInterval(updateClocks, 1000);
 
     return () => {
-      subscription.unsubscribe();
       clearInterval(interval);
     };
-  }, [watch, onSubmit, timeZone1, timeZone2]);
+  }, [timeZone1, timeZone2]);
 
 
   return (
@@ -133,7 +118,7 @@ export default function TimeZoneDifferenceCalculator() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -247,14 +232,13 @@ export default function TimeZoneDifferenceCalculator() {
           <CardTitle className="flex items-center gap-2"><Compass className="h-5 w-5" />Related Calculators</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {relatedCalculators.map((calc) => (
-            <Link href={calc.href} key={calc.name} className="block hover:no-underline">
-              <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
-                {calc.icon}
-                <span className="mt-2 font-semibold">{calc.name}</span>
-              </Card>
-            </Link>
-          ))}
+            {relatedCalculators.map((calc) => (
+                <Link href={calc.href} key={calc.name} className="block hover:no-underline">
+                <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
+                    <span className="font-semibold">{calc.name}</span>
+                </Card>
+                </Link>
+            ))}
         </CardContent>
       </Card>
 
@@ -360,3 +344,5 @@ export default function TimeZoneDifferenceCalculator() {
     </div>
   );
 }
+
+    

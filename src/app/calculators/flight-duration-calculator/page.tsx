@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -50,22 +49,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-  {
-    name: 'Travel Time Calculator',
-    href: '/calculators/travel-time-calculator',
-    icon: <Clock className="w-8 h-8" />,
-  },
-  {
-    name: 'Distance Between Cities',
-    href: '/calculators/distance-between-cities-calculator',
-    icon: <MapIcon className="w-8 h-8" />,
-  },
-  {
-    name: 'Time Zone Difference',
-    href: '/calculators/time-zone-difference-calculator',
-    icon: <Globe className="w-8 h-8" />,
-  },
-];
+    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
+    { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
+    { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
+    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
+    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
+    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
+    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
+].sort((a,b) => a.name.localeCompare(b.name));
 
 
 export default function FlightDurationCalculator() {
@@ -242,14 +233,13 @@ export default function FlightDurationCalculator() {
           <CardTitle className="flex items-center gap-2"><Compass className="h-5 w-5" />Related Calculators</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {relatedCalculators.map((calc) => (
-            <Link href={calc.href} key={calc.name} className="block hover:no-underline">
-              <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
-                {calc.icon}
-                <span className="mt-2 font-semibold">{calc.name}</span>
-              </Card>
-            </Link>
-          ))}
+            {relatedCalculators.map((calc) => (
+                <Link href={calc.href} key={calc.name} className="block hover:no-underline">
+                <Card className="flex flex-col items-center justify-center p-4 border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors h-full text-center">
+                    <span className="font-semibold">{calc.name}</span>
+                </Card>
+                </Link>
+            ))}
         </CardContent>
       </Card>
       
@@ -356,3 +346,5 @@ export default function FlightDurationCalculator() {
     </div>
   );
 }
+
+    
