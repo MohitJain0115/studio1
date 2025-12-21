@@ -44,10 +44,8 @@ type FormValues = z.infer<typeof formSchema>;
 const relatedCalculators = [
     { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
     { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
-    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
-    { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
-    { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
+    { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
+    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
@@ -255,8 +253,7 @@ export default function TravelDaysCalculator() {
             <AccordionItem value="item-5">
               <AccordionTrigger>Does the calculator account for leap years?</AccordionTrigger>
               <AccordionContent>
-                <p>Yes. The calculation is based on the actual time difference between the two dates, so it correctly handles the number of days in each month, including February in a leap year.</p>
-              </AccordionContent>
+                <p>Yes. The calculation is based on the actual time difference between the two dates, so it correctly handles the number of days in each month, including February in a leap year.</p>              </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-6">
               <AccordionTrigger>Should I use this for visa applications?</AccordionTrigger>

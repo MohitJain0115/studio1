@@ -48,11 +48,9 @@ type FormValues = z.infer<typeof formSchema>;
 const relatedCalculators = [
     { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
     { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
-    { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
-    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
+    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
+    { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
     { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function TimeZoneDifferenceCalculator() {
@@ -67,7 +65,7 @@ export default function TimeZoneDifferenceCalculator() {
     },
   });
 
-  const { watch } = form;
+  const { watch, handleSubmit } = form;
   const timeZone1 = watch('timeZone1');
   const timeZone2 = watch('timeZone2');
   
@@ -118,7 +116,7 @@ export default function TimeZoneDifferenceCalculator() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -344,5 +342,3 @@ export default function TimeZoneDifferenceCalculator() {
     </div>
   );
 }
-
-    

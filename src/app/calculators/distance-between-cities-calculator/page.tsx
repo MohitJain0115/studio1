@@ -44,10 +44,8 @@ const relatedCalculators = [
     { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
     { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
     { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
-    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
-    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
+    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
+    { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function DistanceBetweenCitiesCalculator() {
@@ -323,5 +321,3 @@ export default function DistanceBetweenCitiesCalculator() {
     </div>
   );
 }
-
-    

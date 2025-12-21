@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed } from 'lucide-react';
+import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -17,20 +17,15 @@ const menuItems = [
     label: 'Distance Between Cities',
     icon: MapIcon,
   },
+   {
+    href: '/calculators/driving-time-with-breaks-calculator',
+    label: 'Driving Time with Breaks',
+    icon: Coffee,
+  },
   {
     href: '/calculators/flight-duration-calculator',
     label: 'Flight Duration',
     icon: Plane,
-  },
-  {
-    href: '/calculators/time-zone-difference-calculator',
-    label: 'Time Zone Difference',
-    icon: Globe,
-  },
-  {
-    href: '/calculators/travel-time-calculator',
-    label: 'Travel Time',
-    icon: Clock,
   },
   {
     href: '/calculators/itinerary-time-planner',
@@ -38,9 +33,9 @@ const menuItems = [
     icon: ClipboardList,
   },
   {
-    href: '/calculators/travel-days-calculator',
-    label: 'Travel Days Calculator',
-    icon: CalendarDays,
+    href: '/calculators/jet-lag-calculator',
+    label: 'Jet Lag Calculator',
+    icon: Bed,
   },
   {
     href: '/calculators/layover-time-calculator',
@@ -48,9 +43,24 @@ const menuItems = [
     icon: Hourglass,
   },
   {
-    href: '/calculators/jet-lag-calculator',
-    label: 'Jet Lag Calculator',
-    icon: Bed,
+    href: '/calculators/time-zone-difference-calculator',
+    label: 'Time Zone Difference',
+    icon: Globe,
+  },
+  {
+    href: '/calculators/travel-buffer-time-calculator',
+    label: 'Travel Buffer Time',
+    icon: ShieldCheck,
+  },
+  {
+    href: '/calculators/travel-days-calculator',
+    label: 'Travel Days Calculator',
+    icon: CalendarDays,
+  },
+  {
+    href: '/calculators/travel-time-calculator',
+    label: 'Travel Time',
+    icon: Clock,
   },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
@@ -82,5 +92,3 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
-
-    

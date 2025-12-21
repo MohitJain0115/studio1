@@ -15,6 +15,8 @@ import {
   CalendarDays,
   Hourglass,
   Bed,
+  ShieldCheck,
+  Coffee,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -25,19 +27,14 @@ const calculatorLinks = [
     icon: <MapIcon className="w-8 h-8" />,
   },
   {
+    href: '/calculators/driving-time-with-breaks-calculator',
+    label: 'Driving Time with Breaks Calculator',
+    icon: <Coffee className="w-8 h-8" />,
+  },
+  {
     href: '/calculators/flight-duration-calculator',
     label: 'Flight Duration Calculator',
     icon: <Plane className="w-8 h-8" />,
-  },
-  {
-    href: '/calculators/time-zone-difference-calculator',
-    label: 'Time Zone Difference Calculator',
-    icon: <Globe className="w-8 h-8" />,
-  },
-  {
-    href: '/calculators/travel-time-calculator',
-    label: 'Travel Time Calculator',
-    icon: <Clock className="w-8 h-8" />,
   },
   {
     href: '/calculators/itinerary-time-planner',
@@ -45,9 +42,9 @@ const calculatorLinks = [
     icon: <ClipboardList className="w-8 h-8" />,
   },
   {
-    href: '/calculators/travel-days-calculator',
-    label: 'Travel Days Calculator',
-    icon: <CalendarDays className="w-8 h-8" />,
+    href: '/calculators/jet-lag-calculator',
+    label: 'Jet Lag Calculator',
+    icon: <Bed className="w-8 h-8" />,
   },
   {
     href: '/calculators/layover-time-calculator',
@@ -55,9 +52,24 @@ const calculatorLinks = [
     icon: <Hourglass className="w-8 h-8" />,
   },
   {
-    href: '/calculators/jet-lag-calculator',
-    label: 'Jet Lag Calculator',
-    icon: <Bed className="w-8 h-8" />,
+    href: '/calculators/time-zone-difference-calculator',
+    label: 'Time Zone Difference Calculator',
+    icon: <Globe className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/travel-buffer-time-calculator',
+    label: 'Travel Buffer Time Calculator',
+    icon: <ShieldCheck className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/travel-days-calculator',
+    label: 'Travel Days Calculator',
+    icon: <CalendarDays className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/travel-time-calculator',
+    label: 'Travel Time Calculator',
+    icon: <Clock className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
@@ -90,5 +102,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    

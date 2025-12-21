@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 
 const travelTimeSchema = z.object({
@@ -9,6 +8,21 @@ const travelTimeSchema = z.object({
 });
 
 const MILES_TO_KM = 1.60934;
+
+function formatDuration(totalMinutes: number): string {
+    if (totalMinutes < 0) totalMinutes = 0;
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60*24)) / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    
+    const parts: string[] = [];
+    if (days > 0) parts.push(`${days} day${days !== 1 ? 's' : ''}`);
+    if (hours > 0) parts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+    if (minutes > 0 || parts.length === 0) parts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+    
+    return parts.join(', ');
+}
+
 
 export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): { text: string, totalHours: number } {
   let distanceInKm = data.distance;
@@ -26,22 +40,9 @@ export function calculateTravelTime(data: z.infer<typeof travelTimeSchema>): { t
   }
 
   const timeInHours = distanceInKm / speedInKmh;
+  const timeInMinutes = timeInHours * 60;
 
-  const days = Math.floor(timeInHours / 24);
-  const remainingHours = timeInHours % 24;
-  const hours = Math.floor(remainingHours);
-  const minutes = Math.round((remainingHours - hours) * 60);
-  
-  const parts: string[] = [];
-  if (days > 0) parts.push(`${days} day${days > 1 ? 's' : ''}`);
-  if (hours > 0) parts.push(`${hours} hour${hours > 1 ? 's' : ''}`);
-  if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
-  
-  if (parts.length === 0 && timeInHours > 0) {
-     return { text: 'Less than a minute', totalHours: timeInHours };
-  }
-
-  return { text: parts.join(', '), totalHours: timeInHours };
+  return { text: formatDuration(timeInMinutes), totalHours: timeInHours };
 }
 
 
@@ -82,11 +83,9 @@ export function calculateFlightDuration(data: z.infer<typeof flightDurationSchem
     }
     
     const totalMinutes = durationInMs / 60000;
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = Math.round(totalMinutes % 60);
-
+    
     return {
-      text: `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`,
+      text: formatDuration(totalMinutes),
       totalMinutes: totalMinutes,
     };
   } catch (error) {
@@ -184,12 +183,9 @@ export function calculateLayoverTime(arrivalDateTime: string, departureDateTime:
         const diffMs = departure.getTime() - arrival.getTime();
         const totalMinutes = diffMs / 60000;
         
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = Math.round(totalMinutes % 60);
-
         return {
             totalMinutes,
-            formatted: `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`,
+            formatted: formatDuration(totalMinutes),
         };
     } catch (e) {
         return { totalMinutes: -1, formatted: 'Invalid date format.' };
@@ -197,20 +193,15 @@ export function calculateLayoverTime(arrivalDateTime: string, departureDateTime:
 }
 
 export function calculateJetLag(timezonesCrossed: number, flightDuration: number) {
-    // A simplified model for jet lag recovery.
-    // General rule: 1 day of recovery per time zone crossed.
-    // Westward travel is often easier.
     const recoveryDays = Math.abs(timezonesCrossed);
-    
-    // Flight duration can also contribute to fatigue.
     const flightFatigueFactor = Math.floor(flightDuration / 12);
-    
     const totalRecoveryDays = recoveryDays + flightFatigueFactor;
 
     let advice = [];
     if (timezonesCrossed > 0) { // Eastward
         advice.push("You traveled east. Try to get morning sunlight to advance your body clock.");
         advice.push("Avoid heavy meals and caffeine late at night in your new time zone.");
+        advice.push("Consider Melatonin");
     } else { // Westward
         advice.push("You traveled west. Try to get afternoon/evening sunlight to delay your body clock.");
         advice.push("Try to stay up until a reasonable local bedtime.");
@@ -261,19 +252,6 @@ export function calculateItinerary(
     }
 }
 
-function formatDuration(totalMinutes: number): string {
-    if (totalMinutes < 0) totalMinutes = 0;
-    const days = Math.floor(totalMinutes / (60 * 24));
-    const hours = Math.floor((totalMinutes % (60*24)) / 60);
-    const minutes = Math.round(totalMinutes % 60);
-    const parts = [];
-    if (days > 0) parts.push(`${days}d`);
-    if (hours > 0) parts.push(`${hours}h`);
-    if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
-    return parts.join(' ');
-}
-
-
 function createTimeline(start: Date, activities: { name: string; duration: number }[]) {
     const timeline = [];
     let currentTime = new Date(start);
@@ -295,4 +273,81 @@ function createTimeline(start: Date, activities: { name: string; duration: numbe
     return timeline;
 }
 
+export function calculateBufferTime(baseTravelTime: number, bufferPercentage: number) {
+    const bufferTime = baseTravelTime * (bufferPercentage / 100);
+    const totalTime = baseTravelTime + bufferTime;
+
+    return {
+        baseTimeFormatted: formatDuration(baseTravelTime),
+        bufferTimeFormatted: formatDuration(bufferTime),
+        totalTimeFormatted: formatDuration(totalTime),
+    };
+}
+
+
+const drivingTimeWithBreaksSchema = z.object({
+  distance: z.number(),
+  distanceUnit: z.enum(['kilometers', 'miles']),
+  speed: z.number(),
+  speedUnit: z.enum(['kmh', 'mph']),
+  breakFrequency: z.number(),
+  breakDuration: z.number(),
+});
+
+export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeWithBreaksSchema>) {
+    let distanceInKm = data.distance;
+    if (data.distanceUnit === 'miles') {
+        distanceInKm = data.distance * MILES_TO_KM;
+    }
+
+    let speedInKmh = data.speed;
+    if (data.speedUnit === 'mph') {
+        speedInKmh = data.speed * MILES_TO_KM;
+    }
+
+    if (speedInKmh === 0) return {
+        drivingTimeFormatted: 'N/A',
+        totalBreakTimeFormatted: 'N/A',
+        totalJourneyTimeFormatted: 'Speed cannot be zero',
+        numberOfBreaks: 0,
+        timeline: [],
+    };
     
+    const drivingTimeHours = distanceInKm / speedInKmh;
+    const drivingTimeMinutes = drivingTimeHours * 60;
+    
+    const numberOfBreaks = data.breakFrequency > 0 ? Math.floor(drivingTimeHours / data.breakFrequency) : 0;
+    const totalBreakMinutes = numberOfBreaks * data.breakDuration;
+    
+    const totalJourneyMinutes = drivingTimeMinutes + totalBreakMinutes;
+
+    const timeline = [];
+    let elapsedHours = 0;
+
+    for (let i = 1; i <= numberOfBreaks; i++) {
+        elapsedHours += data.breakFrequency;
+        const driveSegmentEnd = elapsedHours * 60;
+        timeline.push({
+            event: `Drive Segment ${i}`,
+            time: formatDuration(driveSegmentEnd),
+            notes: `Driven for ${data.breakFrequency} hours.`,
+        });
+
+        const breakSegmentEnd = driveSegmentEnd + data.breakDuration;
+        timeline.push({
+            event: `Break ${i}`,
+            time: formatDuration(breakSegmentEnd),
+            notes: `A ${data.breakDuration} minute break.`,
+        });
+        elapsedHours += data.breakDuration / 60;
+    }
+
+
+    return {
+        drivingTimeFormatted: formatDuration(drivingTimeMinutes),
+        totalBreakTimeFormatted: formatDuration(totalBreakTimeMinutes),
+        totalJourneyTimeFormatted: formatDuration(totalJourneyMinutes),
+        numberOfBreaks: numberOfBreaks,
+        timeline,
+    };
+}
