@@ -235,7 +235,7 @@ export default function TravelTimeCalculator() {
 
       <Card>
         <CardHeader>
-            <CardTitle className="text-2xl font-bold">E-E-A-T Guide: The Physics of Your Journey</CardTitle>
+            <CardTitle className="text-2xl font-bold">The Physics of Your Journey</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">The Complete Guide to Calculating Travel Time for Any Journey</h2>

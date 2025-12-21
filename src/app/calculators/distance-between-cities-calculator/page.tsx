@@ -234,7 +234,7 @@ export default function DistanceBetweenCitiesCalculator() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">E-E-A-T Guide: The Science of Shortest Paths</CardTitle>
+          <CardTitle className="text-2xl font-bold">The Science of Shortest Paths</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
           <h2 className="text-xl font-bold text-foreground">Mastering Global Travel: The Definitive Guide to Calculating Distance Between Cities</h2>

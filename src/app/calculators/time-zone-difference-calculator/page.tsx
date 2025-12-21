@@ -262,7 +262,7 @@ export default function TimeZoneDifferenceCalculator() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">E-E-A-T Guide: Mastering Time Across the Globe</CardTitle>
+          <CardTitle className="text-2xl font-bold">Mastering Time Across the Globe</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">The Professional's Guide to Time Zone Calculation</h2>

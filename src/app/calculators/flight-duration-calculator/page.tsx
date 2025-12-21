@@ -261,7 +261,7 @@ export default function FlightDurationCalculator() {
       
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">E-E-A-T Guide: Decoding Your Itinerary</CardTitle>
+          <CardTitle className="text-2xl font-bold">Decoding Your Itinerary</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
           <h2 className="text-xl font-bold text-foreground">The Ultimate Guide to Calculating Flight Duration Accurately</h2>
