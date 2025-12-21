@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 const travelTimeSchema = z.object({
@@ -317,9 +318,9 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     const drivingTimeMinutes = drivingTimeHours * 60;
     
     const numberOfBreaks = data.breakFrequency > 0 ? Math.floor(drivingTimeHours / data.breakFrequency) : 0;
-    const totalBreakMinutes = numberOfBreaks * data.breakDuration;
+    const totalBreakTimeMinutes = numberOfBreaks * data.breakDuration;
     
-    const totalJourneyMinutes = drivingTimeMinutes + totalBreakMinutes;
+    const totalJourneyMinutes = drivingTimeMinutes + totalBreakTimeMinutes;
 
     const timeline = [];
     let elapsedHours = 0;
