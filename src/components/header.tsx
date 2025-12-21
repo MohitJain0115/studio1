@@ -9,7 +9,7 @@ export default function Header() {
         <SidebarTrigger />
       </div>
       <div className="w-full flex-1">
-        <h1 className="text-lg font-semibold md:hidden">FinanceFriend</h1>
+        <h1 className="text-lg font-semibold md:hidden">Travel-Friend</h1>
       </div>
     </header>
   );
