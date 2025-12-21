@@ -47,6 +47,7 @@ const relatedCalculators = [
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function LayoverTimeCalculator() {

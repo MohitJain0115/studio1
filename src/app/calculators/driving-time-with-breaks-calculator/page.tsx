@@ -57,6 +57,7 @@ const relatedCalculators = [
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
     { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
     { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 

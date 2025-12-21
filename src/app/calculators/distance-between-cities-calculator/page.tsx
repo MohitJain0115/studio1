@@ -29,7 +29,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Link from 'next/link';
-import { Globe, Clock, Plane, Map as MapIcon, Info, Shield, Compass, LocateFixed } from 'lucide-react';
+import { Globe, Clock, Map as MapIcon, Info, Shield, Compass, LocateFixed, Calendar } from 'lucide-react';
 
 const formSchema = z.object({
   lat1: z.coerce.number().min(-90, 'Must be >= -90').max(90, 'Must be <= 90'),
@@ -46,6 +46,8 @@ const relatedCalculators = [
     { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
+    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function DistanceBetweenCitiesCalculator() {

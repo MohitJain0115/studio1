@@ -17,6 +17,9 @@ import {
   Bed,
   ShieldCheck,
   Coffee,
+  Wallet,
+  Fuel,
+  Bolt,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -32,9 +35,19 @@ const calculatorLinks = [
     icon: <Coffee className="w-8 h-8" />,
   },
   {
+    href: '/calculators/ev-charging-cost-calculator',
+    label: 'EV Charging Cost Calculator',
+    icon: <Bolt className="w-8 h-8" />,
+  },
+  {
     href: '/calculators/flight-duration-calculator',
     label: 'Flight Duration Calculator',
     icon: <Plane className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/fuel-cost-calculator',
+    label: 'Fuel Cost Calculator',
+    icon: <Fuel className="w-8 h-8" />,
   },
   {
     href: '/calculators/itinerary-time-planner',
@@ -70,6 +83,11 @@ const calculatorLinks = [
     href: '/calculators/travel-time-calculator',
     label: 'Travel Time Calculator',
     icon: <Clock className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/trip-budget-calculator',
+    label: 'Trip Budget Calculator',
+    icon: <Wallet className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 

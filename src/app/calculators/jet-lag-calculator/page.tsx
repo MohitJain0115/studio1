@@ -52,6 +52,7 @@ const relatedCalculators = [
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function JetLagCalculator() {
@@ -66,11 +67,11 @@ export default function JetLagCalculator() {
     },
   });
   
-  const getOffsetInHours = (timeZone: string) => {
+  function getOffset(timeZone: string) {
     const date = new Date();
     const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
     const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
-    return (tzDate.getTime() - utcDate.getTime()) / 3600000;
+    return (utcDate.getTime() - tzDate.getTime()) / 36e5;
   }
 
   const onSubmit = (data: FormValues) => {

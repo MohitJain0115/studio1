@@ -9,6 +9,7 @@ const travelTimeSchema = z.object({
 });
 
 const MILES_TO_KM = 1.60934;
+const KM_TO_MILES = 0.621371;
 
 function formatDuration(totalMinutes: number): string {
     if (totalMinutes < 0) totalMinutes = 0;
@@ -108,7 +109,7 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distanceKm = R * c;
-  const distanceMi = distanceKm / MILES_TO_KM;
+  const distanceMi = distanceKm * KM_TO_MILES;
 
   return { kilometers: distanceKm, miles: distanceMi };
 }
@@ -318,12 +319,11 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     const drivingTimeMinutes = drivingTimeHours * 60;
     
     const numberOfBreaks = data.breakFrequency > 0 ? Math.ceil(drivingTimeHours / data.breakFrequency) - 1 : 0;
-    const totalBreakTimeMinutes = numberOfBreaks * data.breakDuration;
+    const totalBreakTimeMinutes = numberOfBreaks > 0 ? numberOfBreaks * data.breakDuration : 0;
     
     const totalJourneyMinutes = drivingTimeMinutes + totalBreakTimeMinutes;
 
     const timeline = [];
-    let elapsedHours = 0;
     let accumulatedTimeMinutes = 0;
 
     for (let i = 1; i <= numberOfBreaks; i++) {
@@ -342,6 +342,17 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
         });
     }
 
+    // Add the final driving segment
+    if (drivingTimeHours > (numberOfBreaks * data.breakFrequency)) {
+        const remainingDrivingHours = drivingTimeHours - (numberOfBreaks * data.breakFrequency);
+        accumulatedTimeMinutes += remainingDrivingHours * 60;
+         timeline.push({
+            event: `Drive Segment ${numberOfBreaks + 1}`,
+            time: formatDuration(accumulatedTimeMinutes),
+            notes: `Final drive of ${formatDuration(remainingDrivingHours*60)}.`,
+        });
+    }
+
 
     return {
         drivingTimeFormatted: formatDuration(drivingTimeMinutes),
@@ -349,5 +360,103 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
         totalJourneyTimeFormatted: formatDuration(totalJourneyMinutes),
         numberOfBreaks: numberOfBreaks,
         timeline,
+    };
+}
+
+
+// New Calculators
+
+export function calculateFuelCost(
+    distance: number,
+    distanceUnit: 'kilometers' | 'miles',
+    efficiency: number,
+    efficiencyUnit: 'mpg' | 'lp100km',
+    fuelPrice: number,
+    priceUnit: 'per_gallon' | 'per_liter'
+) {
+    const GALLONS_TO_LITERS = 3.78541;
+
+    let distanceInKm = distance;
+    if (distanceUnit === 'miles') {
+        distanceInKm = distance * MILES_TO_KM;
+    }
+
+    let efficiencyLp100km = efficiency;
+    if (efficiencyUnit === 'mpg') {
+        efficiencyLp100km = 235.215 / efficiency;
+    }
+
+    let pricePerLiter = fuelPrice;
+    if (priceUnit === 'per_gallon') {
+        pricePerLiter = fuelPrice / GALLONS_TO_LITERS;
+    }
+
+    const litersNeeded = (distanceInKm / 100) * efficiencyLp100km;
+    const totalCost = litersNeeded * pricePerLiter;
+
+    return {
+        totalCost: totalCost.toFixed(2),
+        fuelNeeded: `${litersNeeded.toFixed(2)} liters`,
+    };
+}
+
+export function calculateEvChargingCost(
+    distance: number,
+    distanceUnit: 'kilometers' | 'miles',
+    efficiency: number,
+    efficiencyUnit: 'kWh_per_100km' | 'miles_per_kWh',
+    chargingCost: number
+) {
+    let distanceInKm = distance;
+    if (distanceUnit === 'miles') {
+        distanceInKm = distance * MILES_TO_KM;
+    }
+
+    let efficiencyKwhPer100km = efficiency;
+    if (efficiencyUnit === 'miles_per_kWh') {
+        efficiencyKwhPer100km = (1 / efficiency) * 100 * KM_TO_MILES;
+    }
+    
+    const kwhNeeded = (distanceInKm / 100) * efficiencyKwhPer100km;
+    const totalCost = kwhNeeded * chargingCost;
+
+    return {
+        totalCost: totalCost.toFixed(2),
+        energyNeeded: `${kwhNeeded.toFixed(2)} kWh`,
+    };
+}
+
+export function calculateTripBudget(
+    durationDays: number,
+    numTravelers: number,
+    costs: {
+        flights: number;
+        accommodationPerNight: number;
+        foodPerDay: number;
+        activities: number;
+        transport: number;
+        misc: number;
+    }
+) {
+    const accommodationTotal = costs.accommodationPerNight * (durationDays - 1);
+    const foodTotal = costs.foodPerDay * durationDays * numTravelers;
+    const flightsTotal = costs.flights * numTravelers;
+    const activitiesTotal = costs.activities * numTravelers;
+    const transportTotal = costs.transport;
+    const miscTotal = costs.misc;
+
+    const totalBudget = accommodationTotal + foodTotal + flightsTotal + activitiesTotal + transportTotal + miscTotal;
+    
+    return {
+        totalBudget,
+        perPersonBudget: totalBudget / numTravelers,
+        breakdown: [
+            { category: 'Flights', total: flightsTotal, perPerson: flightsTotal / numTravelers },
+            { category: 'Accommodation', total: accommodationTotal, perPerson: accommodationTotal / numTravelers },
+            { category: 'Food & Dining', total: foodTotal, perPerson: foodTotal / numTravelers },
+            { category: 'Activities & Tours', total: activitiesTotal, perPerson: activitiesTotal / numTravelers },
+            { category: 'Local Transport', total: transportTotal, perPerson: transportTotal / numTravelers },
+            { category: 'Miscellaneous', total: miscTotal, perPerson: miscTotal / numTravelers },
+        ]
     };
 }
