@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -81,22 +81,27 @@ export default function TimeZoneDifferenceCalculator() {
     },
   });
 
-  const { watch, handleSubmit, trigger } = form;
+  const { watch, handleSubmit } = form;
   const timeZone1 = watch('timeZone1');
   const timeZone2 = watch('timeZone2');
   
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = useCallback((data: FormValues) => {
     const difference = calculateTimeZoneDifference(data.timeZone1, data.timeZone2);
     setResult(difference);
-  };
+  }, []);
   
   useEffect(() => {
-    trigger(); // Validate form on initial load
-    onSubmit(form.getValues()); // Initial calculation
+    // Initial calculation on component mount
+    onSubmit(form.getValues());
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [onSubmit]);
 
   useEffect(() => {
+    // Re-calculate when timezone values change
+    if (form.formState.isDirty) {
+      onSubmit({ timeZone1, timeZone2 });
+    }
+    
     const updateClocks = () => {
       if (timeZone1 && timeZone2) {
         try {
@@ -113,11 +118,6 @@ export default function TimeZoneDifferenceCalculator() {
     
     updateClocks();
     const interval = setInterval(updateClocks, 1000);
-
-    // Re-calculate on timezone change
-    if(form.formState.isDirty) {
-        onSubmit({timeZone1, timeZone2});
-    }
 
     return () => clearInterval(interval);
   }, [timeZone1, timeZone2, form.formState.isDirty, onSubmit]);
