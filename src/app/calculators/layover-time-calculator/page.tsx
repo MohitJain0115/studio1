@@ -48,6 +48,10 @@ const relatedCalculators = [
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Flight Duration Calculator', href: '/calculators/flight-duration-calculator' },
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
+    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
+    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
+    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function LayoverTimeCalculator() {

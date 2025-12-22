@@ -20,10 +20,24 @@ import {
   Wallet,
   Fuel,
   Bolt,
+  Car,
+  Hotel,
+  Users,
+  Route,
 } from 'lucide-react';
 import Link from 'next/link';
 
 const calculatorLinks = [
+  {
+    href: '/calculators/car-vs-flight-calculator',
+    label: 'Car vs. Flight Cost Comparison',
+    icon: <Car className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/cost-per-mile-calculator',
+    label: 'Cost Per Mile Calculator',
+    icon: <Route className="w-8 h-8" />,
+  },
   {
     href: '/calculators/distance-between-cities-calculator',
     label: 'Distance Between Cities Calculator',
@@ -48,6 +62,16 @@ const calculatorLinks = [
     href: '/calculators/fuel-cost-calculator',
     label: 'Fuel Cost Calculator',
     icon: <Fuel className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/group-expense-splitter',
+    label: 'Group Expense Splitter',
+    icon: <Users className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/hotel-cost-calculator',
+    label: 'Hotel Cost Calculator',
+    icon: <Hotel className="w-8 h-8" />,
   },
   {
     href: '/calculators/itinerary-time-planner',

@@ -51,6 +51,10 @@ const relatedCalculators = [
     { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
     { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
     { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
+    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
+    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
+    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];

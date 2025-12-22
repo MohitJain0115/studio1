@@ -460,3 +460,141 @@ export function calculateTripBudget(
         ]
     };
 }
+
+export function calculateHotelCost(data: {
+    costPerNight: number,
+    numNights: number,
+    numRooms: number,
+    taxesAndFees: number
+}) {
+    const baseCost = data.costPerNight * data.numNights;
+    const taxAmount = baseCost * (data.taxesAndFees / 100);
+    const totalPerRoom = baseCost + taxAmount;
+    const totalCost = totalPerRoom * data.numRooms;
+    
+    return {
+        baseCost: baseCost * data.numRooms,
+        taxAmount: taxAmount * data.numRooms,
+        totalPerRoom,
+        totalCost,
+    };
+}
+
+export const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+}
+
+export function calculateSplit(
+    participants: string[],
+    expenses: { name: string; amount: number; paidBy: string; splitBetween: string[] }[]
+) {
+    const balances: { [key: string]: number } = {};
+    participants.forEach(p => balances[p] = 0);
+
+    expenses.forEach(expense => {
+        if (!expense.paidBy || !participants.includes(expense.paidBy) || expense.amount <= 0 || expense.splitBetween.length === 0) return;
+        
+        balances[expense.paidBy] += expense.amount;
+        const share = expense.amount / expense.splitBetween.length;
+        expense.splitBetween.forEach(person => {
+            if (participants.includes(person)) {
+                balances[person] -= share;
+            }
+        });
+    });
+
+    const debtors = Object.entries(balances).filter(([, amount]) => amount < 0).map(([name, amount]) => ({ name, amount: -amount }));
+    const creditors = Object.entries(balances).filter(([, amount]) => amount > 0).map(([name, amount]) => ({ name, amount }));
+
+    const settlements = [];
+
+    let i = 0;
+    let j = 0;
+
+    while (i < debtors.length && j < creditors.length) {
+        const debtor = debtors[i];
+        const creditor = creditors[j];
+        const amount = Math.min(debtor.amount, creditor.amount);
+
+        settlements.push({ from: debtor.name, to: creditor.name, amount });
+
+        debtor.amount -= amount;
+        creditor.amount -= amount;
+
+        if (debtor.amount === 0) i++;
+        if (creditor.amount === 0) j++;
+    }
+
+    return { balances, settlements };
+}
+
+export function calculateCostPerMile(data: { totalCost: number, totalDistance: number, distanceUnit: 'miles' | 'kilometers' }) {
+    return {
+        costPerUnit: data.totalCost / data.totalDistance
+    };
+}
+
+export function calculateCarVsFlight(data: {
+    distance: number;
+    distanceUnit: 'miles' | 'kilometers';
+    numTravelers: number;
+    fuelEfficiency: number;
+    efficiencyUnit: 'mpg' | 'lp100km';
+    fuelPrice: number;
+    priceUnit: 'per_gallon' | 'per_liter';
+    otherCarCosts: number;
+    flightCostPerPerson: number;
+    baggageFeesPerPerson: number;
+    transportToFromAirport: number;
+}) {
+    // Car cost calculation
+    const fuelCostResult = calculateFuelCost(
+        data.distance * 2, // round trip
+        data.distanceUnit,
+        data.fuelEfficiency,
+        data.efficiencyUnit,
+        data.fuelPrice,
+        data.priceUnit
+    );
+    const totalFuelCost = parseFloat(fuelCostResult.totalCost);
+    const totalCarCost = totalFuelCost + data.otherCarCosts;
+
+    // Flight cost calculation
+    const totalAirfare = data.flightCostPerPerson * data.numTravelers;
+    const totalBaggage = data.baggageFeesPerPerson * data.numTravelers;
+    const totalFlightCost = totalAirfare + totalBaggage + data.transportToFromAirport;
+
+    const cheaperOption = totalCarCost < totalFlightCost ? 'Driving' : 'Flying';
+    const savings = Math.abs(totalCarCost - totalFlightCost);
+    
+    let verdict, bgColor, textColor;
+    if (cheaperOption === 'Driving') {
+        verdict = `Driving is cheaper by $${savings.toFixed(2)}`;
+        bgColor = 'rgba(74, 222, 128, 0.1)';
+        textColor = '#16a34a';
+    } else {
+        verdict = `Flying is cheaper by $${savings.toFixed(2)}`;
+        bgColor = 'rgba(59, 130, 246, 0.1)';
+        textColor = '#2563eb';
+    }
+
+    return {
+        car: {
+            total: totalCarCost,
+            perPerson: totalCarCost / data.numTravelers,
+            fuelCost: totalFuelCost,
+            otherCosts: data.otherCarCosts,
+        },
+        flight: {
+            total: totalFlightCost,
+            airfare: totalAirfare,
+            baggage: totalBaggage,
+            airportTransport: data.transportToFromAirport,
+        },
+        cheaperOption,
+        savings,
+        verdict,
+        bgColor,
+        textColor
+    };
+}

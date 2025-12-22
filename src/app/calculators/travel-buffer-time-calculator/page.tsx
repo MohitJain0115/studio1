@@ -46,6 +46,10 @@ const relatedCalculators = [
     { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
     { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
+    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
+    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
+    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function TravelBufferTimeCalculator() {
