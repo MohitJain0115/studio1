@@ -318,7 +318,7 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     const drivingTimeHours = distanceInKm / speedInKmh;
     const drivingTimeMinutes = drivingTimeHours * 60;
     
-    const numberOfBreaks = data.breakFrequency > 0 ? Math.ceil(drivingTimeHours / data.breakFrequency) - 1 : 0;
+    const numberOfBreaks = data.breakFrequency > 0 ? Math.floor(drivingTimeHours / data.breakFrequency) : 0;
     const totalBreakTimeMinutes = numberOfBreaks > 0 ? numberOfBreaks * data.breakDuration : 0;
     
     const totalJourneyMinutes = drivingTimeMinutes + totalBreakTimeMinutes;
@@ -438,7 +438,7 @@ export function calculateTripBudget(
         misc: number;
     }
 ) {
-    const accommodationTotal = costs.accommodationPerNight * (durationDays - 1);
+    const accommodationTotal = costs.accommodationPerNight * (durationDays > 0 ? durationDays - 1 : 0);
     const foodTotal = costs.foodPerDay * durationDays * numTravelers;
     const flightsTotal = costs.flights * numTravelers;
     const activitiesTotal = costs.activities * numTravelers;
@@ -529,6 +529,7 @@ export function calculateSplit(
 }
 
 export function calculateCostPerMile(data: { totalCost: number, totalDistance: number, distanceUnit: 'miles' | 'kilometers' }) {
+    if (data.totalDistance === 0) return { costPerUnit: 0 };
     return {
         costPerUnit: data.totalCost / data.totalDistance
     };
@@ -581,12 +582,13 @@ export function calculateCarVsFlight(data: {
     return {
         car: {
             total: totalCarCost,
-            perPerson: totalCarCost / data.numTravelers,
+            perPerson: data.numTravelers > 0 ? totalCarCost / data.numTravelers : 0,
             fuelCost: totalFuelCost,
             otherCosts: data.otherCarCosts,
         },
         flight: {
             total: totalFlightCost,
+            perPerson: data.numTravelers > 0 ? totalFlightCost / data.numTravelers : 0,
             airfare: totalAirfare,
             baggage: totalBaggage,
             airportTransport: data.transportToFromAirport,

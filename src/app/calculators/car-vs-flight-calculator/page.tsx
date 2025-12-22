@@ -215,7 +215,7 @@ export default function CarVsFlightCalculator() {
                       </li>
                        <li className="flex justify-between">
                           <span className="font-bold">Cost Per Person:</span>
-                          <span className="font-bold text-primary">${(result.flight.total / form.getValues('numTravelers')).toFixed(2)}</span>
+                          <span className="font-bold text-primary">${result.flight.perPerson.toFixed(2)}</span>
                       </li>
                   </ul>
               </div>
