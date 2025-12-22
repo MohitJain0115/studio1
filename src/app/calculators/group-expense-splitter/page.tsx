@@ -32,6 +32,14 @@ import Link from 'next/link';
 import { Users, DollarSign, Info, Shield, Compass, Receipt, PlusCircle, Trash2 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
 
 const expenseSchema = z.object({
   name: z.string().min(1, 'Expense name is required.'),
@@ -127,7 +135,7 @@ export default function GroupExpenseSplitter() {
                             <FormItem><FormLabel>Expense Name</FormLabel><FormControl><Input placeholder="e.g., Groceries" {...field} /></FormControl><FormMessage /></FormItem>
                          )}/>
                           <FormField control={form.control} name={`expenses.${index}.amount`} render={({ field }) => (
-                            <FormItem><FormLabel>Amount ($)</FormLabel><FormControl><Input type="number" placeholder="e.g., 75.50" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormLabel>Amount ($)</FormLabel><FormControl><Input type="number" placeholder="e.g., 75.50" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                          )}/>
                        </div>
                        <FormField control={form.control} name={`expenses.${index}.paidBy`} render={({ field }) => (
