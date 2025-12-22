@@ -52,6 +52,7 @@ const relatedCalculators = [
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
     { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
+    { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -277,5 +278,3 @@ export default function CostPerMileCalculator() {
     </div>
   );
 }
-
-    

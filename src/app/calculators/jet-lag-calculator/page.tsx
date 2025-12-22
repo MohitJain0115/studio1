@@ -58,6 +58,7 @@ const relatedCalculators = [
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
     { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
+    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function JetLagCalculator() {
@@ -73,15 +74,25 @@ export default function JetLagCalculator() {
   });
   
   function getOffset(timeZone: string) {
-    const date = new Date();
-    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
-    const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
-    return (utcDate.getTime() - tzDate.getTime()) / 36e5;
+    try {
+      const date = new Date();
+      const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+      const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
+      return (utcDate.getTime() - tzDate.getTime()) / 36e5;
+    } catch {
+      return NaN;
+    }
   }
 
   const onSubmit = (data: FormValues) => {
     const originOffset = getOffset(data.originTimeZone);
     const destinationOffset = getOffset(data.destinationTimeZone);
+    
+    if(isNaN(originOffset) || isNaN(destinationOffset)) {
+        // Handle invalid timezone case if needed
+        return;
+    }
+
     const timezonesCrossed = destinationOffset - originOffset;
     
     const res = calculateJetLag(timezonesCrossed, data.flightDuration);
@@ -325,5 +336,3 @@ export default function JetLagCalculator() {
     </div>
   );
 }
-
-    

@@ -59,11 +59,16 @@ const flightDurationSchema = z.object({
 export const timeZones: string[] = Intl.supportedValuesOf('timeZone');
 
 function getOffset(timeZone: string) {
-    const date = new Date();
-    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
-    const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
-    return (utcDate.getTime() - tzDate.getTime()) / 36e5;
+    try {
+        const date = new Date();
+        const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+        const tzDate = new Date(date.toLocaleString('en-US', { timeZone }));
+        return (utcDate.getTime() - tzDate.getTime()) / 36e5;
+    } catch {
+        return NaN; // Return NaN for invalid time zones
+    }
 }
+
 
 export function calculateFlightDuration(data: z.infer<typeof flightDurationSchema>): { text: string, totalMinutes: number } {
   try {
@@ -73,6 +78,10 @@ export function calculateFlightDuration(data: z.infer<typeof flightDurationSchem
     // Get the timezone offsets in hours
     const departureOffset = getOffset(data.departureTimeZone);
     const arrivalOffset = getOffset(data.arrivalTimeZone);
+
+    if (isNaN(departureOffset) || isNaN(arrivalOffset)) {
+        return { text: 'Invalid time zone provided.', totalMinutes: -1 };
+    }
 
     // Get the UTC time by adding the offset
     const departureUTC = new Date(departureDate.getTime() + departureOffset * 3600 * 1000);
@@ -91,7 +100,7 @@ export function calculateFlightDuration(data: z.infer<typeof flightDurationSchem
       totalMinutes: totalMinutes,
     };
   } catch (error) {
-    return { text: 'Invalid date or time zone provided.', totalMinutes: -1 };
+    return { text: 'Invalid date or time provided.', totalMinutes: -1 };
   }
 }
 
@@ -120,6 +129,10 @@ export function calculateTimeZoneDifference(tz1: string, tz2: string): string {
         const offset1 = getOffset(tz1);
         const offset2 = getOffset(tz2);
         
+        if (isNaN(offset1) || isNaN(offset2)) {
+            return "Invalid time zone specified.";
+        }
+
         const diff = offset1 - offset2;
         
         const hours = Math.trunc(diff);
@@ -159,8 +172,8 @@ export function calculateTravelDays(startDate: string, endDate: string): { total
 
         // To include both start and end days, we add 1
         const diffTime = end.getTime() - start.getTime();
-        const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-        const totalNights = totalDays - 1;
+        const totalDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        const totalNights = totalDays > 0 ? totalDays - 1 : 0;
 
         return {
             totalDays,
@@ -203,10 +216,10 @@ export function calculateJetLag(timezonesCrossed: number, flightDuration: number
     if (timezonesCrossed > 0) { // Eastward
         advice.push("You traveled east. Try to get morning sunlight to advance your body clock.");
         advice.push("Avoid heavy meals and caffeine late at night in your new time zone.");
-        advice.push("Consider Melatonin");
+        advice.push("Consider Melatonin to help reset your sleep schedule.");
     } else { // Westward
         advice.push("You traveled west. Try to get afternoon/evening sunlight to delay your body clock.");
-        advice.push("Try to stay up until a reasonable local bedtime.");
+        advice.push("Try to stay up until a reasonable local bedtime, avoiding long naps.");
     }
     
     advice.push("Stay hydrated during and after your flight.");
@@ -233,7 +246,7 @@ export function calculateItinerary(
         }
         
         const totalAvailableMinutes = (end.getTime() - start.getTime()) / 60000;
-        const totalActivityMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
+        const totalActivityMinutes = activities.reduce((sum, act) => sum + (act.duration || 0), 0);
 
         const freeTimeMinutes = totalAvailableMinutes - totalActivityMinutes;
 
@@ -318,7 +331,7 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     const drivingTimeHours = distanceInKm / speedInKmh;
     const drivingTimeMinutes = drivingTimeHours * 60;
     
-    const numberOfBreaks = data.breakFrequency > 0 ? Math.floor(drivingTimeHours / data.breakFrequency) : 0;
+    const numberOfBreaks = data.breakFrequency > 0 ? Math.ceil(drivingTimeHours / data.breakFrequency) -1 : 0;
     const totalBreakTimeMinutes = numberOfBreaks > 0 ? numberOfBreaks * data.breakDuration : 0;
     
     const totalJourneyMinutes = drivingTimeMinutes + totalBreakTimeMinutes;
@@ -343,13 +356,13 @@ export function calculateDrivingTimeWithBreaks(data: z.infer<typeof drivingTimeW
     }
 
     // Add the final driving segment
-    if (drivingTimeHours > (numberOfBreaks * data.breakFrequency)) {
-        const remainingDrivingHours = drivingTimeHours - (numberOfBreaks * data.breakFrequency);
-        accumulatedTimeMinutes += remainingDrivingHours * 60;
+    const finalLegDrivingHours = drivingTimeHours - (numberOfBreaks * data.breakFrequency);
+    if (finalLegDrivingHours > 0.001) {
+        accumulatedTimeMinutes += finalLegDrivingHours * 60;
          timeline.push({
             event: `Drive Segment ${numberOfBreaks + 1}`,
             time: formatDuration(accumulatedTimeMinutes),
-            notes: `Final drive of ${formatDuration(remainingDrivingHours*60)}.`,
+            notes: `Final drive of ${formatDuration(finalLegDrivingHours * 60)}.`,
         });
     }
 
@@ -383,6 +396,7 @@ export function calculateFuelCost(
 
     let efficiencyLp100km = efficiency;
     if (efficiencyUnit === 'mpg') {
+        if (efficiency === 0) return { totalCost: '0.00', fuelNeeded: 'N/A' };
         efficiencyLp100km = 235.215 / efficiency;
     }
 
@@ -414,6 +428,7 @@ export function calculateEvChargingCost(
 
     let efficiencyKwhPer100km = efficiency;
     if (efficiencyUnit === 'miles_per_kWh') {
+        if (efficiency === 0) return { totalCost: '0.00', energyNeeded: 'N/A' };
         efficiencyKwhPer100km = (1 / efficiency) * 100 * KM_TO_MILES;
     }
     
@@ -446,17 +461,18 @@ export function calculateTripBudget(
     const miscTotal = costs.misc;
 
     const totalBudget = accommodationTotal + foodTotal + flightsTotal + activitiesTotal + transportTotal + miscTotal;
+    const perPerson = numTravelers > 0 ? totalBudget / numTravelers : 0;
     
     return {
         totalBudget,
-        perPersonBudget: totalBudget / numTravelers,
+        perPersonBudget: perPerson,
         breakdown: [
-            { category: 'Flights', total: flightsTotal, perPerson: flightsTotal / numTravelers },
-            { category: 'Accommodation', total: accommodationTotal, perPerson: accommodationTotal / numTravelers },
-            { category: 'Food & Dining', total: foodTotal, perPerson: foodTotal / numTravelers },
-            { category: 'Activities & Tours', total: activitiesTotal, perPerson: activitiesTotal / numTravelers },
-            { category: 'Local Transport', total: transportTotal, perPerson: transportTotal / numTravelers },
-            { category: 'Miscellaneous', total: miscTotal, perPerson: miscTotal / numTravelers },
+            { category: 'Flights', total: flightsTotal, perPerson: costs.flights },
+            { category: 'Accommodation', total: accommodationTotal, perPerson: numTravelers > 0 ? accommodationTotal / numTravelers : 0 },
+            { category: 'Food & Dining', total: foodTotal, perPerson: costs.foodPerDay * durationDays },
+            { category: 'Activities & Tours', total: activitiesTotal, perPerson: costs.activities },
+            { category: 'Local Transport', total: transportTotal, perPerson: numTravelers > 0 ? transportTotal / numTravelers : 0 },
+            { category: 'Miscellaneous', total: miscTotal, perPerson: numTravelers > 0 ? miscTotal / numTravelers : 0 },
         ]
     };
 }
@@ -467,15 +483,15 @@ export function calculateHotelCost(data: {
     numRooms: number,
     taxesAndFees: number
 }) {
-    const baseCost = data.costPerNight * data.numNights;
-    const taxAmount = baseCost * (data.taxesAndFees / 100);
-    const totalPerRoom = baseCost + taxAmount;
-    const totalCost = totalPerRoom * data.numRooms;
+    const baseCostPerRoom = data.costPerNight * data.numNights;
+    const totalBaseCost = baseCostPerRoom * data.numRooms;
+    const taxAmount = totalBaseCost * (data.taxesAndFees / 100);
+    const totalCost = totalBaseCost + taxAmount;
     
     return {
-        baseCost: baseCost * data.numRooms,
-        taxAmount: taxAmount * data.numRooms,
-        totalPerRoom,
+        baseCost: totalBaseCost,
+        taxAmount: taxAmount,
+        totalPerRoom: totalBaseCost / data.numRooms + taxAmount / data.numRooms,
         totalCost,
     };
 }
@@ -506,8 +522,10 @@ export function calculateSplit(
     const debtors = Object.entries(balances).filter(([, amount]) => amount < 0).map(([name, amount]) => ({ name, amount: -amount }));
     const creditors = Object.entries(balances).filter(([, amount]) => amount > 0).map(([name, amount]) => ({ name, amount }));
 
-    const settlements = [];
+    debtors.sort((a, b) => b.amount - a.amount);
+    creditors.sort((a, b) => b.amount - a.amount);
 
+    const settlements = [];
     let i = 0;
     let j = 0;
 
@@ -516,13 +534,15 @@ export function calculateSplit(
         const creditor = creditors[j];
         const amount = Math.min(debtor.amount, creditor.amount);
 
-        settlements.push({ from: debtor.name, to: creditor.name, amount });
+        if (amount > 0.005) { // Threshold to avoid tiny settlements
+            settlements.push({ from: debtor.name, to: creditor.name, amount });
+        }
 
         debtor.amount -= amount;
         creditor.amount -= amount;
 
-        if (debtor.amount === 0) i++;
-        if (creditor.amount === 0) j++;
+        if (debtor.amount < 0.005) i++;
+        if (creditor.amount < 0.005) j++;
     }
 
     return { balances, settlements };
@@ -598,5 +618,81 @@ export function calculateCarVsFlight(data: {
         verdict,
         bgColor,
         textColor
+    };
+}
+
+
+export function calculateRentalCarCost(data: {
+    dailyRate: number;
+    rentalDays: number;
+    taxesAndFees: number;
+    insurance: number;
+    extras: number;
+}) {
+    const baseCost = data.dailyRate * data.rentalDays;
+    const taxAmount = baseCost * (data.taxesAndFees / 100);
+    const insuranceTotal = data.insurance * data.rentalDays;
+    const extrasTotal = data.extras;
+    const totalCost = baseCost + taxAmount + insuranceTotal + extrasTotal;
+    const averageDailyCost = data.rentalDays > 0 ? totalCost / data.rentalDays : 0;
+
+    return {
+        baseCost,
+        taxAmount,
+        insuranceTotal,
+        extrasTotal,
+        totalCost,
+        averageDailyCost,
+    };
+}
+
+export function calculateMultiStopRoute(data: {
+    stops: { name: string; lat: number; lon: number }[];
+    averageSpeed: number;
+    speedUnit: 'mph' | 'kmh';
+}) {
+    let totalDistanceKm = 0;
+    const legs = [];
+
+    for (let i = 0; i < data.stops.length - 1; i++) {
+        const start = data.stops[i];
+        const end = data.stops[i + 1];
+        const legDistance = calculateDistance(start.lat, start.lon, end.lat, end.lon);
+        totalDistanceKm += legDistance.kilometers;
+        legs.push({
+            from: start.name,
+            to: end.name,
+            distance: `${legDistance.miles.toFixed(1)} mi / ${legDistance.kilometers.toFixed(1)} km`,
+        });
+    }
+
+    const totalDistanceMiles = totalDistanceKm * KM_TO_MILES;
+
+    const travelTimeResult = calculateTravelTime({
+        distance: totalDistanceMiles,
+        distanceUnit: 'miles',
+        speed: data.averageSpeed,
+        speedUnit: data.speedUnit,
+    });
+    
+    // Add estimated time for each leg
+    const legsWithTime = legs.map((leg, i) => {
+      const start = data.stops[i];
+      const end = data.stops[i + 1];
+      const legDist = calculateDistance(start.lat, start.lon, end.lat, end.lon);
+      const legTime = calculateTravelTime({
+        distance: legDist.miles,
+        distanceUnit: 'miles',
+        speed: data.averageSpeed,
+        speedUnit: data.speedUnit,
+      });
+      return { ...leg, time: legTime.text };
+    });
+
+    return {
+        totalStops: data.stops.length,
+        totalDistance: `${totalDistanceMiles.toFixed(1)} mi / ${totalDistanceKm.toFixed(1)} km`,
+        totalTime: travelTimeResult.text,
+        legs: legsWithTime,
     };
 }
