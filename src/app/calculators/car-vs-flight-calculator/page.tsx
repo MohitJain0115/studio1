@@ -59,6 +59,7 @@ const relatedCalculators = [
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
     { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
+    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -365,3 +366,5 @@ export default function CarVsFlightCalculator() {
     </div>
   );
 }
+
+    

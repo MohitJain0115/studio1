@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route } from 'lucide-react';
+import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -73,6 +73,16 @@ const menuItems = [
     icon: Hourglass,
   },
   {
+    href: '/calculators/multi-stop-route-planner',
+    label: 'Multi-Stop Route Planner',
+    icon: Map,
+  },
+  {
+    href: '/calculators/rental-car-cost-calculator',
+    label: 'Rental Car Cost',
+    icon: Car,
+  },
+  {
     href: '/calculators/time-zone-difference-calculator',
     label: 'Time Zone Difference',
     icon: Globe,
@@ -127,3 +137,5 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
+
+    

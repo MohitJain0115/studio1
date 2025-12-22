@@ -56,6 +56,7 @@ const relatedCalculators = [
     { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
+    { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function ItineraryTimePlanner() {
@@ -369,3 +370,5 @@ export default function ItineraryTimePlanner() {
     </div>
   );
 }
+
+    

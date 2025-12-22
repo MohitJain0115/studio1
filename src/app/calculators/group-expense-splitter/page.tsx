@@ -59,6 +59,7 @@ const relatedCalculators = [
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
     { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
     { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
+    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function GroupExpenseSplitter() {
@@ -369,3 +370,5 @@ export default function GroupExpenseSplitter() {
     </div>
   );
 }
+
+    

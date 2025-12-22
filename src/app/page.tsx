@@ -24,6 +24,7 @@ import {
   Hotel,
   Users,
   Route,
+  Map,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -89,6 +90,16 @@ const calculatorLinks = [
     icon: <Hourglass className="w-8 h-8" />,
   },
   {
+    href: '/calculators/multi-stop-route-planner',
+    label: 'Multi-Stop Route Planner',
+    icon: <Map className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/rental-car-cost-calculator',
+    label: 'Rental Car Cost Calculator',
+    icon: <Car className="w-8 h-8" />,
+  },
+  {
     href: '/calculators/time-zone-difference-calculator',
     label: 'Time Zone Difference Calculator',
     icon: <Globe className="w-8 h-8" />,
@@ -144,3 +155,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
