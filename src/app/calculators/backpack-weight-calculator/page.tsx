@@ -55,24 +55,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
-    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
-    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
-    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
-    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
-    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
-    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
     { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
-    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
-    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
-    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
-    { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
-    { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
@@ -293,6 +277,74 @@ export default function BackpackWeightCalculator() {
 
       <Card>
         <CardHeader>
+            <CardTitle className="text-2xl font-bold">The Science of a Lighter Pack</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
+            <h2 className="text-xl font-bold text-foreground">A Backpacker's Guide to Weight Management</h2>
+            <p>In the world of backpacking, weight is everything. Every ounce on your back requires energy to carry, and reducing your pack weight is the single most effective way to increase your comfort, speed, and overall enjoyment on the trail. This guide breaks down the philosophy of pack weight, the key metrics used by hikers, and how to use our calculator to analyze and optimize your gear list.</p>
+            
+            <h3 className="text-lg font-semibold text-foreground">Base Weight vs. Total Pack Weight</h3>
+            <p>Experienced backpackers talk about two key weight metrics:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Base Weight:</strong> This is the weight of your pack and all its contents, **excluding** consumables like food, water, and fuel. Your base weight is the constant part of your load and the best indicator of how heavy your gear is. Ultralight backpackers obsess over reducing their base weight.</li>
+                <li><strong>Total Pack Weight (or "Skin-Out Weight"):</strong> This is everything you are carrying, including your consumables. This weight will be highest at the start of a trip and will decrease as you eat your food and drink your water.</li>
+            </ul>
+            <p>Our calculator helps you determine your total pack weight, but you can use it to find your base weight by simply omitting food, water, and fuel from your gear list.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">The Body Weight Guideline: How Heavy is Too Heavy?</h3>
+            <p>A long-standing rule of thumb in the backpacking community provides a guideline for how much weight a person can comfortably and safely carry. This is typically expressed as a percentage of your body weight:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li><strong>10% or less:</strong> This is the realm of the "ultralight" backpacker. Achieving this low of a base weight requires specialized, often expensive gear and a minimalist mindset.</li>
+                <li><strong>20% or less:</strong> A fantastic goal for most hikers. A pack weight at or below 20% of your body weight is generally considered healthy and sustainable for multi-day trips.</li>
+                <li><strong>20% to 30%:</strong> This is a conventional, but heavy, pack weight. While manageable for strong hikers on shorter trips, it can lead to increased fatigue and discomfort. If you're in this range, you should actively look for ways to reduce weight.</li>
+                <li><strong>Over 30%:</strong> This is widely considered to be in the danger zone. Carrying over 30% of your body weight significantly increases the strain on your joints (especially knees and ankles), leads to rapid fatigue, and raises the risk of injury.</li>
+            </ul>
+            <p>Our calculator's color-coded feedback is based on these well-established guidelines to give you an instant assessment of your load.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">The "Big Three": Where to Save the Most Weight</h3>
+            <p>For most backpackers, the heaviest items in their pack are the "Big Three":</p>
+            <ol className="list-decimal list-inside space-y-2">
+                <li><strong>Your Pack Itself:</strong> A robust, feature-heavy backpack can weigh 4-5 pounds, while a minimalist ultralight pack can be under 2 pounds.</li>
+                <li><strong>Your Shelter:</strong> A two-person tent can range from over 5 pounds to under 2 pounds for an ultralight model.</li>
+                <li><strong>Your Sleep System:</strong> This includes your sleeping bag and sleeping pad. Down sleeping bags are generally lighter than synthetic ones for the same temperature rating.</li>
+            </ol>
+            <p>Reducing the weight of these three items is the fastest way to lower your base weight. After that, you can start scrutinizing every other item, from your cook set to your clothing.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">Using the Calculator for Gear Audits</h3>
+            <p>This calculator is a powerful tool for conducting a "gear audit." By forcing you to list and weigh every single item, you can see exactly where the ounces are adding up. This process often reveals surprising sources of weight and opportunities for reduction. Can you carry a smaller tube of toothpaste? Do you really need that heavy book? Could a lighter pot save you 6 ounces? This meticulous approach is the path to a lighter, more comfortable backpacking experience.</p>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Frequently Asked Questions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Should I include the weight of the clothes I'm wearing?</AccordionTrigger>
+              <AccordionContent>
+                <p>Generally, no. Pack weight refers to what you are carrying on your back. The weight of your clothes, boots, and trekking poles (in your hands) are not typically included in base weight or total pack weight calculations.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>How much does water weigh?</AccordionTrigger>
+              <AccordionContent>
+                <p>A simple and crucial conversion to remember: 1 liter of water weighs 1 kilogram (or about 2.2 pounds). This is why carrying a large amount of water significantly increases your pack weight.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>How can I weigh my gear accurately?</AccordionTrigger>
+              <AccordionContent>
+                <p>A digital kitchen scale is the best tool for weighing individual items. For larger items like your entire backpack, a luggage scale can be used.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle className="flex items-center gap-2"><Compass className="h-5 w-5" />Related Calculators</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -303,6 +355,15 @@ export default function BackpackWeightCalculator() {
               </Card>
             </Link>
           ))}
+        </CardContent>
+      </Card>
+       <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Backpack Weight Calculator is a critical tool for any serious hiker or backpacker. By allowing you to itemize your gear and calculate a total weight, it provides immediate, actionable feedback based on established safety guidelines. Understanding and managing your pack weight is the key to hiking farther, feeling better, and enjoying your time in the wilderness to the fullest.
+          </p>
         </CardContent>
       </Card>
     </div>

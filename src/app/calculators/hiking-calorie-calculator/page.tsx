@@ -49,23 +49,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
     { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
-    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
-    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
-    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
-    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
-    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
-    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
-    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
-    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
-    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
-    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
-    { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
-    { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
     { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
@@ -214,6 +198,69 @@ export default function HikingCalorieCalculator() {
           </div>
         </CardContent>
       </Card>
+      
+      <Card>
+        <CardHeader>
+            <CardTitle className="text-2xl font-bold">Fueling Your Adventure</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
+            <h2 className="text-xl font-bold text-foreground">A Guide to Understanding and Estimating Calorie Burn on the Trail</h2>
+            <p>Proper nutrition is critical for a successful and enjoyable hike. Knowing how many calories you're burning is the first step in figuring out how much food you need to pack to stay energized and strong. This guide explores the science of calorie expenditure during exercise, the concept of METs, and how you can use our calculator to plan your trail nutrition effectively.</p>
+            
+            <h3 className="text-lg font-semibold text-foreground">What is a Calorie?</h3>
+            <p>A calorie is a unit of energy. In nutrition, calories refer to the energy people get from the food and drink they consume, as well as the energy they expend in physical activity. Hiking, especially with a pack and on varied terrain, is a significant calorie-burning activity.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">METs: The Standard for Measuring Exercise Intensity</h3>
+            <p>The core of our calculation is the **Metabolic Equivalent of Task (MET)**. A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. One MET is defined as the energy you use when you're resting or sitting still. An activity with a MET value of 4 means you are exerting four times the energy than you would be if you were sitting still.</p>
+            <p>The Compendium of Physical Activities, a standardized list maintained by researchers, assigns MET values to thousands of activities. Our calculator simplifies this by using representative MET values for different hiking intensities:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Easy (MET ~4.0):</strong> Corresponds to walking on a firm, level surface at a moderate pace. Think of a gentle walk on a flat, wide trail with a very light pack.</li>
+                <li><strong>Moderate (MET ~6.0):</strong> This is the value for general "hiking" or "cross-country" trekking. It assumes some rolling hills and uneven terrain.</li>
+                <li><strong>Strenuous (MET ~8.0):</strong> This represents more demanding conditions, such as climbing steep hills, hiking at a faster pace, or carrying a pack of 10-20 pounds.</li>
+            </ul>
+
+            <h3 className="text-lg font-semibold text-foreground">Key Factors in Calorie Burn</h3>
+            <p>The MET formula shows that calorie burn is primarily influenced by three things:</p>
+            <ol className="list-decimal list-inside space-y-2">
+                <li><strong>Exercise Intensity (METs):</strong> The harder you work, the more calories you burn per minute.</li>
+                <li><strong>Body Weight:</strong> A heavier person has to move more mass, which requires more energy. Therefore, they will burn more calories than a lighter person doing the exact same activity for the same amount of time.</li>
+                <li><strong>Duration:</strong> The longer you hike, the more total calories you will burn.</li>
+            </ol>
+            
+            <h3 className="text-lg font-semibold text-foreground">Using the Calculator for Meal Planning</h3>
+            <p>Once you have an estimate of your calorie expenditure, you can plan your trail food accordingly. The goal is to replace a significant portion of the calories you burn to avoid "bonking" or hitting the wall, which is a state of severe energy depletion.</p>
+            <p>For a multi-day backpacking trip, a common target is to consume **3,000 to 4,000 calories per day**, or even more for very strenuous trips. Your calculation can help you refine this number. If you estimate you'll burn 3,500 calories on a long day of hiking, you know you need to pack enough high-energy food to match that output.</p>
+            <p>Focus on calorie-dense foods that provide a good mix of carbohydrates (for quick energy), protein (for muscle repair), and fats (for sustained energy). Good examples include nuts, dried fruit, energy bars, cheese, and jerky.</p>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Frequently Asked Questions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>How accurate is this estimate?</AccordionTrigger>
+              <AccordionContent>
+                <p>This calculator provides a scientifically-based estimate and is a great starting point for planning. However, individual metabolic rates can vary. The actual calories you burn can also be affected by factors not in the calculator, such as terrain roughness, altitude, and weather conditions (e.g., you burn more calories in the cold).</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Does this include my Basal Metabolic Rate (BMR)?</AccordionTrigger>
+              <AccordionContent>
+                <p>No. The formula calculates the calories burned **from the activity itself**, on top of what your body would normally be burning at rest. Your total daily calorie expenditure on a hiking day would be your BMR plus the calories burned from hiking.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>How does my backpack weight affect the calculation?</AccordionTrigger>
+              <AccordionContent>
+                <p>A heavier backpack increases the intensity of the hike. If you are carrying a pack over 10-15 lbs, you should consider selecting a higher intensity level (e.g., choosing "Strenuous" instead of "Moderate") to get a more accurate calorie estimate.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -227,6 +274,16 @@ export default function HikingCalorieCalculator() {
               </Card>
             </Link>
           ))}
+        </CardContent>
+      </Card>
+
+       <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Hiking Calorie Calculator is a nutrition planning tool that provides an evidence-based estimate of your energy expenditure on the trail. By using the established METs formula, it accounts for your body weight, hike duration, and intensity to help you make informed decisions about how much food to pack, ensuring you stay properly fueled for your adventure.
+          </p>
         </CardContent>
       </Card>
     </div>

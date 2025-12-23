@@ -51,24 +51,11 @@ type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
     { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
-    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
-    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
-    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
-    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
-    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
-    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
-    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
     { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Jet Lag Calculator', href: '/calculators/jet-lag-calculator' },
-    { name: 'Layover Time Calculator', href: '/calculators/layover-time-calculator' },
-    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
-    { name: 'Time Zone Difference', href: '/calculators/time-zone-difference-calculator' },
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
     { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -219,6 +206,76 @@ export default function HikingTimeCalculator() {
           <p className="mt-2">Our calculator adjusts the base pace according to your selected fitness level and then adds the time calculated for the elevation gain to arrive at a total estimated moving time.</p>
         </CardContent>
       </Card>
+      
+      <Card>
+        <CardHeader>
+            <CardTitle className="text-2xl font-bold">The Art and Science of Trail Timing</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
+            <h2 className="text-xl font-bold text-foreground">A Hiker's Guide to Accurately Estimating Trail Time</h2>
+            <p>One of the most important skills for any hiker is the ability to accurately estimate how long a trail will take. It's a matter of safety—ensuring you have enough daylight—and enjoyment, allowing you to properly pace yourself and plan for breaks. A simple mileage calculation is often misleading in the mountains. This guide explores the time-tested formulas for estimating hiking time, the factors that influence your pace, and how to use this knowledge to plan safer, more enjoyable hikes.</p>
+            
+            <h3 className="text-lg font-semibold text-foreground">Beyond Simple Mileage: The Importance of Elevation</h3>
+            <p>For walking on flat ground, a simple `Time = Distance / Speed` works well. But in hiking, vertical distance (elevation gain) is just as, if not more, important than horizontal distance. Climbing 1,000 feet can be as strenuous as walking several miles on a flat path. Any reliable estimation method must account for both.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">Naismith's Rule: The Century-Old Gold Standard</h3>
+            <p>In 1892, a Scottish mountaineer named William Naismith devised a simple, elegant rule that has become the foundation of hiking time estimation for over a century. His rule provides a baseline for a reasonably fit hiker:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li>**Allow 1 hour for every 3 miles (5 km) forward.**</li>
+                <li>**Add 1 hour for every 2,000 feet (600 m) of ascent.**</li>
+            </ul>
+            <p>Our calculator uses a modified version of this rule. It adjusts the base speed (e.g., from 3 mph to 2 mph for a slower pace) and then adds the calculated time for elevation gain. This two-part approach provides a robust estimate for "moving time."</p>
+
+            <h3 className="text-lg font-semibold text-foreground">Factors That Adjust the Formula: Pace and Conditions</h3>
+            <p>Naismith's Rule is a starting point, not an absolute law. Your actual time will be influenced by many personal and environmental factors:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Fitness Level:</strong> This is the most obvious factor. Our calculator accounts for this with the "Pace" selection. Be honest with your self-assessment.</li>
+                <li><strong>Pack Weight:</strong> A heavy overnight pack will slow you down considerably compared to a light daypack. Consider choosing a slower pace setting if you're carrying a heavy load.</li>
+                <li><strong>Terrain:</strong> The formula doesn't distinguish between a smooth, well-maintained trail and a rocky, technical scramble. A rougher trail will take longer.</li>
+                <li><strong>Weather:</strong> Hiking in deep snow, thick mud, or extreme heat will drastically slow your pace.</li>
+                <li><strong>Altitude:</strong> At higher altitudes (typically above 8,000 feet or 2,500 meters), the lower oxygen levels will slow down most hikers.</li>
+            </ul>
+
+            <h3 className="text-lg font-semibold text-foreground">Book Time vs. Real Time: Don't Forget the Breaks!</h3>
+            <p>The time estimated by our calculator is often called "book time" or "moving time." This is the time you spend with your feet on the trail. It does **not** include:</p>
+            <ul className="list-disc pl-5 space-y-2">
+                <li>Water and snack breaks</li>
+                <li>Lunch stops</li>
+                <li>Time spent taking photos</li>
+                <li>Rest stops to catch your breath on a steep section</li>
+                <li>Layering and de-layering clothing</li>
+            </ul>
+            <p>A good rule of thumb is to add **20-30%** to your calculated moving time to get a more realistic total trip time. For a calculated 4-hour hike, it's wise to budget at least 5 hours from trailhead to trailhead.</p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Frequently Asked Questions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What about hiking downhill?</AccordionTrigger>
+              <AccordionContent>
+                <p>While Naismith's original rule doesn't explicitly account for descents, other models like Tranter's Corrections add adjustments. Generally, gentle downhills can be faster, but very steep or technical descents can be just as slow, or even slower, than ascending, as they require careful footwork. For most day-hike planning, focusing on the ascent time provides a safe and reliable estimate.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>How do I find the distance and elevation gain for a hike?</AccordionTrigger>
+              <AccordionContent>
+                <p>Use trail guide websites (like AllTrails, Gaia GPS, or CalTopo), local park websites, or hiking guidebooks. These sources will provide detailed statistics for established trails.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>How accurate is this calculator?</AccordionTrigger>
+              <AccordionContent>
+                <p>The formula is a time-tested and widely used estimation tool. Its accuracy for you personally will improve as you gain experience. After a few hikes, compare your actual time to the calculated time. You may find you are consistently faster or slower than the "average" pace, and you can adjust your selections accordingly for future planning.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -232,6 +289,16 @@ export default function HikingTimeCalculator() {
               </Card>
             </Link>
           ))}
+        </CardContent>
+      </Card>
+
+       <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Hiking Time Calculator is an essential safety and planning tool for any outdoor enthusiast. By using a modified version of Naismith's Rule, it provides a realistic estimate of your "moving time" by considering both the horizontal distance and, crucially, the vertical elevation gain of your intended route. This allows you to plan your day, know when to turn around, and ensure you have enough daylight for a safe and enjoyable adventure.
+          </p>
         </CardContent>
       </Card>
     </div>
