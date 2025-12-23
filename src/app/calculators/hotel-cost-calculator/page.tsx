@@ -62,7 +62,7 @@ export default function HotelCostCalculator() {
       costPerNight: undefined,
       numNights: undefined,
       numRooms: 1,
-      taxesAndFees: 0,
+      taxesAndFees: undefined,
     },
   });
 
@@ -160,7 +160,7 @@ export default function HotelCostCalculator() {
                     <span className="font-medium">${result.baseCost.toFixed(2)}</span>
                 </li>
                 <li className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Taxes & Fees ({form.getValues('taxesAndFees')}%):</span>
+                    <span className="text-muted-foreground">Taxes & Fees ({form.getValues('taxesAndFees') || 0}%):</span>
                     <span className="font-medium">${result.taxAmount.toFixed(2)}</span>
                 </li>
                  <Separator className="my-2"/>

@@ -71,12 +71,12 @@ export default function TripBudgetCalculator() {
     defaultValues: {
         durationDays: undefined,
         numTravelers: 1,
-        flights: 0,
-        accommodationPerNight: 0,
-        foodPerDay: 0,
-        activities: 0,
-        transport: 0,
-        misc: 0,
+        flights: undefined,
+        accommodationPerNight: undefined,
+        foodPerDay: undefined,
+        activities: undefined,
+        transport: undefined,
+        misc: undefined,
     },
   });
 
@@ -130,22 +130,22 @@ export default function TripBudgetCalculator() {
                 <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">Estimated Costs</h3>
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <FormField control={form.control} name="flights" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><Plane className="h-4 w-4"/>Flights (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><Plane className="h-4 w-4"/>Flights (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="accommodationPerNight" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><Hotel className="h-4 w-4"/>Accommodation (per night)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><Hotel className="h-4 w-4"/>Accommodation (per night)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="foodPerDay" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><Utensils className="h-4 w-4"/>Food (per person, per day)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><Utensils className="h-4 w-4"/>Food (per person, per day)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="activities" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><FerrisWheel className="h-4 w-4"/>Activities (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><FerrisWheel className="h-4 w-4"/>Activities (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="transport" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><Car className="h-4 w-4"/>Local Transport (total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><Car className="h-4 w-4"/>Local Transport (total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="misc" render={({ field }) => (
-                        <FormItem><FormLabel className="flex items-center gap-2"><ShoppingBag className="h-4 w-4"/>Miscellaneous (total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel className="flex items-center gap-2"><ShoppingBag className="h-4 w-4"/>Miscellaneous (total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                  </div>
               </div>

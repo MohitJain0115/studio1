@@ -65,11 +65,11 @@ export default function BusVsTrainCalculator() {
     defaultValues: {
         numTravelers: 1,
         busTicketCost: undefined,
-        busBaggageFees: 0,
-        busOtherCosts: 0,
+        busBaggageFees: undefined,
+        busOtherCosts: undefined,
         trainTicketCost: undefined,
-        trainBaggageFees: 0,
-        trainOtherCosts: 0,
+        trainBaggageFees: undefined,
+        trainOtherCosts: undefined,
     },
   });
 
@@ -106,10 +106,10 @@ export default function BusVsTrainCalculator() {
                         <FormItem><FormLabel>Ticket Cost (per person)</FormLabel><FormControl><Input type="number" placeholder="e.g., 45" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="busBaggageFees" render={({ field }) => (
-                        <FormItem><FormLabel>Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="busOtherCosts" render={({ field }) => (
-                        <FormItem><FormLabel>Other Costs (e.g., station transport, total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Other Costs (e.g., station transport, total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
 
@@ -120,10 +120,10 @@ export default function BusVsTrainCalculator() {
                         <FormItem><FormLabel>Ticket Cost (per person)</FormLabel><FormControl><Input type="number" placeholder="e.g., 75" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="trainBaggageFees" render={({ field }) => (
-                        <FormItem><FormLabel>Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="trainOtherCosts" render={({ field }) => (
-                        <FormItem><FormLabel>Other Costs (e.g., station transport, total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Other Costs (e.g., station transport, total)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
               </div>

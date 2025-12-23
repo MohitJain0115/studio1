@@ -172,7 +172,7 @@ export default function TimeZoneDifferenceCalculator() {
                   )}
                 />
               </div>
-              <Button type="submit">Calculate Difference</Button>
+              
             </form>
           </Form>
         </CardContent>

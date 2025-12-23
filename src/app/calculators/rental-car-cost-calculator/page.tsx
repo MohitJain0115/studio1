@@ -67,9 +67,9 @@ export default function RentalCarCostCalculator() {
     defaultValues: {
       dailyRate: undefined,
       rentalDays: undefined,
-      taxesAndFees: 0,
-      insurance: 0,
-      extras: 0,
+      taxesAndFees: undefined,
+      insurance: undefined,
+      extras: undefined,
     },
   });
 
@@ -185,7 +185,7 @@ export default function RentalCarCostCalculator() {
 
             <ul className="space-y-2 text-sm">
                 <li className="flex justify-between items-center"><span className="text-muted-foreground">Base Rental Cost:</span><span className="font-medium">{formatCurrency(result.baseCost)}</span></li>
-                <li className="flex justify-between items-center"><span className="text-muted-foreground">Taxes & Fees ({form.getValues('taxesAndFees')}%):</span><span className="font-medium">{formatCurrency(result.taxAmount)}</span></li>
+                <li className="flex justify-between items-center"><span className="text-muted-foreground">Taxes & Fees ({form.getValues('taxesAndFees') || 0}%):</span><span className="font-medium">{formatCurrency(result.taxAmount)}</span></li>
                 <li className="flex justify-between items-center"><span className="text-muted-foreground">Total Insurance Cost:</span><span className="font-medium">{formatCurrency(result.insuranceTotal)}</span></li>
                 <li className="flex justify-between items-center"><span className="text-muted-foreground">Other Extras:</span><span className="font-medium">{formatCurrency(result.extrasTotal)}</span></li>
                  <Separator className="my-2"/>

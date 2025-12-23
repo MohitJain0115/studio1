@@ -70,7 +70,7 @@ export default function ItineraryTimePlanner() {
     defaultValues: {
       itineraryStart: '',
       itineraryEnd: '',
-      activities: [{ name: '', duration: 60 }],
+      activities: [{ name: '', duration: undefined as any }],
     },
   });
 
@@ -137,7 +137,7 @@ export default function ItineraryTimePlanner() {
                           <FormItem className="flex-grow">
                             <FormLabel>Activity Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., Museum Visit" {...field} />
+                              <Input placeholder="e.g., Museum Visit" {...field} value={field.value ?? ''} />
                             </FormControl>
                             <FormMessage/>
                           </FormItem>
@@ -167,7 +167,7 @@ export default function ItineraryTimePlanner() {
                     variant="outline"
                     size="sm"
                     className="mt-4 flex items-center gap-2"
-                    onClick={() => append({ name: '', duration: 60 })}>
+                    onClick={() => append({ name: '', duration: undefined as any })}>
                     <PlusCircle className="h-4 w-4" /> Add Activity
                 </Button>
               </div>

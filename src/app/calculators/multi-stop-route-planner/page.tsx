@@ -72,10 +72,10 @@ export default function MultiStopRoutePlanner() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       stops: [
-        { name: 'New York', lat: 40.7128, lon: -74.0060 },
-        { name: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
+        { name: '', lat: undefined as any, lon: undefined as any },
+        { name: '', lat: undefined as any, lon: undefined as any },
       ],
-      averageSpeed: 60,
+      averageSpeed: undefined,
       speedUnit: 'mph',
     },
   });
@@ -111,7 +111,7 @@ export default function MultiStopRoutePlanner() {
                              <FormField control={form.control} name={`stops.${index}.name`} render={({ field }) => (
                                 <FormItem className="w-1/3">
                                     <FormLabel>Stop #{index + 1} Name</FormLabel>
-                                    <FormControl><Input placeholder="e.g., Chicago" {...field} /></FormControl>
+                                    <FormControl><Input placeholder="e.g., Chicago" {...field} value={field.value ?? ''} /></FormControl>
                                     <FormMessage />
                                 </FormItem>
                              )}/>
@@ -119,16 +119,16 @@ export default function MultiStopRoutePlanner() {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                              <FormField control={form.control} name={`stops.${index}.lat`} render={({ field }) => (
-                                <FormItem><FormLabel>Latitude</FormLabel><FormControl><Input type="number" placeholder="e.g., 41.8781" {...field} /></FormControl><FormMessage /></FormItem>
+                                <FormItem><FormLabel>Latitude</FormLabel><FormControl><Input type="number" placeholder="e.g., 41.8781" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                              )}/>
                               <FormField control={form.control} name={`stops.${index}.lon`} render={({ field }) => (
-                                <FormItem><FormLabel>Longitude</FormLabel><FormControl><Input type="number" placeholder="e.g., -87.6298" {...field} /></FormControl><FormMessage /></FormItem>
+                                <FormItem><FormLabel>Longitude</FormLabel><FormControl><Input type="number" placeholder="e.g., -87.6298" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                              )}/>
                         </div>
                     </div>
                   ))}
                 </div>
-                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', lat: 0, lon: 0 })}><PlusCircle className="h-4 w-4 mr-2" />Add Stop</Button>
+                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => append({ name: '', lat: undefined as any, lon: undefined as any })}><PlusCircle className="h-4 w-4 mr-2" />Add Stop</Button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">

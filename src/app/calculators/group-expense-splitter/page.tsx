@@ -72,8 +72,8 @@ export default function GroupExpenseSplitter() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      participants: [{ name: 'Alice' }, { name: 'Bob' }],
-      expenses: [{ name: 'Dinner', amount: 100, paidBy: 'Alice', splitBetween: ['Alice', 'Bob'] }],
+      participants: [{ name: '' }, { name: '' }],
+      expenses: [],
     },
   });
 
@@ -137,7 +137,7 @@ export default function GroupExpenseSplitter() {
                       </div>
                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                          <FormField control={form.control} name={`expenses.${index}.name`} render={({ field }) => (
-                            <FormItem><FormLabel>Expense Name</FormLabel><FormControl><Input placeholder="e.g., Groceries" {...field} /></FormControl><FormMessage /></FormItem>
+                            <FormItem><FormLabel>Expense Name</FormLabel><FormControl><Input placeholder="e.g., Groceries" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                          )}/>
                           <FormField control={form.control} name={`expenses.${index}.amount`} render={({ field }) => (
                             <FormItem><FormLabel>Amount ($)</FormLabel><FormControl><Input type="number" placeholder="e.g., 75.50" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
@@ -165,11 +165,11 @@ export default function GroupExpenseSplitter() {
                                                <FormControl>
                                                   <input type="checkbox"
                                                       className="form-checkbox h-4 w-4 rounded text-primary focus:ring-primary"
-                                                      checked={field.value.includes(name)}
+                                                      checked={(field.value || []).includes(name)}
                                                       onChange={e => {
                                                           const newValues = e.target.checked
-                                                              ? [...field.value, name]
-                                                              : field.value.filter(v => v !== name);
+                                                              ? [...(field.value || []), name]
+                                                              : (field.value || []).filter(v => v !== name);
                                                           field.onChange(newValues);
                                                       }}
                                                   />
@@ -185,7 +185,7 @@ export default function GroupExpenseSplitter() {
                     </div>
                   ))}
                 </div>
-                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => appendExpense({ name: '', amount: 0, paidBy: participantNames[0] || '', splitBetween: participantNames })}><PlusCircle className="h-4 w-4 mr-2" />Add Expense</Button>
+                 <Button type="button" variant="outline" size="sm" className="mt-4" onClick={() => appendExpense({ name: '', amount: undefined as any, paidBy: participantNames[0] || '', splitBetween: participantNames })}><PlusCircle className="h-4 w-4 mr-2" />Add Expense</Button>
               </div>
 
               <Button type="submit" size="lg" className="w-full">Calculate Who Owes Whom</Button>

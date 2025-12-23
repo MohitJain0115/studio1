@@ -79,10 +79,10 @@ export default function CarVsFlightCalculator() {
         efficiencyUnit: 'mpg',
         fuelPrice: undefined,
         priceUnit: 'per_gallon',
-        otherCarCosts: 0,
+        otherCarCosts: undefined,
         flightCostPerPerson: undefined,
-        baggageFeesPerPerson: 0,
-        transportToFromAirport: 0,
+        baggageFeesPerPerson: undefined,
+        transportToFromAirport: undefined,
     },
   });
 
@@ -155,7 +155,7 @@ export default function CarVsFlightCalculator() {
                     </FormItem>
                   )}/>
                   <FormField control={form.control} name="otherCarCosts" render={({ field }) => (
-                      <FormItem><FormLabel>Other Round-Trip Costs (Tolls, Parking)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                      <FormItem><FormLabel>Other Round-Trip Costs (Tolls, Parking)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                   )}/>
                 </div>
 
@@ -166,10 +166,10 @@ export default function CarVsFlightCalculator() {
                       <FormItem><FormLabel>Round-Trip Flight Cost (per person)</FormLabel><FormControl><Input type="number" placeholder="e.g., 350" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                   )}/>
                   <FormField control={form.control} name="baggageFeesPerPerson" render={({ field }) => (
-                      <FormItem><FormLabel>Round-Trip Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                      <FormItem><FormLabel>Round-Trip Baggage Fees (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                   )}/>
                   <FormField control={form.control} name="transportToFromAirport" render={({ field }) => (
-                      <FormItem><FormLabel>Airport Transport (Round-Trip Total)</FormLabel><FormControl><Input type="number" placeholder="e.g., 80" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                      <FormItem><FormLabel>Airport Transport (Round-Trip Total)</FormLabel><FormControl><Input type="number" placeholder="e.g., 80" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                   )}/>
                 </div>
               </div>

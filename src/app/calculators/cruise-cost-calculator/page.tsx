@@ -59,14 +59,14 @@ export default function CruiseCostCalculator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        numTravelers: 2,
-        numNights: 7,
+        numTravelers: 1,
+        numNights: undefined,
         baseFare: undefined,
-        taxesAndFees: 0,
+        taxesAndFees: undefined,
         onboardGratuities: 18,
-        travelInsurance: 0,
-        onboardSpending: 0,
-        shoreExcursions: 0,
+        travelInsurance: undefined,
+        onboardSpending: undefined,
+        shoreExcursions: undefined,
     },
   });
 
@@ -112,13 +112,13 @@ export default function CruiseCostCalculator() {
                         <FormItem><FormLabel>Gratuities (per person, per day)</FormLabel><FormControl><Input type="number" placeholder="e.g., 18" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="travelInsurance" render={({ field }) => (
-                        <FormItem><FormLabel>Travel Insurance (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Travel Insurance (per person)</FormLabel><FormControl><Input type="number" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="onboardSpending" render={({ field }) => (
-                        <FormItem><FormLabel>Onboard Spending (per person)</FormLabel><FormControl><Input type="number" placeholder="Drinks, specialty dining" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Onboard Spending (per person)</FormLabel><FormControl><Input type="number" placeholder="Drinks, specialty dining" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="shoreExcursions" render={({ field }) => (
-                        <FormItem><FormLabel>Shore Excursions (per person)</FormLabel><FormControl><Input type="number" placeholder="Tours, activities" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Shore Excursions (per person)</FormLabel><FormControl><Input type="number" placeholder="Tours, activities" {...field} value={field.value ?? ''} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
               </div>
