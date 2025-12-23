@@ -27,10 +27,18 @@ import {
   Map,
   Ship,
   Bus,
+  Mountain,
+  Backpack,
+  Flame,
 } from 'lucide-react';
 import Link from 'next/link';
 
 const calculatorLinks = [
+  {
+    href: '/calculators/backpack-weight-calculator',
+    label: 'Backpack Weight Calculator',
+    icon: <Backpack className="w-8 h-8" />,
+  },
   {
     href: '/calculators/bus-vs-train-cost-calculator',
     label: 'Bus vs. Train Cost Comparison',
@@ -80,6 +88,16 @@ const calculatorLinks = [
     href: '/calculators/group-expense-splitter',
     label: 'Group Expense Splitter',
     icon: <Users className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/hiking-calorie-calculator',
+    label: 'Hiking Calorie Calculator',
+    icon: <Flame className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/hiking-time-calculator',
+    label: 'Hiking Time Calculator',
+    icon: <Mountain className="w-8 h-8" />,
   },
   {
     href: '/calculators/hotel-cost-calculator',

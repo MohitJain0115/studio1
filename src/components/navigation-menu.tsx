@@ -7,11 +7,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map, Ship, Train, Bus } from 'lucide-react';
+import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map, Ship, Train, Bus, Mountain, Backpack, Flame } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
+  {
+    href: '/calculators/backpack-weight-calculator',
+    label: 'Backpack Weight',
+    icon: Backpack,
+  },
   {
     href: '/calculators/bus-vs-train-cost-calculator',
     label: 'Bus vs. Train Comparison',
@@ -61,6 +66,16 @@ const menuItems = [
     href: '/calculators/group-expense-splitter',
     label: 'Group Expense Splitter',
     icon: Users,
+  },
+  {
+    href: '/calculators/hiking-calorie-calculator',
+    label: 'Hiking Calorie Calculator',
+    icon: Flame,
+  },
+  {
+    href: '/calculators/hiking-time-calculator',
+    label: 'Hiking Time Calculator',
+    icon: Mountain,
   },
   {
     href: '/calculators/hotel-cost-calculator',

@@ -784,3 +784,117 @@ export function calculateCruiseCost(data: {
         }
     };
 }
+
+export function calculateHikingTime(data: {
+    distance: number,
+    distanceUnit: 'miles' | 'kilometers',
+    elevationGain: number,
+    elevationUnit: 'feet' | 'meters',
+    pace: 'slow' | 'average' | 'fast'
+}) {
+    const FEET_TO_METERS = 0.3048;
+
+    let distanceInMiles = data.distanceUnit === 'kilometers' ? data.distance * KM_TO_MILES : data.distance;
+    let elevationInFeet = data.elevationUnit === 'meters' ? data.elevationGain / FEET_TO_METERS : data.elevationGain;
+
+    let paceHoursPerMile: number;
+    switch (data.pace) {
+        case 'slow':
+            paceHoursPerMile = 1 / 2; // 2 mph
+            break;
+        case 'fast':
+            paceHoursPerMile = 1 / 4; // 4 mph
+            break;
+        case 'average':
+        default:
+            paceHoursPerMile = 1 / 3; // 3 mph
+            break;
+    }
+
+    const timeForDistance = distanceInMiles * paceHoursPerMile;
+    const timeForElevation = elevationInFeet / 1000 * 0.5; // Naismith's original rule adapted: 1 hour per 2000 feet
+    
+    const totalHours = timeForDistance + timeForElevation;
+    const totalMinutes = totalHours * 60;
+
+    return formatDuration(totalMinutes);
+}
+
+
+export function calculateBackpackWeight(
+    items: { name: string; weight: number; unit: 'grams' | 'ounces' | 'pounds' }[],
+    bodyWeight: number,
+    bodyWeightUnit: 'pounds' | 'kilograms'
+) {
+    const GRAMS_TO_KG = 0.001;
+    const OUNCES_TO_KG = 0.0283495;
+    const POUNDS_TO_KG = 0.453592;
+
+    const itemsWithKg = items.map(item => {
+        let weightInKg = 0;
+        if (item.weight > 0) {
+            switch (item.unit) {
+                case 'grams':
+                    weightInKg = item.weight * GRAMS_TO_KG;
+                    break;
+                case 'ounces':
+                    weightInKg = item.weight * OUNCES_TO_KG;
+                    break;
+                case 'pounds':
+                    weightInKg = item.weight * POUNDS_TO_KG;
+                    break;
+            }
+        }
+        return { name: item.name, weightKg: weightInKg, weightLbs: weightInKg / POUNDS_TO_KG };
+    });
+
+    const totalWeightKg = itemsWithKg.reduce((sum, item) => sum + item.weightKg, 0);
+    const totalWeightLbs = totalWeightKg / POUNDS_TO_KG;
+    
+    const bodyWeightInKg = bodyWeightUnit === 'pounds' ? bodyWeight * POUNDS_TO_KG : bodyWeight;
+    const percentageOfBodyWeight = bodyWeightInKg > 0 ? Math.round((totalWeightKg / bodyWeightInKg) * 100) : 0;
+    
+    let recommendation;
+    if (percentageOfBodyWeight <= 10) {
+        recommendation = { text: 'Excellent! This is an ultralight pack.', color: 'rgba(74, 222, 128, 0.2)' }; // green
+    } else if (percentageOfBodyWeight <= 20) {
+        recommendation = { text: 'Great! This is a healthy lightweight pack.', color: 'rgba(74, 222, 128, 0.1)' }; // light green
+    } else if (percentageOfBodyWeight <= 30) {
+        recommendation = { text: 'Caution. This is a heavy pack. Consider reducing weight.', color: 'rgba(251, 191, 36, 0.2)' }; // yellow
+    } else {
+        recommendation = { text: 'Danger! This pack is too heavy and increases injury risk.', color: 'rgba(239, 68, 68, 0.2)' }; // red
+    }
+
+
+    return {
+        items: itemsWithKg,
+        totalWeightKg,
+        totalWeightLbs,
+        percentageOfBodyWeight,
+        recommendation
+    };
+}
+
+
+export function calculateHikingCalories(data: {
+  bodyWeight: number,
+  bodyWeightUnit: 'pounds' | 'kilograms',
+  hikeDuration: number,
+  intensity: 'easy' | 'moderate' | 'strenuous',
+}) {
+    const POUNDS_TO_KG = 0.453592;
+
+    const MET_VALUES = {
+        easy: 4.0,       // Walking on a firm, level surface at 3.0 mph
+        moderate: 6.0,   // Hiking, cross country
+        strenuous: 8.0,  // Backpacking, climbing hills with 10 to 20-pound load
+    };
+
+    const bodyWeightInKg = data.bodyWeightUnit === 'pounds' ? data.bodyWeight * POUNDS_TO_KG : data.bodyWeight;
+    const metValue = MET_VALUES[data.intensity];
+
+    // Formula: (METs * 3.5 * body weight in kg) / 200 * duration in minutes
+    const caloriesBurned = (metValue * 3.5 * bodyWeightInKg) / 200 * data.hikeDuration;
+    
+    return Math.round(caloriesBurned);
+}
