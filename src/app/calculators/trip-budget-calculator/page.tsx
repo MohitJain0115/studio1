@@ -47,18 +47,19 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
+    { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
     { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
-    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
-    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
-    { name: 'Itinerary Time Planner', href: '/calculators/itinerary-time-planner' },
-    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
-    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
+    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
+    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
+    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
+    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
+    { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
+    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
-    { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
+    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
@@ -70,7 +71,7 @@ export default function TripBudgetCalculator() {
     resolver: zodResolver(formSchema),
     defaultValues: {
         durationDays: undefined,
-        numTravelers: 1,
+        numTravelers: undefined,
         flights: undefined,
         accommodationPerNight: undefined,
         foodPerDay: undefined,

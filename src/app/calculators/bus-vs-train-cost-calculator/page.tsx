@@ -49,11 +49,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
+    { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
-    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
     { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
+    { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
+    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -63,7 +66,7 @@ export default function BusVsTrainCalculator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        numTravelers: 1,
+        numTravelers: undefined,
         busTicketCost: undefined,
         busBaggageFees: undefined,
         busOtherCosts: undefined,

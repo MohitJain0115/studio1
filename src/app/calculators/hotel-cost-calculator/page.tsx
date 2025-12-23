@@ -42,14 +42,15 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
+    { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
     { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
-    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
     { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
     { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
+    { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
-    { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
+    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -61,7 +62,7 @@ export default function HotelCostCalculator() {
     defaultValues: {
       costPerNight: undefined,
       numNights: undefined,
-      numRooms: 1,
+      numRooms: undefined,
       taxesAndFees: undefined,
     },
   });

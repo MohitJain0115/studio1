@@ -46,10 +46,13 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
+    { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
     { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
+    { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
+    { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
+    { name: 'Travel Days Calculator', href: '/calculators/travel-days-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
@@ -59,11 +62,11 @@ export default function CruiseCostCalculator() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        numTravelers: 1,
+        numTravelers: undefined,
         numNights: undefined,
         baseFare: undefined,
         taxesAndFees: undefined,
-        onboardGratuities: 18,
+        onboardGratuities: undefined,
         travelInsurance: undefined,
         onboardSpending: undefined,
         shoreExcursions: undefined,

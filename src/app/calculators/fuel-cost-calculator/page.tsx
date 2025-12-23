@@ -51,18 +51,16 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
+    { name: 'Backpack Weight Calculator', href: '/calculators/backpack-weight-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
-    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
-    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
-    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
-    { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
-    { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
-    { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
-    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
+    { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
+    { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
+    { name: 'Hiking Calorie Calculator', href: '/calculators/hiking-calorie-calculator' },
+    { name: 'Hiking Time Calculator', href: '/calculators/hiking-time-calculator' },
     { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
+    { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 
