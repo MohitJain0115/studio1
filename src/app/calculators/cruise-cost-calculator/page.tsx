@@ -118,7 +118,7 @@ export default function CruiseCostCalculator() {
                         <FormItem><FormLabel>Onboard Spending (per person)</FormLabel><FormControl><Input type="number" placeholder="Drinks, specialty dining" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="shoreExcursions" render={({ field }) => (
-                        <FormItem><FormLabel>Shore Excursions (per person)</FormLabel><FormControl><Input type="number" placeholder="Tours, activities" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormMessage>
+                        <FormItem><FormLabel>Shore Excursions (per person)</FormLabel><FormControl><Input type="number" placeholder="Tours, activities" {...field} value={field.value ?? '0'} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
               </div>
