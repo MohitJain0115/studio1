@@ -54,6 +54,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
+    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
+    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
+    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
     { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
     { name: 'Travel Time Calculator', href: '/calculators/travel-time-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },

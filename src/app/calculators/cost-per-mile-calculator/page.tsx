@@ -47,12 +47,14 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
-    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
-    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
+    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
     { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
+    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
+    { name: 'Fuel Cost Calculator', href: '/calculators/fuel-cost-calculator' },
     { name: 'EV Charging Cost Calculator', href: '/calculators/ev-charging-cost-calculator' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
     { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
+    { name: 'Trip Budget Calculator', href: '/calculators/trip-budget-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 

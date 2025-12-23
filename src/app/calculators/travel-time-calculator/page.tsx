@@ -49,6 +49,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators = [
+    { name: 'Bus vs. Train Cost Comparison', href: '/calculators/bus-vs-train-cost-calculator' },
+    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
+    { name: 'Cruise Cost Calculator', href: '/calculators/cruise-cost-calculator' },
     { name: 'Distance Between Cities', href: '/calculators/distance-between-cities-calculator' },
     { name: 'Driving Time with Breaks Calculator', href: '/calculators/driving-time-with-breaks-calculator' },
     { name: 'Travel Buffer Time Calculator', href: '/calculators/travel-buffer-time-calculator' },
@@ -58,7 +61,6 @@ const relatedCalculators = [
     { name: 'Hotel Cost Calculator', href: '/calculators/hotel-cost-calculator' },
     { name: 'Group Expense Splitter', href: '/calculators/group-expense-splitter' },
     { name: 'Cost Per Mile Calculator', href: '/calculators/cost-per-mile-calculator' },
-    { name: 'Car vs. Flight Cost Comparison', href: '/calculators/car-vs-flight-calculator' },
     { name: 'Multi-Stop Route Planner', href: '/calculators/multi-stop-route-planner' },
     { name: 'Rental Car Cost Calculator', href: '/calculators/rental-car-cost-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
@@ -189,7 +191,7 @@ export default function TravelTimeCalculator() {
           </div>
           <div>
             <h3 className="font-semibold text-lg">Average Speed</h3>
-            <p className="text-muted-foreground">The constant speed at which you will be traveling. This is an average, as it's unlikely you will maintain the exact same speed for the entire trip. You can select speed in kilometers per hour (km/h) or miles per hour (mph).</p>
+            <p className="text-muted-foreground">The constant speed at which you will be traveling. This is an average, as it's unlikely you will maintain the exact same speed for the entire trip.</p>
           </div>
         </CardContent>
       </Card>

@@ -25,10 +25,17 @@ import {
   Users,
   Route,
   Map,
+  Ship,
+  Bus,
 } from 'lucide-react';
 import Link from 'next/link';
 
 const calculatorLinks = [
+  {
+    href: '/calculators/bus-vs-train-cost-calculator',
+    label: 'Bus vs. Train Cost Comparison',
+    icon: <Bus className="w-8 h-8" />,
+  },
   {
     href: '/calculators/car-vs-flight-calculator',
     label: 'Car vs. Flight Cost Comparison',
@@ -38,6 +45,11 @@ const calculatorLinks = [
     href: '/calculators/cost-per-mile-calculator',
     label: 'Cost Per Mile Calculator',
     icon: <Route className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/cruise-cost-calculator',
+    label: 'Cruise Cost Calculator',
+    icon: <Ship className="w-8 h-8" />,
   },
   {
     href: '/calculators/distance-between-cities-calculator',
@@ -155,5 +167,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    

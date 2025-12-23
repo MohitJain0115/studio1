@@ -7,11 +7,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map } from 'lucide-react';
+import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map, Ship, Train, Bus } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
+  {
+    href: '/calculators/bus-vs-train-cost-calculator',
+    label: 'Bus vs. Train Comparison',
+    icon: Bus,
+  },
   {
     href: '/calculators/car-vs-flight-calculator',
     label: 'Car vs. Flight Comparison',
@@ -21,6 +26,11 @@ const menuItems = [
     href: '/calculators/cost-per-mile-calculator',
     label: 'Cost Per Mile',
     icon: Route,
+  },
+  {
+    href: '/calculators/cruise-cost-calculator',
+    label: 'Cruise Cost Calculator',
+    icon: Ship,
   },
   {
     href: '/calculators/distance-between-cities-calculator',
@@ -137,5 +147,3 @@ export default function NavigationMenu() {
     </SidebarMenu>
   );
 }
-
-    

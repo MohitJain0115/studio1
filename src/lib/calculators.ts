@@ -491,7 +491,7 @@ export function calculateHotelCost(data: {
     return {
         baseCost: totalBaseCost,
         taxAmount: taxAmount,
-        totalPerRoom: totalBaseCost / data.numRooms + taxAmount / data.numRooms,
+        totalPerRoom: data.numRooms > 0 ? (totalBaseCost + taxAmount) / data.numRooms : 0,
         totalCost,
     };
 }
@@ -694,5 +694,93 @@ export function calculateMultiStopRoute(data: {
         totalDistance: `${totalDistanceMiles.toFixed(1)} mi / ${totalDistanceKm.toFixed(1)} km`,
         totalTime: travelTimeResult.text,
         legs: legsWithTime,
+    };
+}
+
+export function calculateBusVsTrain(data: {
+    numTravelers: number;
+    busTicketCost: number;
+    busBaggageFees: number;
+    busOtherCosts: number;
+    trainTicketCost: number;
+    trainBaggageFees: number;
+    trainOtherCosts: number;
+}) {
+    const totalBusTicketCost = data.busTicketCost * data.numTravelers;
+    const totalBusBaggageFees = data.busBaggageFees * data.numTravelers;
+    const totalBusCost = totalBusTicketCost + totalBusBaggageFees + data.busOtherCosts;
+
+    const totalTrainTicketCost = data.trainTicketCost * data.numTravelers;
+    const totalTrainBaggageFees = data.trainBaggageFees * data.numTravelers;
+    const totalTrainCost = totalTrainTicketCost + totalTrainBaggageFees + data.trainOtherCosts;
+
+    const cheaperOption = totalBusCost < totalTrainCost ? 'Bus' : 'Train';
+    const savings = Math.abs(totalBusCost - totalTrainCost);
+
+    let verdict, bgColor, textColor;
+    if (cheaperOption === 'Bus') {
+        verdict = `The bus is cheaper by ${formatCurrency(savings)}`;
+        bgColor = 'rgba(74, 222, 128, 0.1)';
+        textColor = '#16a34a';
+    } else {
+        verdict = `The train is cheaper by ${formatCurrency(savings)}`;
+        bgColor = 'rgba(59, 130, 246, 0.1)';
+        textColor = '#2563eb';
+    }
+
+    return {
+        bus: {
+            total: totalBusCost,
+            perPerson: data.numTravelers > 0 ? totalBusCost / data.numTravelers : 0,
+            ticketCost: totalBusTicketCost,
+            baggageFees: totalBusBaggageFees,
+            otherCosts: data.busOtherCosts
+        },
+        train: {
+            total: totalTrainCost,
+            perPerson: data.numTravelers > 0 ? totalTrainCost / data.numTravelers : 0,
+            ticketCost: totalTrainTicketCost,
+            baggageFees: totalTrainBaggageFees,
+            otherCosts: data.trainOtherCosts
+        },
+        cheaperOption,
+        savings,
+        verdict,
+        bgColor,
+        textColor,
+    };
+}
+
+export function calculateCruiseCost(data: {
+    numTravelers: number;
+    numNights: number;
+    baseFare: number;
+    taxesAndFees: number;
+    onboardGratuities: number;
+    travelInsurance: number;
+    onboardSpending: number;
+    shoreExcursions: number;
+}) {
+    const totalBaseFare = data.baseFare * data.numTravelers;
+    const totalTaxes = data.taxesAndFees * data.numTravelers;
+    const totalGratuities = data.onboardGratuities * data.numTravelers * data.numNights;
+    const totalInsurance = data.travelInsurance * data.numTravelers;
+    const totalOnboard = data.onboardSpending * data.numTravelers;
+    const totalExcursions = data.shoreExcursions * data.numTravelers;
+
+    const totalCost = totalBaseFare + totalTaxes + totalGratuities + totalInsurance + totalOnboard + totalExcursions;
+    const costPerPerson = data.numTravelers > 0 ? totalCost / data.numTravelers : 0;
+
+    return {
+        totalCost,
+        costPerPerson,
+        breakdown: {
+            baseFare: totalBaseFare,
+            taxesAndFees: totalTaxes,
+            gratuities: totalGratuities,
+            insurance: totalInsurance,
+            onboardSpending: totalOnboard,
+            excursions: totalExcursions,
+        }
     };
 }
