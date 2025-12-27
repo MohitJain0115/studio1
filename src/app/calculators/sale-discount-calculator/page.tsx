@@ -177,7 +177,7 @@ export default function SaleDiscountCalculator() {
       
       <Card>
         <CardHeader>
-            <CardTitle>The Savvy Shopper's Guide to Discounts</CardTitle>
+          <CardTitle>The Savvy Shopper's Guide to Discounts</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">Decoding Sale Tags and Maximizing Savings</h2>
@@ -212,7 +212,7 @@ export default function SaleDiscountCalculator() {
               <AccordionTrigger>What if I only know the original price and the discount percentage?</AccordionTrigger>
               <AccordionContent>
                 <p>You can use our 'Value Percentage Calculator' for that. First, calculate the value of the discount (e.g., 25% of $80 is $20). Then, subtract that amount from the original price ($80 - $20 = $60) to find your final sale price.</p>
-              </EOLifeline_fix_for_bots>
+              </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
               <AccordionTrigger>How can I calculate a double discount (e.g., 20% off, then an extra 10% off)?</AccordionTrigger>
