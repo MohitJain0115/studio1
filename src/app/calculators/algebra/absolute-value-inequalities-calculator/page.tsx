@@ -138,14 +138,14 @@ export default function AbsoluteValueInequalityCalculator() {
         <CardContent>
           <p>Solving absolute value inequalities depends on the direction of the inequality sign and the sign of the constant `c`.</p>
           <h3 className="font-semibold text-lg mt-4">Case 1: Less Than (&lt; or &le;)</h3>
-          <p>An inequality of the form `|X| < c` (where c > 0) means that X is "less than c units away from zero". This translates to a single compound inequality:</p>
+          <p>An inequality of the form `|X| &lt; c` (where c &gt; 0) means that X is "less than c units away from zero". This translates to a single compound inequality:</p>
           <div className="p-4 bg-muted/50 rounded-lg mt-2 text-center">
             <p className="font-mono text-sm md:text-base font-bold text-primary">-c &lt; X &lt; c</p>
           </div>
           <p className="mt-2">This is an "AND" statement, representing a bounded interval.</p>
           
           <h3 className="font-semibold text-lg mt-4">Case 2: Greater Than (&gt; or &ge;)</h3>
-          <p>An inequality of the form `|X| > c` (where c > 0) means that X is "more than c units away from zero". This splits into two separate inequalities:</p>
+          <p>An inequality of the form `|X| &gt; c` (where c &gt; 0) means that X is "more than c units away from zero". This splits into two separate inequalities:</p>
           <div className="p-4 bg-muted/50 rounded-lg mt-2 text-center space-y-2">
             <p className="font-mono text-sm md:text-base font-bold text-primary">X &gt; c   OR   X &lt; -c</p>
           </div>
@@ -187,24 +187,24 @@ export default function AbsoluteValueInequalityCalculator() {
             </ol>
 
             <h3 className="text-lg font-semibold text-foreground">Example 2: Solving a "Greater Than" Inequality</h3>
-            <p>Now let's solve **|x + 4| > 2**.</p>
+            <p>Now let's solve **|x + 4| &gt; 2**.</p>
             <ol className="list-decimal list-inside space-y-4">
-                 <li><strong>Identify the Type:</strong> The `>` sign tells us this is a "Great-OR" problem, which will split into two separate inequalities.</li>
+                 <li><strong>Identify the Type:</strong> The `&gt;` sign tells us this is a "Great-OR" problem, which will split into two separate inequalities.</li>
                  <li><strong>Set up the Two Inequalities:</strong>
                     <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li><b>Case 1:</b> `x + 4 > 2`</li>
-                        <li><b>Case 2:</b> `x + 4 < -2`</li>
+                        <li><b>Case 1:</b> `x + 4 &gt; 2`</li>
+                        <li><b>Case 2:</b> `x + 4 &lt; -2`</li>
                     </ul>
                 </li>
                 <li><strong>Solve Each Inequality:</strong>
                      <div className="w-full overflow-x-auto mt-2">
                       <table className="w-full text-sm">
                         <thead className="text-left font-semibold text-foreground"><tr><th className="p-2 border-b">Case 1</th><th className="p-2 border-b">Case 2</th></tr></thead>
-                        <tbody><tr><td className="p-2 font-mono align-top">x + 4 > 2<br/>x > -2</td><td className="p-2 font-mono align-top">x + 4 < -2<br/>x < -6</td></tr></tbody>
+                        <tbody><tr><td className="p-2 font-mono align-top">x + 4 &gt; 2<br/>x &gt; -2</td><td className="p-2 font-mono align-top">x + 4 &lt; -2<br/>x &lt; -6</td></tr></tbody>
                       </table>
                     </div>
                 </li>
-                <li><strong>State the Solution:</strong> The solution is `x < -6` OR `x > -2`. This represents two distinct sets of numbers. In interval notation, this is `(-∞, -6) U (-2, ∞)`.</li>
+                <li><strong>State the Solution:</strong> The solution is `x &lt; -6` OR `x &gt; -2`. This represents two distinct sets of numbers. In interval notation, this is `(-∞, -6) U (-2, ∞)`.</li>
             </ol>
             
             <h3 className="text-lg font-semibold text-foreground">Special Cases with the Constant `c`</h3>
@@ -213,14 +213,14 @@ export default function AbsoluteValueInequalityCalculator() {
                   <Lightbulb className="h-4 w-4" />
                   <AlertTitle>Less than a Negative</AlertTitle>
                   <AlertDescription>
-                    `|X| < -3` has **no solution**. An absolute value is always non-negative, so it can never be less than a negative number.
+                    `|X| &lt; -3` has **no solution**. An absolute value is always non-negative, so it can never be less than a negative number.
                   </AlertDescription>
                 </Alert>
                  <Alert>
                   <Lightbulb className="h-4 w-4" />
                   <AlertTitle>Greater than a Negative</AlertTitle>
                   <AlertDescription>
-                   `|X| > -3` is true for **all real numbers**. An absolute value is always non-negative (i.e., `≥ 0`), which is always greater than any negative number.
+                   `|X| &gt; -3` is true for **all real numbers**. An absolute value is always non-negative (i.e., `≥ 0`), which is always greater than any negative number.
                   </AlertDescription>
                 </Alert>
             </div>
@@ -236,29 +236,29 @@ export default function AbsoluteValueInequalityCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>What happens if I have to divide by a negative `a`?</AccordionTrigger>
               <AccordionContent>
-                <p>When you multiply or divide all parts of an inequality by a negative number, you **must flip the direction of the inequality sign(s)**. For example, if you have `-2x < 6`, dividing by -2 gives `x > -3`. The calculator handles this automatically.</p>
+                <p>When you multiply or divide all parts of an inequality by a negative number, you **must flip the direction of the inequality sign(s)**. For example, if you have `-2x &lt; 6`, dividing by -2 gives `x &gt; -3`. The calculator handles this automatically.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>What's the difference between `<` and `≤` in the solution?</AccordionTrigger>
+              <AccordionTrigger>What's the difference between `&lt;` and `≤` in the solution?</AccordionTrigger>
               <AccordionContent>
-                <p>A strict inequality (`<` or `>`) results in an "open" interval, meaning the endpoints are not included. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`≤` or `≥`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
+                <p>A strict inequality (`&lt;` or `&gt;`) results in an "open" interval, meaning the endpoints are not included. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`≤` or `≥`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
               <AccordionTrigger>How are the solutions written?</AccordionTrigger>
               <AccordionContent>
-                 <p>The calculator provides solutions in two common formats: standard inequality notation (e.g., `x > 5`) and interval notation (e.g., `(5, ∞)`). The symbol `U` is used in interval notation to represent the "union" of two separate sets, which is how we write "OR" solutions.</p>
+                 <p>The calculator provides solutions in two common formats: standard inequality notation (e.g., `x &gt; 5`) and interval notation (e.g., `(5, ∞)`). The symbol `U` is used in interval notation to represent the "union" of two separate sets, which is how we write "OR" solutions.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-4">
-              <AccordionTrigger>Why does `|x| < -5` have no solution?</AccordionTrigger>
+              <AccordionTrigger>Why does `|x| &lt; -5` have no solution?</AccordionTrigger>
               <AccordionContent>
                 <p>The expression `|x|` represents a distance, which can only be positive or zero. It is logically impossible for a positive value or zero to be less than a negative value like -5. Therefore, no value of x can satisfy this statement.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-5">
-              <AccordionTrigger>Why is `|x| > -5` true for all real numbers?</AccordionTrigger>
+              <AccordionTrigger>Why is `|x| &gt; -5` true for all real numbers?</AccordionTrigger>
               <AccordionContent>
                 <p>Since `|x|` is always non-negative (0 or positive), it will always be greater than any negative number. No matter what real number you plug in for x, its absolute value will be greater than -5, making the statement universally true.</p>
               </AccordionContent>
@@ -270,5 +270,3 @@ export default function AbsoluteValueInequalityCalculator() {
     </div>
   );
 }
-
-    
