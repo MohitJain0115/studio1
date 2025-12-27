@@ -37,7 +37,7 @@ export default function AbsoluteValueInequalityCalculator() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { a: 1, b: 0, inequality: '<', c: undefined },
+    defaultValues: { a: 1, b: 0, inequality: '<', c: '' as any },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -270,3 +270,5 @@ export default function AbsoluteValueInequalityCalculator() {
     </div>
   );
 }
+
+    

@@ -27,7 +27,7 @@ export default function AbsoluteValueEquationCalculator() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { a: 1, b: 0, c: undefined },
+    defaultValues: { a: 1, b: 0, c: '' as any },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -254,3 +254,5 @@ export default function AbsoluteValueEquationCalculator() {
     </div>
   );
 }
+
+    

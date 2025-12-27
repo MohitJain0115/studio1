@@ -27,7 +27,7 @@ export default function BinomialCoefficientCalculator() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { n: undefined, k: undefined },
+    defaultValues: { n: '' as any, k: '' as any },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -214,3 +214,5 @@ export default function BinomialCoefficientCalculator() {
     </div>
   );
 }
+
+    
