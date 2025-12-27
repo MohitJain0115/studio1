@@ -126,7 +126,7 @@ export default function AveragePercentageCalculator() {
                 <Bar dataKey="value" fill="var(--color-value)" radius={4} />
               </RechartsBarChart>
             </ChartContainer>
-             <p className="text-center text-sm text-muted-foreground mt-2">The chart shows your input values compared to the calculated average of {result.average}%.</p>
+             <p className="text-center text-sm text-muted-foreground mt-2">The chart shows your input values. The average is {result.average}%.</p>
           </CardContent>
         </Card>
       )}
@@ -170,27 +170,31 @@ export default function AveragePercentageCalculator() {
 
       <Card>
         <CardHeader>
-            <CardTitle>The Nuance of Averaging Percentages</CardTitle>
+            <CardTitle>A Comprehensive Guide to Averaging Percentages</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
-            <h2 className="text-xl font-bold text-foreground">When a Simple Average is (and Isn't) Enough</h2>
-            <p>This calculator computes a simple, unweighted arithmetic mean. This is perfect for many situations, but it's crucial to understand when this method is appropriate and when it might be misleading.</p>
+            <h2 className="text-xl font-bold text-foreground">Understanding Averages: Simple vs. Weighted</h2>
+            <p>Averaging percentages seems simple, but there's a critical distinction that can dramatically affect your results. This calculator computes a **simple average**, which is appropriate in some cases but highly misleading in others. The key lies in understanding the 'weight' behind each percentage.</p>
             
-            <h3 className="text-lg font-semibold text-foreground">When to Use a Simple Average</h3>
-            <p>Use a simple average when all the percentages you are averaging correspond to groups of the same size. In this case, each percentage carries equal weight.</p>
+            <h3 className="text-lg font-semibold text-foreground">When a Simple Average is Correct</h3>
+            <p>A simple arithmetic average is the right tool when each percentage value you're averaging holds equal importance or represents a group of the same size. In this case, no single percentage has more influence than another.</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Example:</strong> You have three classrooms, each with 30 students. The test pass rates were 80%, 90%, and 85%. Since each class has the same number of students, the average pass rate for all students is simply `(80 + 90 + 85) / 3 = 85%`.</li>
+                <li><strong>Example: Equal-Sized Groups.</strong> Imagine three investment funds that are part of your portfolio, and you allocated exactly $1,000 to each. Their annual returns were 5%, 8%, and 11%. Since the investment in each is identical, the average return across these funds is `(5 + 8 + 11) / 3 = 8%`. Your total return for this part of your portfolio is 8%.</li>
+                <li><strong>Example: Equal Weighting.</strong> A student's final grade is based on four exams, each worth 25% of the grade. The scores were 80%, 92%, 88%, and 90%. The average exam score is `(80 + 92 + 88 + 90) / 4 = 87.5%`, which is the final grade.</li>
             </ul>
 
-            <h3 className="text-lg font-semibold text-foreground">When a Simple Average is Misleading (The Simpson's Paradox)</h3>
-            <p>You should NOT use a simple average when the percentages relate to groups of different sizes. This is a common statistical trap. In this scenario, you need a weighted average to get an accurate picture.</p>
+            <h3 className="text-lg font-semibold text-foreground">When a Simple Average is Misleading: The Case for a Weighted Average</h3>
+            <p>You must NOT use a simple average when the percentages relate to groups of different sizes or importance. Doing so gives disproportionate influence to smaller groups, a statistical trap famously illustrated by **Simpson's Paradox**.</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Example:</strong> You have two classrooms. Class A has 10 students and a pass rate of 50% (5 students passed). Class B has 90 students and a pass rate of 90% (81 students passed).
-                <br/>A simple average would misleadingly suggest an average pass rate of `(50 + 90) / 2 = 70%`.
-                <br/>The correct method is a weighted average: Find the total number of students who passed (5 + 81 = 86) and divide by the total number of students (10 + 90 = 100). The true average pass rate is `86 / 100 = 86%`.
-                </li>
+                <li><strong>Example: Unequal-Sized Groups.</strong> A company has two departments. The Sales department (10 employees) had a satisfaction rating of 50%. The Engineering department (90 employees) had a satisfaction rating of 90%.
+                <br/>A simple average would misleadingly suggest an overall satisfaction of `(50 + 90) / 2 = 70%`.
+                <br/>The correct method is a **weighted average**. First, convert percentages to actual numbers: 5 Sales employees are satisfied (50% of 10), and 81 Engineering employees are satisfied (90% of 90). The total number of satisfied employees is 86 out of 100 total employees. The true average satisfaction rate is `86 / 100 = 86%`.
+                <br/>The simple average was skewed by the small, less-satisfied group, whereas the weighted average correctly reflects the opinion of the majority of the company.</li>
             </ul>
-            <p>The simple average gave too much importance to the small class's low score, while the weighted average correctly reflects that the vast majority of students were in the high-performing class.</p>
+             <h3 className="text-lg font-semibold text-foreground">How to Calculate a Weighted Average</h3>
+            <p>While this tool doesn't compute weighted averages, the formula is essential to know:</p>
+            <p className="p-4 bg-muted/50 rounded-lg mt-2 text-center font-mono font-bold text-primary">Weighted Avg = Σ(Percentage_i × Weight_i) / Σ(Weight_i)</p>
+            <p>This means you multiply each percentage by its corresponding size (weight), sum up these products, and then divide by the total sum of all weights.</p>
         </CardContent>
       </Card>
       
@@ -203,13 +207,31 @@ export default function AveragePercentageCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>Is this calculator finding the mean, median, or mode?</AccordionTrigger>
               <AccordionContent>
-                <p>It calculates the **mean**. The mean is the sum of all values divided by the number of values. The median is the middle value in a sorted list, and the mode is the value that appears most often. This tool only calculates the mean.</p>
+                <p>This calculator computes the **arithmetic mean**, often just called the "average." It's the sum of all values divided by the number of values. It does not calculate the median (the middle value in a sorted list) or the mode (the value that appears most often).</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>What if I enter negative percentages?</AccordionTrigger>
+              <AccordionTrigger>Can I average negative percentages?</AccordionTrigger>
               <AccordionContent>
-                <p>The calculator will work correctly. A negative percentage simply represents a decrease or a negative value. It will be included in the sum just like any other number. For example, the average of 10, -5, and 20 is `(10 - 5 + 20) / 3 = 8.33%`.</p>
+                <p>Yes. A negative percentage simply represents a decrease, loss, or negative reading. The calculator handles it correctly by including it in the sum. For example, the average of 10, -5, and 20 is `(10 + (-5) + 20) / 3 = 25 / 3 = 8.33%`.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>What's the difference between averaging percentages and averaging percentage points?</AccordionTrigger>
+              <AccordionContent>
+                <p>This is a subtle but important distinction. You average percentages when looking for a central tendency of multiple growth rates or proportions (like investment returns). You average percentage points when looking at the average change between rates. For example, if a rate moves from 2% to 3% (a 1 percentage point change) and then from 3% to 5% (a 2 percentage point change), the average change is 1.5 percentage points.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>Can I average percentages from different bases (e.g., test score and interest rate)?</AccordionTrigger>
+              <AccordionContent>
+                <p>Mathematically you can, but it is usually meaningless. Averaging percentages is only logical when the percentages refer to the same type of measure (e.g., all are interest rates, all are test scores on comparable tests, etc.). Combining dissimilar measures will not produce a useful or interpretable result.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger>Why would I need to average percentages?</AccordionTrigger>
+              <AccordionContent>
+                <p>Common scenarios include: calculating the average return of several investments of equal size, finding the average score across multiple equally-weighted tests or assignments, or determining the average growth rate of a metric over several equal time periods (e.g., month-over-month growth).</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -222,7 +244,7 @@ export default function AveragePercentageCalculator() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            The Average Percentage Calculator provides a quick way to find the arithmetic mean of a series of percentage values. It's a fundamental tool for finding a central tendency in data, but it's most accurate when all the percentages are drawn from groups of equal size.
+            The Average Percentage Calculator provides a quick way to find the arithmetic mean of a series of percentage values. It's a fundamental tool for finding a central tendency in data, but it's crucial to use it correctly: it is most accurate and meaningful when all the percentages are drawn from groups of equal size or importance. For groups of varying sizes, a weighted average is the appropriate method.
           </p>
         </CardContent>
       </Card>

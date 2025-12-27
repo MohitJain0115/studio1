@@ -111,11 +111,11 @@ export default function FractionToPercentCalculator() {
         <CardContent className="space-y-4">
           <div>
             <h3 className="font-semibold text-lg">Numerator</h3>
-            <p className="text-muted-foreground">The top number in a fraction. It represents how many parts you have.</p>
+            <p className="text-muted-foreground">The top number in a fraction. It represents how many parts of the whole you have. For example, in 3/4, the numerator is 3.</p>
           </div>
           <div>
             <h3 className="font-semibold text-lg">Denominator</h3>
-            <p className="text-muted-foreground">The bottom number in a fraction. It represents the total number of parts the whole is divided into. It cannot be zero.</p>
+            <p className="text-muted-foreground">The bottom number in a fraction. It represents the total number of equal parts the whole is divided into. For example, in 3/4, the denominator is 4. It cannot be zero.</p>
           </div>
         </CardContent>
       </Card>
@@ -129,7 +129,7 @@ export default function FractionToPercentCalculator() {
           <div className="p-4 bg-muted/50 rounded-lg space-y-2 mt-4 text-center">
             <p className="font-mono text-sm md:text-base font-bold text-primary">Percentage = (Numerator / Denominator) × 100</p>
           </div>
-           <p className="mt-2 text-muted-foreground">For example, for the fraction 3/4, you would calculate `(3 / 4) * 100 = 75%`.</p>
+           <p className="mt-2 text-muted-foreground">For example, for the fraction 3/4, you would calculate `(3 / 4) * 100 = 0.75 * 100 = 75%`.</p>
         </CardContent>
       </Card>
 
@@ -150,22 +150,29 @@ export default function FractionToPercentCalculator() {
 
       <Card>
         <CardHeader>
-            <CardTitle>Making Sense of Parts of a Whole</CardTitle>
+            <CardTitle>A Practical Guide to Converting Fractions to Percentages</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
-            <h2 className="text-xl font-bold text-foreground">From Fractions to Everyday Language</h2>
-            <p>Fractions are a precise way to describe a part of a whole, but they aren't always the most intuitive format for communication. Percentages, which standardize the "whole" to be 100, are often easier to compare and understand at a glance. This calculator helps bridge that gap.</p>
-            
-            <h3 className="text-lg font-semibold text-foreground">Real-World Examples</h3>
-            <p>We perform this conversion mentally all the time:</p>
+            <h2 className="text-xl font-bold text-foreground">Making Sense of Parts of a Whole</h2>
+            <p>Fractions, decimals, and percentages are three different ways of expressing the same thing: a part of a whole. While fractions are precise, they are not always the most intuitive for comparing values. Percentages, which standardize the 'whole' to be 100, are often easier to understand and compare at a glance. This calculator is a simple tool to bridge that gap.</p>
+
+            <h3 className="text-lg font-semibold text-foreground">Why Do We Convert Fractions to Percentages?</h3>
+            <p>We perform this conversion constantly in everyday life, often without thinking about it. The primary reason is for **standardization and comparison**.</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Test Scores:</strong> If you got 45 questions correct out of 50, your score is the fraction 45/50. Converting this gives you `(45 / 50) * 100 = 90%`.</li>
-                <li><strong>Surveys:</strong> If 3 out of 4 dentists recommend a toothpaste, that's 3/4, which is 75%.</li>
-                <li><strong>Recipes:</strong> If a recipe calls for 1/2 a cup of flour, you know that's 50% of a cup.</li>
+                <li><strong>Comparing Performance:</strong> Is it better to get 21 out of 25 questions right on a test, or 32 out of 40? Converting to percentages makes it easy: 21/25 is 84%, while 32/40 is 80%. The first score is better.</li>
+                <li><strong>Understanding Proportions:</strong> A report might state that 1 in 8 people in a town use public transport. Converting 1/8 to a percentage tells us that 12.5% of the town's population uses public transport, which is often a more useful figure for communication.</li>
+                <li><strong>Communicating Discounts:</strong> A sign that says "1/4 Off" is easily understood, but for more complex fractions like "3/8 Off," converting to a percentage (37.5%) makes the discount clearer to shoppers.</li>
             </ul>
 
-            <h3 className="text-lg font-semibold text-foreground">Why the Denominator Can't Be Zero</h3>
-            <p>In mathematics, division by zero is undefined. The denominator of a fraction represents how many pieces a whole is divided into. You cannot divide a whole into zero pieces—it's a logical impossibility. That's why our calculator enforces this fundamental rule.</p>
+            <h3 className="text-lg font-semibold text-foreground">The Fundamental Rule: Division by Zero is Undefined</h3>
+            <p>The denominator of a fraction tells us how many equal pieces a whole has been divided into. It is a logical and mathematical impossibility to divide a whole into zero pieces. If you try, the result is "undefined." That's why this calculator, and all of mathematics, prohibits a denominator of zero.</p>
+            
+            <h3 className="text-lg font-semibold text-foreground">Proper vs. Improper Fractions</h3>
+            <p>This calculator handles both types of fractions seamlessly:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>A **proper fraction** has a numerator smaller than its denominator (e.g., 3/4). The resulting percentage will always be less than 100%.</li>
+              <li>An **improper fraction** has a numerator larger than or equal to its denominator (e.g., 5/4). This represents more than one whole, and the resulting percentage will be 100% or greater (in this case, 125%).</li>
+            </ul>
         </CardContent>
       </Card>
       
@@ -178,13 +185,31 @@ export default function FractionToPercentCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>What if my numerator is larger than my denominator?</AccordionTrigger>
               <AccordionContent>
-                <p>This is called an improper fraction, and it's perfectly fine. It simply means you have more than one whole. The resulting percentage will be greater than 100%. For example, the fraction 5/4 converts to `(5 / 4) * 100 = 125%`.</p>
+                <p>This is an "improper fraction," and it's perfectly fine. It simply means the value is greater than one whole. The calculator will correctly produce a percentage greater than 100%. For example, the fraction 5/4 converts to `(5 / 4) * 100 = 125%`.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>How do I convert a percentage back to a fraction?</AccordionTrigger>
               <AccordionContent>
-                <p>To convert a percentage to a fraction, you write the percentage as the numerator over a denominator of 100. Then, simplify the fraction if possible. For example, 40% is 40/100, which simplifies to 2/5.</p>
+                <p>To convert a percentage back to a fraction, you write the percentage value as the numerator over a denominator of 100, then simplify the fraction. For example, 40% becomes 40/100. You can then divide both the top and bottom by their greatest common divisor (which is 20) to simplify it to 2/5.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>What about mixed numbers (e.g., 1 ¾)?</AccordionTrigger>
+              <AccordionContent>
+                <p>To convert a mixed number, first turn it into an improper fraction. Multiply the whole number by the denominator and add the numerator: for 1 ¾, that's `(1 * 4) + 3 = 7`. Keep the same denominator. So, 1 ¾ is the same as 7/4. Then you can use the calculator: `(7 / 4) * 100 = 175%`.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>Why does the calculator give a result with two decimal places?</AccordionTrigger>
+              <AccordionContent>
+                <p>Some fractions result in repeating decimals (e.g., 1/3 = 0.333...). For practicality, the result is rounded to two decimal places, which is a standard convention for most financial and general-purpose calculations. For example, 1/3 will be displayed as 33.33%.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger>Can I use negative numbers?</AccordionTrigger>
+              <AccordionContent>
+                <p>Yes. The math works the same way. A negative numerator or denominator will result in a negative percentage. For example, -1/4 is equal to -25%. This might be used to represent a negative proportion or a decrease relative to a whole.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -197,7 +222,7 @@ export default function FractionToPercentCalculator() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            The Fraction to Percent Calculator is a straightforward tool for converting any fractional value into a more intuitive percentage. By dividing the numerator by the denominator and multiplying by 100, it helps translate precise mathematical parts into a format that is easier to understand and compare in everyday situations like interpreting test scores or survey results.
+            The Fraction to Percent Calculator is a straightforward but essential tool for converting any fractional value into a more intuitive percentage. By dividing the numerator by the denominator and multiplying by 100, it helps translate precise mathematical parts into a standardized format that is easier to understand, compare, and use in everyday situations like interpreting test scores, survey results, or sales discounts.
           </p>
         </CardContent>
       </Card>

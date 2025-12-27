@@ -99,7 +99,7 @@ export default function DoublingTimeCalculator() {
         </CardHeader>
         <CardContent>
           <h3 className="font-semibold text-lg">Growth Rate (%) per Period</h3>
-          <p className="text-muted-foreground">This is the constant percentage increase that occurs in each time period. For example, a 7% annual return on an investment, or a 2% annual population growth.</p>
+          <p className="text-muted-foreground">This is the constant percentage increase that occurs in each time period. For example, a 7% annual return on an investment, or a 2% annual population growth. The "period" is whatever unit of time the growth rate is measured in (years, months, etc.).</p>
         </CardContent>
       </Card>
       
@@ -113,13 +113,13 @@ export default function DoublingTimeCalculator() {
             <div>
               <h4 className="font-semibold text-primary">Exact Formula (using Logarithms)</h4>
               <p className="font-mono text-sm md:text-base">Time = ln(2) / ln(1 + (Rate / 100))</p>
-              <p className="mt-1 text-sm text-muted-foreground">This formula provides the precise number of periods required for a quantity to double with compound growth.</p>
+              <p className="mt-1 text-sm text-muted-foreground">This formula provides the precise number of periods required for a quantity to double with compound growth. It uses the natural logarithm (ln) to solve for time in the exponential growth equation.</p>
             </div>
             <hr />
             <div>
               <h4 className="font-semibold text-accent">Rule of 72 (Approximation)</h4>
               <p className="font-mono text-sm md:text-base">Time ≈ 72 / Rate</p>
-              <p className="mt-1 text-sm text-muted-foreground">This is a famous mental math shortcut for quickly estimating doubling time. It is most accurate for growth rates between 6% and 10%.</p>
+              <p className="mt-1 text-sm text-muted-foreground">This is a famous mental math shortcut for quickly estimating doubling time. It is most accurate for growth rates between 6% and 10% but provides a good estimate for many common scenarios.</p>
             </div>
           </div>
         </CardContent>
@@ -142,26 +142,29 @@ export default function DoublingTimeCalculator() {
 
       <Card>
         <CardHeader>
-            <CardTitle>The Magic of Exponential Growth</CardTitle>
+            <CardTitle>The Power of Exponential Growth: A Practical Guide</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
-            <h2 className="text-xl font-bold text-foreground">Grasping the Power of Doubling</h2>
-            <p>Doubling time is a concept that vividly illustrates the power of exponential growth. It answers a simple but profound question: how long until this thing gets twice as big? The answer is often surprisingly short, which is why understanding doubling time is crucial in finance, demography, and science.</p>
+            <h2 className="text-xl font-bold text-foreground">Grasping the Surprising Speed of Doubling</h2>
+            <p>Doubling time is a concept that vividly illustrates the power of exponential growth. It answers a simple but profound question: "At a constant rate of growth, how long until this thing gets twice as big?" The answer is often surprisingly short, which is why understanding doubling time is a cornerstone of financial literacy, demography, and science.</p>
             
             <h3 className="text-lg font-semibold text-foreground">The Rule of 72: A Powerful Mental Tool</h3>
-            <p>The "Rule of 72" is one of the most useful shortcuts in all of finance. It allows for a remarkably accurate, back-of-the-napkin calculation of how long an investment will take to double. By simply dividing 72 by the annual interest rate, you get a close estimate.</p>
+            <p>The "Rule of 72" is one of the most useful rules of thumb in finance. It allows for a remarkably accurate, back-of-the-napkin calculation of how long an investment will take to double, without complex math.</p>
+            <p>By simply dividing 72 by the percentage growth rate, you get a close estimate. This works for both positive and negative scenarios:</p>
             <ul className="list-disc pl-5 space-y-2">
                 <li>An investment earning **8%** per year will double in approximately `72 / 8 = 9` years.</li>
-                <li>If inflation is **3%** per year, the cost of goods will double in `72 / 3 = 24` years.</li>
+                <li>If inflation is **3%** per year, the cost of goods will double (and the value of your money will halve) in approximately `72 / 3 = 24` years.</li>
+                <li>A national debt growing at **4%** a year will double in `72 / 4 = 18` years.</li>
             </ul>
-            <p>As you can see from the calculator results, this rule is not perfect, but it's incredibly effective for quick decision-making and for understanding the long-term impact of a growth rate.</p>
+            <p>As you can see from the calculator results, this rule isn't perfect, but its simplicity makes it incredibly effective for quick decision-making and for developing an intuitive understanding of the long-term impact of a growth rate.</p>
 
             <h3 className="text-lg font-semibold text-foreground">Applications Beyond Finance</h3>
-            <p>The concept of doubling time is not limited to money:</p>
+            <p>The concept of doubling time is not limited to money. It's a fundamental measure of exponential processes in many fields:</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Population Growth:</strong> Demographers use it to project how long it will take for a country's population to double, which has massive implications for infrastructure and resources.</li>
-                <li><strong>Technology (Moore's Law):</strong> The famous observation that the number of transistors on a microchip doubles approximately every two years is a classic example of doubling time in technology.</li>
-                <li><strong>Epidemiology:</strong> During a pandemic, the doubling time of cases is a critical metric for public health officials to gauge the speed of transmission.</li>
+                <li><strong>Population Studies:</strong> Demographers use doubling time to project how long it will take for a country's population to double, which has massive implications for infrastructure, food supply, and resources.</li>
+                <li><strong>Technology (Moore's Law):</strong> The famous observation that the number of transistors on a microchip doubles approximately every two years is a classic example of a predictable doubling time driving technological progress.</li>
+                <li><strong>Biology & Epidemiology:</strong> In a favorable environment, a bacterial colony can have a doubling time of just 20 minutes. During a pandemic, the doubling time of cases is a critical metric for public health officials to gauge the speed of transmission and the need for interventions.</li>
+                <li><strong>Environmental Science:</strong> Understanding the doubling time of resource consumption (like energy or water) is key to planning for a sustainable future.</li>
             </ul>
         </CardContent>
       </Card>
@@ -175,19 +178,31 @@ export default function DoublingTimeCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>Why does the Rule of 72 work?</AccordionTrigger>
               <AccordionContent>
-                <p>It's an approximation based on the properties of natural logarithms. The number 72 is a convenient choice because it has many small divisors (2, 3, 4, 6, 8, 9, 12), making mental division easy for a wide range of common interest rates. The exact number is closer to 69.3, but 72 provides better accuracy for the rates typically encountered in finance.</p>
+                <p>It's a mathematical approximation derived from the more precise logarithmic formula. The natural logarithm of 2 is approximately 0.693. For small interest rates, `ln(1 + r) ≈ r`. This gives rise to the "Rule of 69.3". However, 72 is used instead because it's a highly composite number (divisible by 2, 3, 4, 6, 8, 9, 12), making mental division easy for a wide range of common rates. It also happens to provide better accuracy for the rates typically encountered in finance (5% to 12%).</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>What does "period" mean?</AccordionTrigger>
+              <AccordionTrigger>What does "period" mean in the result?</AccordionTrigger>
               <AccordionContent>
-                <p>A period is the unit of time over which the growth rate is applied. If you enter an annual growth rate (e.g., 8% per year), the doubling time will be in years. If you enter a monthly growth rate (e.g., 1% per month), the doubling time will be in months.</p>
+                <p>A "period" is the unit of time over which the growth rate is applied. It's crucial to match them. If you enter an annual growth rate (e.g., 8% per year), the doubling time will be in years. If you enter a monthly growth rate (e.g., 1% per month), the doubling time will be in months.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
-              <AccordionTrigger>Does the initial amount matter?</AccordionTrigger>
+              <AccordionTrigger>Does the initial amount of money or population matter?</AccordionTrigger>
               <AccordionContent>
-                <p>No. With a constant percentage growth rate, the time it takes for a quantity to double is independent of the starting amount. It takes just as long for $100 to grow to $200 as it does for $1 million to grow to $2 million at the same rate.</p>
+                <p>No. For a constant percentage growth rate, the time it takes for a quantity to double is independent of the starting amount. It takes just as long for $100 to grow to $200 as it does for $1 million to grow to $2 million at the same compound rate. This is a key feature of exponential growth.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>How accurate is the Rule of 72 compared to the exact formula?</AccordionTrigger>
+              <AccordionContent>
+                <p>The Rule of 72 is most accurate for rates around 8%. For lower or higher rates, its accuracy diminishes slightly, but it remains a remarkably good estimate for most practical purposes. For example, at 2% growth, the Rule of 72 gives 36 years, while the exact formula gives 35 years. At 15% growth, the rule gives 4.8 years, while the exact is 4.96 years.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger>Can I use this for halving time (decay)?</AccordionTrigger>
+              <AccordionContent>
+                <p>Yes, the same logic applies. If you have a quantity that decreases by a certain percentage per period (like radioactive decay), you can use the Rule of 72 to estimate its half-life. For example, if a value decreases by 5% per year, its halving time is approximately `72 / 5 = 14.4` years.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -200,7 +215,7 @@ export default function DoublingTimeCalculator() {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            The Doubling Time Calculator is a powerful tool for understanding the impact of exponential growth. By providing both the precise mathematical answer and the quick "Rule of 72" estimate, it helps you grasp how quickly a steadily growing quantity can double, a key concept for financial planning, investment analysis, and understanding natural phenomena.
+            The Doubling Time Calculator is a powerful tool for understanding the real-world impact of exponential growth. By providing both the precise mathematical answer and the quick "Rule of 72" estimate, it helps users internalize how quickly a steadily growing quantity can expand. This concept is indispensable for financial planning, investment analysis, demographic studies, and understanding various natural phenomena.
           </p>
         </CardContent>
       </Card>
