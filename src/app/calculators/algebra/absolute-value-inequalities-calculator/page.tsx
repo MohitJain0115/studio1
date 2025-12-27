@@ -109,7 +109,7 @@ export default function AbsoluteValueInequalityCalculator() {
           <CardContent className="text-center">
             <div className="p-6 bg-primary/10 rounded-lg">
               <p className="text-sm text-muted-foreground">The solution set for x is:</p>
-              <p className="text-4xl font-bold text-primary">{result.solution}</p>
+              <p className="text-4xl font-bold text-primary" dangerouslySetInnerHTML={{ __html: result.solution.replace(/</g, '&lt;').replace(/>/g, '&gt;') }} />
             </div>
              <p className="text-muted-foreground mt-4">{result.explanation}</p>
           </CardContent>
@@ -162,25 +162,25 @@ export default function AbsoluteValueInequalityCalculator() {
             <h2 className="text-xl font-bold text-foreground">"And" vs. "Or": The Great Divide</h2>
             <p>The most important concept in solving absolute value inequalities is knowing whether you're dealing with an "AND" situation or an "OR" situation. This is determined entirely by the inequality symbol.</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li><strong>"Less Th-AND" (`<`, `≤`)</strong>: Inequalities with a "less than" sign are treated as **AND** statements. They describe values that are 'close to' zero, trapped *between* two endpoints. The solution is a single, bounded interval. Think: "less th-AND".</li>
-                <li><strong>"Great-OR" (`>`, `≥`)</strong>: Inequalities with a "greater than" sign are treated as **OR** statements. They describe values that are 'far from' zero, escaping *outward* from two endpoints. The solution is two separate, unbounded intervals. Think: "great-OR".</li>
+                <li><strong>"Less Th-AND" (`&lt;`, `&le;`)</strong>: Inequalities with a "less than" sign are treated as **AND** statements. They describe values that are 'close to' zero, trapped *between* two endpoints. The solution is a single, bounded interval. Think: "less th-AND".</li>
+                <li><strong>"Great-OR" (`&gt;`, `&ge;`)</strong>: Inequalities with a "greater than" sign are treated as **OR** statements. They describe values that are 'far from' zero, escaping *outward* from two endpoints. The solution is two separate, unbounded intervals. Think: "great-OR".</li>
             </ul>
 
             <h3 className="text-lg font-semibold text-foreground">Example 1: Solving a "Less Than" Inequality</h3>
-            <p>Let's solve **|2x - 3| ≤ 5**.</p>
+            <p>Let's solve **|2x - 3| &le; 5**.</p>
             <ol className="list-decimal list-inside space-y-4">
-                <li><strong>Identify the Type:</strong> The `≤` sign tells us this is a "Less Th-AND" problem, which will become a single compound inequality.</li>
+                <li><strong>Identify the Type:</strong> The `&le;` sign tells us this is a "Less Th-AND" problem, which will become a single compound inequality.</li>
                 <li><strong>Set up the Compound Inequality:</strong> We sandwich the expression `2x - 3` between -5 and 5.
                      <div className="p-2 bg-muted/50 rounded-lg mt-2 text-center">
-                        <p className="font-mono text-sm md:text-base">-5 ≤ 2x - 3 ≤ 5</p>
+                        <p className="font-mono text-sm md:text-base">-5 &le; 2x - 3 &le; 5</p>
                     </div>
                 </li>
                 <li><strong>Solve for x:</strong> Perform the same operation on all three parts of the inequality to isolate x in the middle.
                     <div className="p-2 bg-muted/50 rounded-lg mt-2">
-                        <p className="font-mono text-sm">-5 + 3 ≤ 2x - 3 + 3 ≤ 5 + 3   (Add 3 to all parts)</p>
-                        <p className="font-mono text-sm">-2 ≤ 2x ≤ 8</p>
-                        <p className="font-mono text-sm">-2 / 2 ≤ 2x / 2 ≤ 8 / 2      (Divide all parts by 2)</p>
-                        <p className="font-mono text-sm font-bold">-1 ≤ x ≤ 4</p>
+                        <p className="font-mono text-sm">-5 + 3 &le; 2x - 3 + 3 &le; 5 + 3   (Add 3 to all parts)</p>
+                        <p className="font-mono text-sm">-2 &le; 2x &le; 8</p>
+                        <p className="font-mono text-sm">-2 / 2 &le; 2x / 2 &le; 8 / 2      (Divide all parts by 2)</p>
+                        <p className="font-mono text-sm font-bold">-1 &le; x &le; 4</p>
                     </div>
                 </li>
                 <li><strong>State the Solution:</strong> The solution is all numbers between -1 and 4, inclusive. In interval notation, this is `[-1, 4]`.</li>
@@ -240,9 +240,9 @@ export default function AbsoluteValueInequalityCalculator() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>What's the difference between `&lt;` and `≤` in the solution?</AccordionTrigger>
+              <AccordionTrigger>What's the difference between `&lt;` and `&le;` in the solution?</AccordionTrigger>
               <AccordionContent>
-                <p>A strict inequality (`&lt;` or `&gt;`) results in an "open" interval, meaning the endpoints are not included. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`≤` or `≥`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
+                <p>A strict inequality (`&lt;` or `&gt;`) results in an "open" interval, meaning the endpoints are not included. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`&le;` or `&ge;`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
