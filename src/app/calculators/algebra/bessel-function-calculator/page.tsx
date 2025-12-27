@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -150,7 +151,7 @@ export default function BesselFunctionCalculator() {
         <CardContent>
           <p>Bessel functions are solutions to Bessel's differential equation. Calculating them precisely often involves infinite series or complex integrals. This calculator uses a highly accurate polynomial approximation (based on formulas from Abramowitz and Stegun's "Handbook of Mathematical Functions") to compute the values for `J_n(x)` and `Y_n(x)`.</p>
           <h3 className="font-semibold text-lg mt-4">Bessel Function of the First Kind, `J_n(x)`</h3>
-          <p>These functions are finite at x = 0. They resemble oscillating functions like sine or cosine, but their amplitude decreases as x increases. `J_0(0) = 1`, and `J_n(0) = 0` for n > 0.</p>
+          <p>These functions are finite at x = 0. They resemble oscillating functions like sine or cosine, but their amplitude decreases as x increases. `J_0(0) = 1`, and `J_n(0) = 0` for n &gt; 0.</p>
           <h3 className="font-semibold text-lg mt-4">Bessel Function of the Second Kind, `Y_n(x)`</h3>
           <p>Also known as Neumann functions, these are solutions that are singular (infinite) at x = 0. They also oscillate with decreasing amplitude but start at negative infinity at x=0.</p>
         </CardContent>
@@ -244,5 +245,3 @@ export default function BesselFunctionCalculator() {
     </div>
   );
 }
-
-    
