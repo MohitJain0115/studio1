@@ -47,7 +47,9 @@ const relatedCalculators: { name: string; href: string }[] = [
 
 export default function ComparativeDifferenceCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateComparativeDifference> | null>(null);
-  const animatedDifference = useCountUp(result ? parseFloat(result.difference) : 0);
+  
+  const differenceValue = result?.difference === 'N/A' ? 0 : result ? parseFloat(result.difference) : 0;
+  const animatedDifference = useCountUp(differenceValue);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -122,7 +124,7 @@ export default function ComparativeDifferenceCalculator() {
           <CardContent className="text-center">
              <div className="p-6 bg-primary/10 rounded-lg">
                 <p className="text-sm text-muted-foreground">Relative Percentage Difference</p>
-                <p className="text-4xl font-bold text-primary">{animatedDifference}%</p>
+                <p className="text-4xl font-bold text-primary">{result.difference === 'N/A' ? 'N/A' : `${animatedDifference}%`}</p>
             </div>
           </CardContent>
         </Card>
@@ -242,5 +244,3 @@ export default function ComparativeDifferenceCalculator() {
     </div>
   );
 }
-
-    
