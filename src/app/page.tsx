@@ -18,10 +18,13 @@ import {
   Target,
   Thermometer,
   AreaChart,
+  FunctionSquare,
+  Sigma,
+  Box,
 } from 'lucide-react';
 import Link from 'next/link';
 
-const calculatorLinks = [
+const financialCalculators = [
   {
     href: '/calculators/average-percentage-calculator',
     label: 'Average Percentage Calculator',
@@ -104,32 +107,87 @@ const calculatorLinks = [
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
+const algebraCalculators = [
+  {
+    href: '/calculators/algebra/absolute-value-equation-calculator',
+    label: 'Absolute Value Equation Calculator',
+    icon: <Sigma className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/algebra/absolute-value-inequalities-calculator',
+    label: 'Absolute Value Inequalities Calculator',
+    icon: <Sigma className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/algebra/adding-and-subtracting-polynomials-calculator',
+    label: 'Adding & Subtracting Polynomials',
+    icon: <Sigma className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/algebra/bessel-function-calculator',
+    label: 'Bessel Function Calculator',
+    icon: <FunctionSquare className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/algebra/binomial-coefficient-calculator',
+    label: 'Binomial Coefficient Calculator',
+    icon: <Sigma className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/algebra/box-method-calculator',
+    label: 'Box Method Calculator',
+    icon: <Box className="w-8 h-8" />,
+  },
+].sort((a, b) => a.label.localeCompare(b.label));
+
 export default function HomePage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight">
           Welcome to FinanceFriend
         </h1>
         <p className="text-muted-foreground mt-2">
-          Your new suite of essential financial calculators.
+          Your new suite of essential financial and algebraic calculators.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {calculatorLinks.map((item) => (
-          <Link href={item.href} key={item.href}>
-            <Card className="hover:bg-accent hover:border-accent-foreground/50 transition-colors h-full flex flex-col items-center justify-center p-6">
-              <CardHeader className="p-0">
-                <div className="flex items-center justify-center mb-4">
-                  {item.icon}
-                </div>
-                <CardTitle className="text-center text-lg">{item.label}</CardTitle>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Financial Calculators</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {financialCalculators.map((item) => (
+            <Link href={item.href} key={item.href}>
+              <Card className="hover:bg-accent hover:border-accent-foreground/50 transition-colors h-full flex flex-col items-center justify-center p-6">
+                <CardHeader className="p-0">
+                  <div className="flex items-center justify-center mb-4 text-primary">
+                    {item.icon}
+                  </div>
+                  <CardTitle className="text-center text-lg">{item.label}</CardTitle>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
       </div>
+
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Algebra Calculators</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {algebraCalculators.map((item) => (
+            <Link href={item.href} key={item.href}>
+              <Card className="hover:bg-accent hover:border-accent-foreground/50 transition-colors h-full flex flex-col items-center justify-center p-6">
+                <CardHeader className="p-0">
+                  <div className="flex items-center justify-center mb-4 text-primary">
+                    {item.icon}
+                  </div>
+                  <CardTitle className="text-center text-lg">{item.label}</CardTitle>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }

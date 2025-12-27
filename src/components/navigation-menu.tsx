@@ -7,11 +7,12 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Percent, TrendingUp, ArrowRightLeft, ChevronsRight, Calculator, Fuel, Divide, Clock, Minus, Target, Thermometer, AreaChart } from 'lucide-react';
+import { Home, Percent, TrendingUp, ArrowRightLeft, ChevronsRight, Calculator, Fuel, Divide, Clock, Minus, Target, Thermometer, AreaChart, FunctionSquare, Sigma, Box } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
+  // Financial
   { href: '/calculators/average-percentage-calculator', label: 'Average Percentage', icon: Calculator },
   { href: '/calculators/comparative-difference-calculator', label: 'Comparative Difference', icon: ArrowRightLeft },
   { href: '/calculators/compounding-increase-calculator', label: 'Compounding Increase', icon: TrendingUp },
@@ -28,6 +29,13 @@ const menuItems = [
   { href: '/calculators/relative-change-calculator', label: 'Relative Change', icon: TrendingUp },
   { href: '/calculators/slope-percentage-calculator', label: 'Slope Percentage', icon: AreaChart },
   { href: '/calculators/time-percentage-calculator', label: 'Time Percentage', icon: Clock },
+  // Algebra
+  { href: '/calculators/algebra/absolute-value-equation-calculator', label: 'Absolute Value Equation', icon: Sigma },
+  { href: '/calculators/algebra/absolute-value-inequalities-calculator', label: 'Absolute Value Inequalities', icon: Sigma },
+  { href: '/calculators/algebra/adding-and-subtracting-polynomials-calculator', label: 'Add & Subtract Polynomials', icon: Sigma },
+  { href: '/calculators/algebra/bessel-function-calculator', label: 'Bessel Function', icon: FunctionSquare },
+  { href: '/calculators/algebra/binomial-coefficient-calculator', label: 'Binomial Coefficient', icon: Sigma },
+  { href: '/calculators/algebra/box-method-calculator', label: 'Box Method', icon: Box },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
 export default function NavigationMenu() {
@@ -44,7 +52,7 @@ export default function NavigationMenu() {
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={pathname.startsWith(item.href) && (item.href === '/' ? pathname === '/' : true)}
+            isActive={pathname === item.href}
             tooltip={item.label}
             className="justify-start"
           >
