@@ -7,130 +7,15 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Clock, Map as MapIcon, Plane, Globe, ClipboardList, CalendarDays, Hourglass, Bed, ShieldCheck, Coffee, Wallet, Fuel, Bolt, Car, Hotel, Users, Route, Map, Ship, Train, Bus, Mountain, Backpack, Flame } from 'lucide-react';
+import { Home, Fuel } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   {
-    href: '/calculators/backpack-weight-calculator',
-    label: 'Backpack Weight',
-    icon: Backpack,
-  },
-  {
-    href: '/calculators/bus-vs-train-cost-calculator',
-    label: 'Bus vs. Train Comparison',
-    icon: Bus,
-  },
-  {
-    href: '/calculators/car-vs-flight-calculator',
-    label: 'Car vs. Flight Comparison',
-    icon: Car,
-  },
-  {
-    href: '/calculators/cost-per-mile-calculator',
-    label: 'Cost Per Mile',
-    icon: Route,
-  },
-  {
-    href: '/calculators/cruise-cost-calculator',
-    label: 'Cruise Cost Calculator',
-    icon: Ship,
-  },
-  {
-    href: '/calculators/distance-between-cities-calculator',
-    label: 'Distance Between Cities',
-    icon: MapIcon,
-  },
-   {
-    href: '/calculators/driving-time-with-breaks-calculator',
-    label: 'Driving Time with Breaks',
-    icon: Coffee,
-  },
-  {
-    href: '/calculators/ev-charging-cost-calculator',
-    label: 'EV Charging Cost',
-    icon: Bolt,
-  },
-  {
-    href: '/calculators/flight-duration-calculator',
-    label: 'Flight Duration',
-    icon: Plane,
-  },
-  {
     href: '/calculators/fuel-cost-calculator',
     label: 'Fuel Cost',
     icon: Fuel,
-  },
-  {
-    href: '/calculators/group-expense-splitter',
-    label: 'Group Expense Splitter',
-    icon: Users,
-  },
-  {
-    href: '/calculators/hiking-calorie-calculator',
-    label: 'Hiking Calorie Calculator',
-    icon: Flame,
-  },
-  {
-    href: '/calculators/hiking-time-calculator',
-    label: 'Hiking Time Calculator',
-    icon: Mountain,
-  },
-  {
-    href: '/calculators/hotel-cost-calculator',
-    label: 'Hotel Cost',
-    icon: Hotel,
-  },
-  {
-    href: '/calculators/itinerary-time-planner',
-    label: 'Itinerary Time Planner',
-    icon: ClipboardList,
-  },
-  {
-    href: '/calculators/jet-lag-calculator',
-    label: 'Jet Lag Calculator',
-    icon: Bed,
-  },
-  {
-    href: '/calculators/layover-time-calculator',
-    label: 'Layover Time Calculator',
-    icon: Hourglass,
-  },
-  {
-    href: '/calculators/multi-stop-route-planner',
-    label: 'Multi-Stop Route Planner',
-    icon: Map,
-  },
-  {
-    href: '/calculators/rental-car-cost-calculator',
-    label: 'Rental Car Cost',
-    icon: Car,
-  },
-  {
-    href: '/calculators/time-zone-difference-calculator',
-    label: 'Time Zone Difference',
-    icon: Globe,
-  },
-  {
-    href: '/calculators/travel-buffer-time-calculator',
-    label: 'Travel Buffer Time',
-    icon: ShieldCheck,
-  },
-  {
-    href: '/calculators/travel-days-calculator',
-    label: 'Travel Days Calculator',
-    icon: CalendarDays,
-  },
-  {
-    href: '/calculators/travel-time-calculator',
-    label: 'Travel Time',
-    icon: Clock,
-  },
-  {
-    href: '/calculators/trip-budget-calculator',
-    label: 'Trip Budget',
-    icon: Wallet,
   },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
