@@ -198,7 +198,7 @@ export default function SlopePercentageCalculator() {
                 </tr>
                  <tr>
                   <td className="p-2 align-top">Ski Slopes</td>
-                  <td className="p-2 align-top">10% (Beginner) to >70% (Expert)</td>
+                  <td className="p-2 align-top">10% (Beginner) to &gt;70% (Expert)</td>
                   <td className="p-2 align-top">Ski resorts use grade to classify the difficulty of their trails. A black diamond trail can easily exceed a 40% grade.</td>
                 </tr>
               </tbody>
