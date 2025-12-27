@@ -31,16 +31,12 @@ import {
 import Link from 'next/link';
 import { DollarSign, Percent, Calendar, HelpCircle, TrendingUp, BarChart } from 'lucide-react';
 import {
+  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from '@/components/ui/chart-components';
+} from '@/components/ui/chart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { useCountUp } from '@/hooks/use-count-up';
 
 const formSchema = z.object({
@@ -56,6 +52,13 @@ const relatedCalculators: { name: string; href: string }[] = [
   { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
   { name: 'Historic Change', href: '/calculators/historic-change-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
+
+const chartConfig = {
+  value: {
+    label: 'Value',
+    color: 'hsl(var(--primary))',
+  },
+} satisfies ChartConfig;
 
 export default function CompoundingIncreaseCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateCompoundingIncrease> | null>(null);
@@ -176,15 +179,35 @@ export default function CompoundingIncreaseCalculator() {
             <CardTitle className="flex items-center gap-2"><BarChart className="w-5 h-5" />Growth Over Time</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={result.history}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="period" name="Period" />
-                <YAxis />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Line type="monotone" dataKey="value" stroke="hsl(var(--primary))" strokeWidth={2} name="Value" />
-              </LineChart>
-            </ResponsiveContainer>
+            <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                  accessibilityLayer
+                  data={result.history}
+                  margin={{
+                    left: 12,
+                    right: 12,
+                  }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="period"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => `P ${value}`}
+                  />
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                  <Line
+                    dataKey="value"
+                    type="monotone"
+                    stroke="var(--color-value)"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       )}

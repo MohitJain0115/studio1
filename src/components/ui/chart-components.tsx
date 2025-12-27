@@ -4,6 +4,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartConfig
 } from '@/components/ui/chart';
 import {
   LineChart,
@@ -25,3 +26,4 @@ export {
   CartesianGrid,
   ResponsiveContainer,
 };
+export type { ChartConfig };
