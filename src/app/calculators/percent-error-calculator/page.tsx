@@ -189,12 +189,12 @@ export default function PercentErrorCalculator() {
                 </tr>
                 <tr className="border-b">
                   <td className="p-2 align-top">Pharmaceutical Manufacturing</td>
-                  <td className="p-2 align-top">< 0.1%</td>
+                  <td className="p-2 align-top">{'<'} 0.1%</td>
                   <td className="p-2 align-top">Extremely high accuracy is required for safety and efficacy of medications.</td>
                 </tr>
                 <tr className="border-b">
                   <td className="p-2 align-top">Economic Forecasting</td>
-                  <td className="p-2 align-top">> 10%</td>
+                  <td className="p-2 align-top">{'>'} 10%</td>
                   <td className="p-2 align-top">Highly complex systems with many variables make high accuracy very difficult to achieve.</td>
                 </tr>
               </tbody>
