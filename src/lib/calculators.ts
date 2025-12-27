@@ -115,13 +115,6 @@ export function calculateFractionToPercent(numerator: number, denominator: numbe
     };
 }
 
-export function calculateDecimalToPercent(decimal: number) {
-    const percentage = decimal * 100;
-    return {
-        percentage: percentage.toFixed(2),
-    };
-}
-
 export function calculateDoublingTime(growthRate: number) {
     if (growthRate <= 0) return { exactTime: 'N/A', ruleOf72Time: 'N/A' };
     const rateDecimal = growthRate / 100;

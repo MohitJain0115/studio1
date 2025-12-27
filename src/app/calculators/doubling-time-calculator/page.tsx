@@ -24,7 +24,6 @@ const relatedCalculators: { name: string; href: string }[] = [
     { name: 'Average Percentage', href: '/calculators/average-percentage-calculator' },
     { name: 'Comparative Difference', href: '/calculators/comparative-difference-calculator' },
     { name: 'Compounding Increase', href: '/calculators/compounding-increase-calculator' },
-    { name: 'Decimal to Percent Converter', href: '/calculators/decimal-to-percent-converter' },
     { name: 'Fraction to Percent', href: '/calculators/fraction-to-percent-calculator' },
     { name: 'Fuel Cost', href: '/calculators/fuel-cost-calculator' },
     { name: 'Historic Change', href: '/calculators/historic-change-calculator' },

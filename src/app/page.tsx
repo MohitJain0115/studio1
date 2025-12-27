@@ -35,11 +35,6 @@ const calculatorLinks = [
     icon: <TrendingUp className="w-8 h-8" />,
   },
   {
-    href: '/calculators/decimal-to-percent-converter',
-    label: 'Decimal to Percent Converter',
-    icon: <ArrowRightLeft className="w-8 h-8" />,
-  },
-  {
     href: '/calculators/doubling-time-calculator',
     label: 'Doubling Time Calculator',
     icon: <Clock className="w-8 h-8" />,

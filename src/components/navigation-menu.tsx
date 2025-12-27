@@ -15,7 +15,6 @@ const menuItems = [
   { href: '/calculators/average-percentage-calculator', label: 'Average Percentage', icon: Calculator },
   { href: '/calculators/comparative-difference-calculator', label: 'Comparative Difference', icon: ArrowRightLeft },
   { href: '/calculators/compounding-increase-calculator', label: 'Compounding Increase', icon: TrendingUp },
-  { href: '/calculators/decimal-to-percent-converter', label: 'Decimal to Percent', icon: ArrowRightLeft },
   { href: '/calculators/doubling-time-calculator', label: 'Doubling Time', icon: Clock },
   { href: '/calculators/fraction-to-percent-calculator', label: 'Fraction to Percent', icon: Divide },
   { href: '/calculators/fuel-cost-calculator', label: 'Fuel Cost', icon: Fuel },

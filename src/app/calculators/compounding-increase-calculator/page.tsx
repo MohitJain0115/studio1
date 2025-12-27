@@ -50,7 +50,6 @@ type FormValues = z.infer<typeof formSchema>;
 const relatedCalculators: { name: string; href: string }[] = [
     { name: 'Average Percentage', href: '/calculators/average-percentage-calculator' },
     { name: 'Comparative Difference', href: '/calculators/comparative-difference-calculator' },
-    { name: 'Decimal to Percent Converter', href: '/calculators/decimal-to-percent-converter' },
     { name: 'Doubling Time', href: '/calculators/doubling-time-calculator' },
     { name: 'Fraction to Percent', href: '/calculators/fraction-to-percent-calculator' },
     { name: 'Fuel Cost', href: '/calculators/fuel-cost-calculator' },
@@ -188,7 +187,6 @@ export default function CompoundingIncreaseCalculator() {
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-              <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                   accessibilityLayer
                   data={result.history}
@@ -218,7 +216,6 @@ export default function CompoundingIncreaseCalculator() {
                     dot={false}
                   />
                 </LineChart>
-              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
