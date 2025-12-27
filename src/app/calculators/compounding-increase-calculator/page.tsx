@@ -60,14 +60,6 @@ const relatedCalculators: { name: string; href: string }[] = [
 export default function CompoundingIncreaseCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateCompoundingIncrease> | null>(null);
   
-  const initialValue = result ? parseFloat(form.getValues('initialValue').toString()) : 0;
-  const finalValue = result ? parseFloat(result.finalValue) : 0;
-  const totalGrowth = result ? parseFloat(result.totalGrowth) : 0;
-
-  const animatedFinalValue = useCountUp(finalValue);
-  const animatedInitialValue = useCountUp(initialValue);
-  const animatedTotalGrowth = useCountUp(totalGrowth);
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,6 +68,15 @@ export default function CompoundingIncreaseCalculator() {
       periods: undefined,
     },
   });
+
+  const initialValue = result ? parseFloat(form.getValues('initialValue').toString()) : 0;
+  const finalValue = result ? parseFloat(result.finalValue) : 0;
+  const totalGrowth = result ? parseFloat(result.totalGrowth) : 0;
+
+  const animatedFinalValue = useCountUp(finalValue);
+  const animatedInitialValue = useCountUp(initialValue);
+  const animatedTotalGrowth = useCountUp(totalGrowth);
+
 
   const onSubmit = (data: FormValues) => {
     const res = calculateCompoundingIncrease(data.initialValue, data.percentageIncrease, data.periods);
@@ -313,5 +314,3 @@ export default function CompoundingIncreaseCalculator() {
     </div>
   );
 }
-
-    
