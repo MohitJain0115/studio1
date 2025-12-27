@@ -7,15 +7,45 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
-  Fuel,
+  Percent,
+  TrendingUp,
+  TrendingDown,
+  ArrowRightLeft,
+  ChevronsRight,
+  Calculator,
 } from 'lucide-react';
 import Link from 'next/link';
 
 const calculatorLinks = [
   {
-    href: '/calculators/fuel-cost-calculator',
-    label: 'Fuel Cost Calculator',
-    icon: <Fuel className="w-8 h-8" />,
+    href: '/calculators/value-percentage-calculator',
+    label: 'Value Percentage Calculator',
+    icon: <Percent className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/historic-change-calculator',
+    label: 'Historic Change Calculator',
+    icon: <TrendingUp className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/sale-discount-calculator',
+    label: 'Sale Discount Calculator',
+    icon: <TrendingDown className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/comparative-difference-calculator',
+    label: 'Comparative Difference Calculator',
+    icon: <ArrowRightLeft className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/investment-growth-calculator',
+    label: 'Investment Growth Calculator',
+    icon: <ChevronsRight className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/compounding-increase-calculator',
+    label: 'Compounding Increase Calculator',
+    icon: <Calculator className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
@@ -24,10 +54,10 @@ export default function HomePage() {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight">
-          Welcome to Travel-Friend
+          Welcome to FinanceFriend
         </h1>
         <p className="text-muted-foreground mt-2">
-          Your new suite of essential travel calculators.
+          Your new suite of essential financial calculators.
         </p>
       </div>
 

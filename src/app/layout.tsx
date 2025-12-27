@@ -12,8 +12,8 @@ import NavigationMenu from '@/components/navigation-menu';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Travel-Friend',
-  description: 'All your travel calculators in one place.',
+  title: 'FinanceFriend',
+  description: 'All your financial calculators in one place.',
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
           <Sidebar>
             <SidebarHeader>
               <h2 className="text-xl font-semibold tracking-tight p-2">
-                Travel-Friend
+                FinanceFriend
               </h2>
             </SidebarHeader>
             <SidebarContent>

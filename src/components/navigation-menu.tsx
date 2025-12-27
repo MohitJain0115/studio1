@@ -7,15 +7,40 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Fuel } from 'lucide-react';
+import { Home, Percent, TrendingUp, TrendingDown, ArrowRightLeft, ChevronsRight, Calculator } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   {
-    href: '/calculators/fuel-cost-calculator',
-    label: 'Fuel Cost',
-    icon: Fuel,
+    href: '/calculators/value-percentage-calculator',
+    label: 'Value Percentage',
+    icon: Percent,
+  },
+  {
+    href: '/calculators/historic-change-calculator',
+    label: 'Historic Change',
+    icon: TrendingUp,
+  },
+  {
+    href: '/calculators/sale-discount-calculator',
+    label: 'Sale Discount',
+    icon: TrendingDown,
+  },
+  {
+    href: '/calculators/comparative-difference-calculator',
+    label: 'Comparative Difference',
+    icon: ArrowRightLeft,
+  },
+  {
+    href: '/calculators/investment-growth-calculator',
+    label: 'Investment Growth',
+    icon: ChevronsRight,
+  },
+  {
+    href: '/calculators/compounding-increase-calculator',
+    label: 'Compounding Increase',
+    icon: Calculator,
   },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
@@ -33,7 +58,7 @@ export default function NavigationMenu() {
         <SidebarMenuItem key={item.href}>
           <SidebarMenuButton
             asChild
-            isActive={pathname === item.href}
+            isActive={pathname.startsWith(item.href) && (item.href === '/' ? pathname === '/' : true)}
             tooltip={item.label}
             className="justify-start"
           >
