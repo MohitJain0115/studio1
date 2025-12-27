@@ -9,7 +9,7 @@ import {
   Card,
   CardContent,
   CardHeader,
-CardTitle,
+  CardTitle,
   CardDescription,
 } from '@/components/ui/card';
 import {
@@ -152,7 +152,7 @@ export default function InvestmentGrowthCalculator() {
           </div>
            <p className="mt-2 text-muted-foreground">This is identical to a standard percentage change calculation, framed in the context of investment returns.</p>
         </CardContent>
-      </card>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -218,3 +218,11 @@ export default function InvestmentGrowthCalculator() {
               <AccordionTrigger>What if my investment lost value?</AccordionTrigger>
               <AccordionContent>
                 <p>The calculator works perfectly for losses. If your final amount is less than your initial amount, the "Total Growth" will be negative (e.g., -25%) and the "Net Profit" will also be a negative number, representing your net loss.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
