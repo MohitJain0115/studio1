@@ -223,6 +223,16 @@ export default function InvestmentGrowthCalculator() {
           </Accordion>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Investment Growth Calculator provides a clear, high-level overview of an investment's performance. By calculating both the absolute net profit and the relative percentage growth (ROI), it offers a crucial first look at your financial success. It's an essential starting point for any investor looking to quickly assess the outcome of their decisions.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

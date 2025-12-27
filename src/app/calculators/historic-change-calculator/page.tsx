@@ -229,6 +229,16 @@ export default function HistoricChangeCalculator() {
           </Accordion>
         </CardContent>
       </Card>
+
+       <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Historic Change Calculator is a vital tool for analyzing trends and measuring performance over time. By quantifying the change from a past value to a present one, it provides crucial context for financial reports, economic data, and personal progress tracking. Understanding how to calculate percentage change is a fundamental skill for making informed decisions based on data.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

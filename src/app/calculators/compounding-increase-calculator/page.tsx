@@ -285,6 +285,16 @@ export default function CompoundingIncreaseCalculator() {
           </Accordion>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Compounding Increase Calculator is a powerful tool for visualizing long-term growth. By demonstrating how a consistent increase builds on itself over time, it helps users understand the exponential power of compounding, which is essential for planning investments, savings goals, or any long-term growth scenario.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

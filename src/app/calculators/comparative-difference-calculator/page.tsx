@@ -221,6 +221,16 @@ export default function ComparativeDifferenceCalculator() {
           </Accordion>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Comparative Difference Calculator is a specialized tool for situations where you need to compare two values on equal footing. Unlike a standard percentage change, it provides a symmetrical, unbiased measure of difference, making it ideal for statistical analysis, scientific comparison, and any scenario where there is no clear 'before' and 'after' value.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

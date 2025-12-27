@@ -213,6 +213,16 @@ export default function ValuePercentageCalculator() {
           </Accordion>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Value Percentage Calculator is your go-to tool for one of the most common mathematical tasks: finding a specific portion of a total. Whether you're calculating a tip, figuring out sales tax, or understanding a statistic, this calculator provides a quick and accurate answer, turning an abstract percentage into a concrete number.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }
