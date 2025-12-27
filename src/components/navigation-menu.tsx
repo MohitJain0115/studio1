@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Percent, TrendingUp, TrendingDown, ArrowRightLeft, ChevronsRight, Calculator } from 'lucide-react';
+import { Home, Percent, TrendingUp, TrendingDown, ArrowRightLeft, ChevronsRight, Calculator, Fuel } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -41,6 +41,11 @@ const menuItems = [
     href: '/calculators/compounding-increase-calculator',
     label: 'Compounding Increase',
     icon: Calculator,
+  },
+   {
+    href: '/calculators/fuel-cost-calculator',
+    label: 'Fuel Cost',
+    icon: Fuel,
   },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 

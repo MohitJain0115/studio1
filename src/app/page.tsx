@@ -47,6 +47,11 @@ const calculatorLinks = [
     label: 'Compounding Increase Calculator',
     icon: <Calculator className="w-8 h-8" />,
   },
+  {
+    href: '/calculators/fuel-cost-calculator',
+    label: 'Fuel Cost Calculator',
+    icon: <Calculator className="w-8 h-8" />,
+  },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 export default function HomePage() {

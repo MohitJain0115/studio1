@@ -42,6 +42,7 @@ const relatedCalculators: { name: string; href: string }[] = [
   { name: 'Historic Change', href: '/calculators/historic-change-calculator' },
   { name: 'Sale Discount', href: '/calculators/sale-discount-calculator' },
   { name: 'Investment Growth', href: '/calculators/investment-growth-calculator' },
+  { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function ComparativeDifferenceCalculator() {
