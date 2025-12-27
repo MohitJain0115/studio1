@@ -42,7 +42,6 @@ const relatedCalculators: { name: string; href: string }[] = [
   { name: 'Compounding Increase', href: '/calculators/compounding-increase-calculator' },
   { name: 'Historic Change', href: '/calculators/historic-change-calculator' },
   { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
-  { name: 'Sale Discount', href: '/calculators/sale-discount-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function InvestmentGrowthCalculator() {

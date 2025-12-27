@@ -23,11 +23,6 @@ const menuItems = [
     icon: TrendingUp,
   },
   {
-    href: '/calculators/sale-discount-calculator',
-    label: 'Sale Discount',
-    icon: TrendingDown,
-  },
-  {
     href: '/calculators/comparative-difference-calculator',
     label: 'Comparative Difference',
     icon: ArrowRightLeft,

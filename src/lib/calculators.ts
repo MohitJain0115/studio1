@@ -19,17 +19,6 @@ export function calculateHistoricChange(oldValue: number, newValue: number) {
 }
 
 
-export function calculateSaleDiscount(originalPrice: number, salePrice: number) {
-    if (originalPrice === 0) return { discountPercentage: 'N/A', amountSaved: 'N/A' };
-    const discountPercentage = ((originalPrice - salePrice) / originalPrice) * 100;
-    const amountSaved = originalPrice - salePrice;
-    return {
-        discountPercentage: discountPercentage.toFixed(2),
-        amountSaved: amountSaved.toFixed(2),
-    };
-}
-
-
 export function calculateComparativeDifference(valueA: number, valueB: number) {
     const average = (valueA + valueB) / 2;
     if (average === 0) return { difference: 'N/A' };

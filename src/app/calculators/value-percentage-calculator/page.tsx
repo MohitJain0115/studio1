@@ -39,7 +39,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators: { name: string; href: string }[] = [
-  { name: 'Sale Discount', href: '/calculators/sale-discount-calculator' },
   { name: 'Historic Change', href: '/calculators/historic-change-calculator' },
   { name: 'Investment Growth', href: '/calculators/investment-growth-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));

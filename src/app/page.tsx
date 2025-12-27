@@ -28,11 +28,6 @@ const calculatorLinks = [
     icon: <TrendingUp className="w-8 h-8" />,
   },
   {
-    href: '/calculators/sale-discount-calculator',
-    label: 'Sale Discount Calculator',
-    icon: <TrendingDown className="w-8 h-8" />,
-  },
-  {
     href: '/calculators/comparative-difference-calculator',
     label: 'Comparative Difference Calculator',
     icon: <ArrowRightLeft className="w-8 h-8" />,
