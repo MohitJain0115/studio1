@@ -195,12 +195,12 @@ export function solveAbsoluteValueEquation(a: number, b: number, c: number) {
       return { solutions: [sol1.toString()], explanation: "The two potential solutions are identical." };
     }
 
-    return { solutions: [sol1.toString(), sol2.toString()], explanation: "Two distinct solutions found." };
+    return { solutions: [sol1.toFixed(3), sol2.toFixed(3)], explanation: "Two distinct solutions found." };
 }
 
 export function solveAbsoluteValueInequality(a: number, b: number, inequality: string, c: number) {
   if (a === 0) {
-    const simpleResult = b;
+    const simpleResult = Math.abs(b);
     let satisfied = false;
     if (inequality === '<') satisfied = simpleResult < c;
     if (inequality === '<=') satisfied = simpleResult <= c;
@@ -215,64 +215,81 @@ export function solveAbsoluteValueInequality(a: number, b: number, inequality: s
   const flip = a < 0;
   if (inequality === '<' || inequality === '<=') {
     if (c < 0) return { solution: 'No solution', explanation: 'An absolute value cannot be less than a negative number.' };
+    if (c === 0) return { solution: 'No solution', explanation: 'An absolute value cannot be less than zero.' };
     
     const endpoint1 = (-c - b) / a;
     const endpoint2 = (c - b) / a;
     const lower = Math.min(endpoint1, endpoint2);
     const upper = Math.max(endpoint1, endpoint2);
-    const leftBracket = inequality === '<=' ? '[' : '(';
-    const rightBracket = inequality === '<=' ? ']' : ')';
-
+    
+    const finalInequality = `${lower.toFixed(2)} ${inequality.replace('=', '')} x ${inequality.replace('=', '')} ${upper.toFixed(2)}`;
+    
     return {
-        solution: `${lower.toFixed(2)} ${flip ? '>' : '<'}${inequality.includes('=') ? '=': ''} x ${flip ? '<' : '>'}${inequality.includes('=') ? '=': ''} ${upper.toFixed(2)}`,
-        explanation: `Interval Notation: ${leftBracket}${lower.toFixed(2)}, ${upper.toFixed(2)}${rightBracket}`
+        solution: finalInequality,
+        explanation: `This is a bounded interval. Interval Notation: ${inequality.includes('=') ? '[' : '('}${lower.toFixed(2)}, ${upper.toFixed(2)}${inequality.includes('=') ? ']' : ')'}`
     }
   } else { // > or >=
-    if (c < 0) return { solution: 'All real numbers', explanation: 'An absolute value is always non-negative, so it is always greater than a negative number.' };
+    if (c < 0) return { solution: 'All real numbers', explanation: 'An absolute value is always non-negative, so it is always greater than any negative number.' };
+    if (c === 0) {
+        if (inequality === '>') return { solution: `x ≠ ${(-b/a).toFixed(2)}`, explanation: 'The absolute value is positive for all x except where ax+b=0.'}
+        if (inequality === '>=') return { solution: 'All real numbers', explanation: 'The absolute value is always greater than or equal to zero.'}
+    }
     
     const endpoint1 = (c - b) / a;
     const endpoint2 = (-c - b) / a;
     const lower = Math.min(endpoint1, endpoint2);
     const upper = Math.max(endpoint1, endpoint2);
     
-    const op1 = flip ? '>' : '<';
-    const op2 = flip ? '<' : '>';
+    const op1 = '<';
+    const op2 = '>';
     const eq = inequality.includes('=') ? '=' : '';
 
     return {
         solution: `x ${op1}${eq} ${lower.toFixed(2)} or x ${op2}${eq} ${upper.toFixed(2)}`,
-        explanation: `Interval Notation: (-∞, ${lower.toFixed(2)}${eq ? ']' : ')'}) U (${eq ? '[' : '('}${upper.toFixed(2)}, ∞)`
+        explanation: `This represents two unbounded intervals. Interval Notation: (-∞, ${lower.toFixed(2)}${inequality.includes('=') ? ']' : ')'}) U (${inequality.includes('=') ? '[' : '('}${upper.toFixed(2)}, ∞)`
     }
   }
 }
 
 function parsePolynomial(poly: string): Map<number, number> {
     const terms = new Map<number, number>();
-    // Pre-process to add + before - to make splitting easier, e.g. 3x^2-2x -> 3x^2+-2x
-    const processedPoly = poly.replace(/\s/g, '').replace(/([a-zA-Z0-9\^])-/g, '$1+-');
-    const termStrings = processedPoly.split('+');
+    if (!poly) return terms;
 
+    const processedPoly = poly.replace(/\s/g, '').replace(/([a-zA-Z0-9\^])-/g, '$1+-').replace(/^-/, '');
+    if (poly.trim().startsWith('-')) {
+        // Handle case where first term is negative
+    }
+    
+    let termStrings = processedPoly.split('+');
+    if (poly.trim().startsWith('-')) {
+        termStrings[0] = '-' + termStrings[0];
+    }
+    
     for (const term of termStrings) {
         if (!term) continue;
         let coef = 1;
         let exp = 0;
 
-        const parts = term.split('x');
-        const coefPart = parts[0];
-        
-        if (coefPart) {
-            if (coefPart === '-') coef = -1;
-            else coef = parseFloat(coefPart);
-        }
-
-        if (parts.length > 1) { // there is an x
-            exp = 1; // default exponent is 1 if x exists
-            if (parts[1]) { // there is something after x, e.g. ^2
-                exp = parseInt(parts[1].substring(1)); // remove ^
-            }
-        } else { // no x, it's a constant
+        if (!term.includes('x')) {
+            coef = parseFloat(term);
             exp = 0;
-            coef = parseFloat(coefPart);
+        } else {
+            const parts = term.split('x');
+            const coefPart = parts[0];
+            
+            if (coefPart === '' || coefPart === undefined) {
+                coef = 1;
+            } else if (coefPart === '-') {
+                coef = -1;
+            } else {
+                coef = parseFloat(coefPart);
+            }
+
+            if (parts[1] && parts[1].startsWith('^')) {
+                exp = parseInt(parts[1].substring(1));
+            } else {
+                exp = 1;
+            }
         }
 
         if(isNaN(coef)) throw new Error(`Invalid coefficient in term: "${term}"`);
@@ -296,8 +313,8 @@ function formatPolynomial(terms: Map<number, number>): string {
 
         if (result.length > 0) {
             termStr += (coef > 0) ? " + " : " - ";
-        } else {
-            if (coef < 0) termStr += "-";
+        } else if (coef < 0) {
+            termStr += "-";
         }
 
         if (absCoef !== 1 || exp === 0) {
@@ -312,7 +329,7 @@ function formatPolynomial(terms: Map<number, number>): string {
         }
         result += termStr;
     }
-    return result || "0";
+    return result.length === 0 ? "0" : result;
 }
 
 
@@ -322,9 +339,13 @@ export function addSubtractPolynomials(poly1: string, poly2: string, operation: 
     const resultTerms = new Map(terms1);
     
     let steps = [];
-    steps.push(`P1: (${poly1})`);
-    steps.push(`P2: (${poly2})`);
-    steps.push(`Operation: ${operation}`);
+    steps.push(`1. Identify polynomials: P1 = (${poly1}), P2 = (${poly2}).`);
+    
+    if (operation === 'subtract') {
+        steps.push(`2. Distribute the negative sign to P2: -(${poly2}) = (${formatPolynomial(new Map(Array.from(terms2.entries()).map(([exp, coef]) => [exp, -coef])))})`);
+    } else {
+        steps.push(`2. Prepare for addition.`);
+    }
 
     for (const [exp, coef] of terms2.entries()) {
         const currentCoef = resultTerms.get(exp) || 0;
@@ -334,10 +355,10 @@ export function addSubtractPolynomials(poly1: string, poly2: string, operation: 
             resultTerms.set(exp, currentCoef - coef);
         }
     }
-    steps.push(`Combining like terms...`);
+    steps.push(`3. Combine like terms by adding/subtracting coefficients for each power of x.`);
 
     const result = formatPolynomial(resultTerms);
-    steps.push(`Result: ${result}`);
+    steps.push(`4. Write the final polynomial in standard form: ${result}`);
     return { result, steps };
 }
 
@@ -376,53 +397,19 @@ export function calculateBinomialCoefficient(n: number, k: number) {
     if (k > n / 2) {
       k = n - k;
     }
-    // Using log-gamma for precision with large numbers
+    // Using log-gamma for precision with large numbers, which avoids overflow.
     const logResult = logGamma(n + 1) - logGamma(k + 1) - logGamma(n - k + 1);
     const result = Math.round(Math.exp(logResult));
     return { result, explanation: `There are ${result.toLocaleString()} ways to choose ${k} items from a set of ${n}.` };
 }
 
-function polynomialTerm(coef: number, exp: number): string {
-    if (coef === 0) return '';
-    const sign = coef > 0 ? '+' : '-';
-    const absCoef = Math.abs(coef);
-    let term = ` ${sign} ${absCoef}`;
-    if (exp > 0) {
-        term += 'x';
-        if (exp > 1) {
-            term += `^${exp}`;
-        }
-    }
-    return term;
-}
-
-function formatPolynomialWithSign(terms: Map<number, number>): string {
-    if (terms.size === 0) return '0';
-    const sortedExps = Array.from(terms.keys()).sort((a, b) => b - a);
-    let polyStr = '';
-    for (const exp of sortedExps) {
-        const coef = terms.get(exp)!;
-        if (coef === 0) continue;
-        
-        if (polyStr.length > 0) {
-            polyStr += ` ${coef > 0 ? '+' : '-'} ${Math.abs(coef)}`;
-        } else {
-            polyStr += `${coef}`;
-        }
-
-        if (exp > 0) {
-            polyStr += 'x';
-            if (exp > 1) {
-                polyStr += `^${exp}`;
-            }
-        }
-    }
-    return polyStr;
-}
-
 export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
     const terms1 = parsePolynomial(poly1Str);
     const terms2 = parsePolynomial(poly2Str);
+
+    if (terms1.size === 0 || terms2.size === 0) {
+        return { box: { colHeaders: [], rowHeaders: [], rows: [] }, steps: ["One of the polynomials is zero.", "The result is 0."], finalAnswer: "0" };
+    }
 
     const resultTerms = new Map<number, number>();
     const box: { colHeaders: string[], rowHeaders: string[], rows: {value: string, isDiagonal: boolean}[][] } = {
@@ -437,7 +424,7 @@ export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
     box.colHeaders = sortedTerms1.map(([exp, coef]) => formatPolynomial(new Map([[exp, coef]])));
     box.rowHeaders = sortedTerms2.map(([exp, coef]) => formatPolynomial(new Map([[exp, coef]])));
 
-    const diagonalSums = new Map<number, number[]>();
+    const diagonalExponents = new Map<number, number>();
 
     for (let i = 0; i < sortedTerms2.length; i++) {
         const [exp2, coef2] = sortedTerms2[i];
@@ -454,22 +441,18 @@ export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
                 isDiagonal: false,
             });
             const diagIndex = i + j;
-            if(!diagonalSums.has(diagIndex)) diagonalSums.set(diagIndex, []);
-            diagonalSums.get(diagIndex)!.push(newExp);
+            if(!diagonalExponents.has(diagIndex)) diagonalExponents.set(diagIndex, newExp);
         }
         box.rows.push(row);
     }
     
-    // Highlight diagonals
-    for (const [diag, exps] of diagonalSums.entries()) {
-        const uniqueExps = [...new Set(exps)];
-        if (uniqueExps.length > 1) continue; // Not a like-term diagonal
-        const exp = uniqueExps[0];
-        for (let i = 0; i < sortedTerms2.length; i++) {
-            for (let j = 0; j < sortedTerms1.length; j++) {
-                if (i + j === diag) {
-                    box.rows[i][j].isDiagonal = true;
-                }
+    // Highlight diagonals with like terms
+    for (let i = 0; i < box.rows.length; i++) {
+        for (let j = 0; j < box.rows[i].length; j++) {
+            const diagIndex = i + j;
+            const [exp] = Array.from(parsePolynomial(box.rows[i][j].value).keys());
+            if (exp === diagonalExponents.get(diagIndex) && Array.from(diagonalExponents.values()).filter(e => e === exp).length > 1) {
+                 box.rows[i][j].isDiagonal = true;
             }
         }
     }
@@ -477,7 +460,7 @@ export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
 
     const steps = [];
     steps.push(`1. Create a grid with the terms of (${poly1Str}) and (${poly2Str}).`);
-    steps.push(`2. Fill each cell by multiplying the row and column headers.`);
+    steps.push(`2. Fill each cell by multiplying its corresponding row and column term.`);
     
     const combinedTerms = new Map<number, string[]>();
     for (const [exp, coef] of resultTerms.entries()) {
@@ -488,16 +471,17 @@ export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
         for(let j=0; j < box.rows[i].length; j++){
             const [exp] = Array.from(parsePolynomial(box.rows[i][j].value).keys());
              if (resultTerms.get(exp)! !== 0) {
-                combinedTerms.get(exp)!.push(`(${box.rows[i][j].value})`);
+                 const formattedTerm = formatPolynomial(parsePolynomial(box.rows[i][j].value));
+                 if(formattedTerm !== "0") combinedTerms.get(exp)!.push(formattedTerm);
              }
         }
     }
     
-    steps.push(`3. Combine like terms (often found on the diagonals):`);
+    steps.push(`3. Combine like terms (highlighted in the same color):`);
     const sortedCombined = Array.from(combinedTerms.entries()).sort((a,b) => b[0] - a[0]);
     for(const [exp, termStrs] of sortedCombined) {
         if(termStrs.length > 1) {
-            steps.push(`  x^${exp}: ${termStrs.join(' + ')} = ${formatPolynomial(new Map([[exp, resultTerms.get(exp)!]]))}`);
+            steps.push(`  x^${exp}: ${termStrs.map(t => `(${t})`).join(' + ')} = ${formatPolynomial(new Map([[exp, resultTerms.get(exp)!]]))}`);
         }
     }
 
@@ -507,83 +491,88 @@ export function multiplyPolynomialsBox(poly1Str: string, poly2Str: string) {
     return { box, steps, finalAnswer };
 }
 
-// Approximations from "Handbook of Mathematical Functions" by Abramowitz and Stegun.
+// Forward recurrence relation for Bessel functions.
 export function calculateBesselJ(n: number, x: number): number {
     if (x === 0.0) return n === 0 ? 1.0 : 0.0;
-
-    if (n === 0) {
-        if (Math.abs(x) <= 3.0) {
-            const t = (x / 3.0) * (x / 3.0);
-            return 1.0 - 2.2499997 * t + 1.2656208 * t*t - 0.3163866 * t*t*t + 0.0444479 * t*t*t*t - 0.0039444 * t*t*t*t*t + 0.0002100 * t*t*t*t*t*t;
-        } else {
-            const t = 3.0 / Math.abs(x);
-            const f = 0.79788456 - 0.00000077 * t - 0.00552796 * t*t + 0.00009512 * t*t*t - 0.00137237 * t*t*t*t + 0.00072805 * t*t*t*t*t - 0.00014476 * t*t*t*t*t*t;
-            const theta = Math.abs(x) - 0.25 * Math.PI - 0.5 * n * Math.PI; // For n=0
-            return f * Math.cos(theta) / Math.sqrt(Math.abs(x));
-        }
-    }
-
-    if (n === 1) {
-        if (Math.abs(x) <= 3.0) {
-            const t = x * x;
-            return x * (0.5 - 0.0703125 * t + 0.001302083 * t*t - 0.0000101725 * t*t*t);
-        } else {
-            const t = 3.0 / Math.abs(x);
-            const f = 0.79788456 + 0.00000156 * t + 0.01659667 * t*t - 0.00017105 * t*t*t + 0.00229456 * t*t*t*t - 0.00157972 * t*t*t*t*t + 0.00034944 * t*t*t*t*t*t;
-            const theta = Math.abs(x) - 0.75 * Math.PI;
-            return f * Math.cos(theta) / Math.sqrt(Math.abs(x));
-        }
+    
+    // For negative x, J_n(x) = (-1)^n * J_n(-x)
+    if (x < 0) {
+        return (n % 2 === 0 ? 1 : -1) * calculateBesselJ(n, -x);
     }
     
-    // Recurrence relation for n > 1
-    if (x === 0) return 0;
-    let j_nm1 = calculateBesselJ(n-1, x);
-    let j_n = calculateBesselJ(n-2, x);
-    for (let i = n - 1; i < n; i++) {
-        const j_np1 = (2 * i / x) * j_n - j_nm1;
-        j_nm1 = j_n;
-        j_n = j_np1;
+    if (n === 0) {
+        // Use series expansion for small x
+        if (x <= 3.0) {
+            const t = (x / 2.0) * (x / 2.0);
+            return 1 - t + (t * t) / 4 - (t * t * t) / 36 + (t * t * t * t) / 576;
+        }
+        // Use asymptotic expansion for large x
+        const theta = x - Math.PI / 4;
+        return Math.sqrt(2.0 / (Math.PI * x)) * Math.cos(theta);
     }
-    return j_nm1;
+    
+    if (n === 1) {
+        if (x <= 3.0) {
+            const t = (x / 2.0) * (x / 2.0);
+            return (x / 2.0) * (1 - t / 2 + (t * t) / 12 - (t * t * t) / 144);
+        }
+        const theta = x - 3 * Math.PI / 4;
+        return Math.sqrt(2.0 / (Math.PI * x)) * Math.cos(theta);
+    }
+    
+    // Miller's Algorithm for upward recurrence
+    const N_START = Math.max(n + 5, Math.floor(1.5 * x) + 5);
+    let j_values = new Array(N_START + 2).fill(0.0);
+    j_values[N_START + 1] = 0;
+    j_values[N_START] = 1e-30;
+
+    for (let k = N_START - 1; k >= 0; k--) {
+        j_values[k] = (2 * (k + 1) / x) * j_values[k + 1] - j_values[k + 2];
+    }
+
+    const scale = calculateBesselJ(0, x) / j_values[0];
+    
+    return j_values[n] * scale;
 }
 
 export function calculateBesselY(n: number, x: number): number | string {
     if (x === 0.0) return "-Infinity";
-    if (x < 0) return NaN; // Generally defined for x > 0
+    if (x < 0) return NaN;
 
-     if (n === 0) {
+    if (n === 0) {
         if (x <= 3.0) {
-            const t = x*x;
             const j0 = calculateBesselJ(0, x);
-            return (2.0/Math.PI)*j0*Math.log(x/2.0) - 0.36746691 + 0.1517539*t - 0.0232496*t*t + 0.0016438*t*t*t;
-        } else {
-             const t = 3.0 / x;
-             const f = 0.79788456 - 0.00000077*t - 0.00552796*t*t + 0.00009512*t*t*t - 0.00137237*t*t*t*t + 0.00072805*t*t*t*t*t - 0.00014476*t*t*t*t*t*t;
-             const theta = x - 0.25*Math.PI;
-             return Math.sqrt(2.0/(Math.PI*x)) * Math.sin(theta) * f;
+            const term1 = (2 / Math.PI) * j0 * (Math.log(x / 2.0) + 0.57721566); // Euler-Mascheroni constant
+            const t = (x/2.0)*(x/2.0);
+            const term2 = (t / (1*1));
+            return term1 - (2/Math.PI) * term2;
         }
+        const theta = x - Math.PI / 4;
+        return Math.sqrt(2.0 / (Math.PI * x)) * Math.sin(theta);
     }
 
     if (n === 1) {
         if (x <= 3.0) {
-            const t = x*x;
             const j1 = calculateBesselJ(1, x);
-            return (2.0/Math.PI)*j1*Math.log(x/2.0) - (2.0/(Math.PI*x)) - x*(0.1159516 + 0.022426*t - 0.001223*t*t);
-        } else {
-            const t = 3.0 / x;
-            const f = 0.79788456 + 0.00000156*t + 0.01659667*t*t - 0.00017105*t*t*t + 0.00229456*t*t*t*t - 0.00157972*t*t*t*t*t + 0.00034944*t*t*t*t*t*t;
-            const theta = x - 0.75 * Math.PI;
-            return Math.sqrt(2.0/(Math.PI*x)) * Math.sin(theta) * f;
+             return (2 / Math.PI) * (j1 * (Math.log(x / 2.0) + 0.57721566) - 1/x);
         }
+        const theta = x - 3 * Math.PI / 4;
+        return Math.sqrt(2.0 / (Math.PI * x)) * Math.sin(theta);
     }
-    
-    // Recurrence
-    let y_nm2 = typeof calculateBesselY(n - 2, x) === 'number' ? calculateBesselY(n - 2, x) as number : NaN;
-    let y_nm1 = typeof calculateBesselY(n - 1, x) === 'number' ? calculateBesselY(n - 1, x) as number : NaN;
 
-    if (isNaN(y_nm1) || isNaN(y_nm2)) return NaN;
+    // Recurrence relation
+    const y0_val = calculateBesselY(0, x);
+    const y1_val = calculateBesselY(1, x);
     
-    let y_n = (2 * (n - 1) / x) * y_nm1 - y_nm2;
+    if (typeof y0_val !== 'number' || typeof y1_val !== 'number') return NaN;
 
-    return y_n;
+    let y_nm1 = y1_val;
+    let y_n = y0_val;
+    
+    for (let i = 1; i < n; i++) {
+        const y_np1 = (2 * i / x) * y_nm1 - y_n;
+        y_n = y_nm1;
+        y_nm1 = y_np1;
+    }
+    return y_nm1;
 }

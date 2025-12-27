@@ -27,7 +27,7 @@ export default function AbsoluteValueEquationCalculator() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { a: 1, b: 0, c: '' as any },
+    defaultValues: { a: 1, b: 0, c: 4 },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -133,13 +133,13 @@ export default function AbsoluteValueEquationCalculator() {
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">What is Absolute Value?</h2>
-            <p>Before solving the equations, it's crucial to understand what "absolute value" means. The absolute value of a number is its distance from zero on a number line. Because distance is always positive (or zero), the absolute value of any number is always non-negative.</p>
+            <p>Before solving the equations, it's crucial to understand what "absolute value" means. The absolute value of a number is its distance from zero on a number line. Because distance is always positive (or zero), the absolute value of any number is always non-negative. This concept is the key to understanding why absolute value equations often have two solutions.</p>
             <p>We denote the absolute value of a number `x` with vertical bars: `|x|`.</p>
             <ul className="list-disc pl-5 space-y-2">
                 <li>If `x` is positive or zero (e.g., 5), its absolute value is itself: `|5| = 5`.</li>
                 <li>If `x` is negative (e.g., -5), its absolute value is its positive counterpart: `|-5| = 5`.</li>
             </ul>
-            <p>This simple concept is the key to why absolute value equations typically have two solutions. If we have the equation `|x| = 3`, we are asking: "Which numbers are 3 units away from zero?" The answer is both 3 and -3. This is the fundamental idea that allows us to split the equation into two cases.</p>
+            <p>So, if we have the equation `|x| = 3`, we are asking: "Which numbers are 3 units away from zero?" The answer is both 3 and -3. This fundamental idea of splitting the problem into two cases is what allows us to solve for `x` in more complex absolute value equations.</p>
 
             <h3 className="text-lg font-semibold text-foreground">Step-by-Step Solving Process</h3>
             <p>Let's walk through a concrete example: **|2x - 1| = 7**.</p>
@@ -181,15 +181,15 @@ export default function AbsoluteValueEquationCalculator() {
                     </div>
                 </li>
                 <li>
-                    <strong>State the Solution:</strong> The solutions are x = 4 and x = -3. You can verify these by plugging them back into the original equation:
+                    <strong>State and Verify the Solution:</strong> The solutions are x = 4 and x = -3. It's always a good practice to verify these by plugging them back into the original equation:
                     <ul className="list-disc pl-5 mt-2 space-y-1">
-                        <li>`|2(4) - 1| = |8 - 1| = |7| = 7`. Correct.</li>
-                        <li>`|2(-3) - 1| = |-6 - 1| = |-7| = 7`. Correct.</li>
+                        <li>For x = 4: `|2(4) - 1| = |8 - 1| = |7| = 7`. This is correct.</li>
+                        <li>For x = -3: `|2(-3) - 1| = |-6 - 1| = |-7| = 7`. This is also correct.</li>
                     </ul>
                 </li>
             </ol>
             
-            <h3 className="text-lg font-semibold text-foreground">Special Cases</h3>
+            <h3 className="text-lg font-semibold text-foreground">Special Cases to Watch For</h3>
             <div className="space-y-4">
                 <Alert>
                   <Lightbulb className="h-4 w-4" />
@@ -197,7 +197,7 @@ export default function AbsoluteValueEquationCalculator() {
                   <AlertDescription>
                     If you have an equation like `|4x + 8| = 0`, there is only one case to solve, because +0 and -0 are the same.
                     <br/><span className="font-mono">4x + 8 = 0  =&gt;  4x = -8  =&gt;  x = -2</span>.
-                    There is only one solution.
+                    There is only one unique solution.
                   </AlertDescription>
                 </Alert>
                 <Alert variant="destructive">
@@ -220,39 +220,45 @@ export default function AbsoluteValueEquationCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>Why are there usually two solutions?</AccordionTrigger>
               <AccordionContent>
-                <p>Because absolute value represents distance from zero, there are two numbers that have the same positive distance. For example, both 5 and -5 are 5 units away from 0. So, `|x| = 5` has two solutions. This "two-ness" carries over when the expression inside the absolute value is more complex.</p>
+                <p>Because absolute value represents distance from zero, and there are typically two numbers that have the same positive distance from zero on a number line. For example, both 5 and -5 are 5 units away from 0. So, `|x| = 5` has two solutions. This "two-ness" carries over when the expression inside the absolute value is more complex.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Can there ever be only one solution?</AccordionTrigger>
               <AccordionContent>
-                <p>Yes. This occurs when the absolute value expression is equal to zero. For example, `|2x - 6| = 0`. Since 0 is its own negative, the two cases (`2x - 6 = 0` and `2x - 6 = -0`) are identical, leading to a single solution (x = 3).</p>
+                <p>Yes. This occurs when the absolute value expression is equal to zero. For example, in `|2x - 6| = 0`, since +0 and -0 are the same, the two cases (`2x - 6 = 0` and `2x - 6 = -0`) are identical. This leads to a single, unique solution (in this case, x = 3).</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
-              <AccordionTrigger>Can there be no solution?</AccordionTrigger>
+              <AccordionTrigger>Can there be no solution at all?</AccordionTrigger>
               <AccordionContent>
-                <p>Yes. If, after isolating the absolute value expression, it is equal to a negative number (e.g., `|x + 1| = -4`), there is no solution. The absolute value of any number cannot be negative, so it's a logical impossibility.</p>
+                <p>Yes. This happens if, after isolating the absolute value expression, it is set equal to a negative number (e.g., `|x + 1| = -4`). It is a logical impossibility for an absolute value, which represents a non-negative distance, to equal a negative number.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4">
-              <AccordionTrigger>What if there is an x term outside the absolute value bars?</AccordionTrigger>
+              <AccordionTrigger>What if there is a variable outside the absolute value bars?</AccordionTrigger>
               <AccordionContent>
-                <p>This calculator is not designed for equations like `|x + 2| = 3x - 4`. These are more complex because the value `c` (in this case `3x - 4`) can be positive or negative depending on `x`. When solving these, you must still split into two cases, but you have to check your final solutions to make sure they don't produce a negative result on the side of the equation without the absolute value bars. This is called checking for "extraneous solutions."</p>
+                <p>This calculator is not designed for equations like `|x + 2| = 3x - 4`. These are more complex because the right side of the equation can be positive or negative depending on the value of `x`. While you still split the equation into two cases, you must check your final solutions to ensure they don't make the non-absolute side of the original equation negative. These invalid solutions are called "extraneous solutions."</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-5">
               <AccordionTrigger>How do I solve an equation with two absolute values, like `|x + 1| = |2x - 3|`?</AccordionTrigger>
               <AccordionContent>
-                <p>For an equation `|A| = |B|`, you still split it into two cases. The logic is that either the contents are identical or they are opposites. So you solve: (1) `A = B` and (2) `A = -B`. For the example, you would solve `x + 1 = 2x - 3` and `x + 1 = -(2x - 3)`.</p>
+                <p>For an equation `|A| = |B|`, you still split it into two cases, based on the logic that either the contents are identical or they are exact opposites. So, you would solve two separate equations: (1) `A = B` and (2) `A = -B`. For the example, you would solve `x + 1 = 2x - 3` and `x + 1 = -(2x - 3)`.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">The Absolute Value Equation Calculator is a tool designed to solve equations of the form `|ax + b| = c`. The core methodology involves isolating the absolute value expression and splitting the problem into two separate linear equations, reflecting the positive and negative possibilities of the expression inside the bars. This calculator provides a quick way to find both potential solutions and highlights special cases, such as when there is one unique solution (`c=0`) or no solution at all (`c<0`), making it a useful resource for students and educators in algebra.</p>
+        </CardContent>
+      </Card>
     </div>
   );
 }
-
-    

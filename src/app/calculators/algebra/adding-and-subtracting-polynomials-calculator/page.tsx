@@ -26,7 +26,7 @@ export default function PolynomialCalculator() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { poly1: '', poly2: '', operation: 'add' },
+    defaultValues: { poly1: '3x^2 + 2x - 5', poly2: 'x^2 - 7x + 2', operation: 'add' },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -113,10 +113,10 @@ export default function PolynomialCalculator() {
         <CardContent className="space-y-4">
             <p className="text-muted-foreground">Enter polynomials using standard algebraic notation:</p>
             <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                <li>Use `x` as the variable.</li>
+                <li>Use `x` as the variable. Other variables are not supported.</li>
                 <li>Use `^` to denote exponents (e.g., `x^2` for x-squared).</li>
                 <li>Terms should be separated by `+` or `-`.</li>
-                <li>Coefficients come before the variable (e.g., `3x`). A variable with no coefficient is assumed to have a coefficient of 1 (e.g., `x` is `1x`).</li>
+                <li>Coefficients come before the variable (e.g., `3x`). A variable with no coefficient is assumed to have a coefficient of 1 (e.g., `x` is `1x`, `-x` is `-1x`).</li>
                 <li>Constants are just numbers (e.g., `5`, `-10`).</li>
                 <li>Spaces are optional. `3x^2+2x-1` is the same as `3x^2 + 2x - 1`.</li>
             </ul>
@@ -128,12 +128,12 @@ export default function PolynomialCalculator() {
           <CardTitle className="flex items-center gap-2"><Sigma className="h-5 w-5" />Methodology</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Adding and subtracting polynomials involves combining **like terms**. Like terms are terms that have the same variable raised to the same power.</p>
+          <p>Adding and subtracting polynomials involves one fundamental operation: combining **like terms**. Like terms are terms that have the same variable raised to the exact same power.</p>
           <h3 className="font-semibold text-lg mt-4">Addition</h3>
-          <p>To add polynomials, you combine the coefficients of like terms. For example, to add `(3x^2 + 4x)` and `(2x^2 - x)`, you would add the coefficients of the `x^2` terms and the `x` terms separately: `(3+2)x^2 + (4-1)x = 5x^2 + 3x`.</p>
+          <p>To add polynomials, you simply identify the like terms from each polynomial and add their coefficients. For example, to add `(3x^2 + 4x)` and `(2x^2 - x)`, you would add the coefficients of the `x^2` terms `(3+2)` and the `x` terms `(4-1)` separately to get `5x^2 + 3x`.</p>
           <h3 className="font-semibold text-lg mt-4">Subtraction</h3>
-          <p>To subtract one polynomial from another, you distribute the negative sign to every term in the second polynomial and then combine like terms as you would in addition. For example, `(3x^2) - (2x^2 - x)` becomes `3x^2 - 2x^2 + x = x^2 + x`.</p>
-           <p className="mt-2 text-muted-foreground">The calculator parses the input strings, identifies the coefficient and exponent for each term, performs the chosen operation on the coefficients of like terms, and then formats the result into a new polynomial string.</p>
+          <p>To subtract one polynomial from another, you first distribute the negative sign to every term in the second polynomial. This flips the sign of each term. After this, the process is identical to addition: combine the like terms. For example, `(3x^2) - (2x^2 - x)` becomes `3x^2 - 2x^2 + x`, which simplifies to `x^2 + x`.</p>
+           <p className="mt-2 text-muted-foreground">The calculator automates this by parsing the input strings, creating a map of exponents and their coefficients for each polynomial, performing the chosen operation on the coefficients of like terms, and then formatting the resulting map back into a standard polynomial string.</p>
         </CardContent>
       </Card>
       
@@ -143,28 +143,32 @@ export default function PolynomialCalculator() {
         </CardHeader>
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">What is a Polynomial?</h2>
-            <p>A polynomial is an algebraic expression made up of variables and coefficients, involving only the operations of addition, subtraction, multiplication, and non-negative integer exponents. The term "polynomial" comes from "poly-" (meaning "many") and "-nomial" (meaning "term"), so it's an expression with "many terms."</p>
-            <p>A single term in a polynomial looks like `ax^k`, where:</p>
+            <p>A polynomial is an algebraic expression made up of variables and coefficients, involving only the operations of addition, subtraction, multiplication, and non-negative integer exponents. The term "polynomial" comes from "poly-" (meaning "many") and "-nomial" (meaning "term"), so it's literally an expression with "many terms."</p>
+            <p>A single term in a polynomial, called a monomial, looks like `ax^k`, where:</p>
             <ul className="list-disc pl-5 space-y-2">
-                <li>`a` is the **coefficient** (a constant number).</li>
+                <li>`a` is the **coefficient** (a constant number that multiplies the variable).</li>
                 <li>`x` is the **variable**.</li>
-                <li>`k` is the **exponent** or **degree** (a non-negative integer).</li>
+                <li>`k` is the **exponent** or **degree** (a non-negative integer like 0, 1, 2, ...).</li>
             </ul>
-            <p>Examples of polynomials include `5x^2 - 2x + 1` and `x^3 + 4`.</p>
+            <p>Examples of polynomials include `5x^2 - 2x + 1` (a trinomial), `x^3 + 4` (a binomial), and `7x` (a monomial).</p>
             
             <h3 className="text-lg font-semibold text-foreground">The Key Concept: Like Terms</h3>
-            <p>The foundation of adding and subtracting polynomials is the concept of **like terms**. You can only combine terms that are "alike." In algebra, this means they must have the exact same variable(s) raised to the exact same power(s).</p>
+            <p>The entire foundation of adding and subtracting polynomials rests on the concept of **like terms**. You can only combine terms that are "alike." In algebra, this has a very specific meaning: terms must have the exact same variable(s) raised to the exact same power(s).</p>
              <div className="w-full overflow-x-auto mt-2">
               <table className="w-full text-sm">
-                <thead className="text-left font-semibold text-foreground"><tr><th className="p-2 border-b">Like Terms</th><th className="p-2 border-b">Unlike Terms</th></tr></thead>
+                <thead className="text-left font-semibold text-foreground"><tr><th className="p-2 border-b">Like Terms (Can be combined)</th><th className="p-2 border-b">Unlike Terms (Cannot be combined)</th></tr></thead>
                 <tbody>
-                  <tr>
-                    <td className="p-2 border-b align-top">`3x^2` and `-7x^2`<br/>(Same variable `x`, same exponent `2`)</td>
-                    <td className="p-2 border-b align-top">`3x^2` and `3x`<br/>(Different exponents)</td>
+                  <tr className="border-b">
+                    <td className="p-2 border-r align-top">`3x^2` and `-7x^2`<br/>(Same variable `x`, same exponent `2`)</td>
+                    <td className="p-2 align-top">`3x^2` and `3x`<br/>(Different exponents)</td>
                   </tr>
-                   <tr>
-                    <td className="p-2 align-top">`5` and `10`<br/>(Both are constants, or `x^0`)</td>
+                   <tr className="border-b">
+                    <td className="p-2 border-r align-top">`5` and `10`<br/>(Both are constants, technically `5x^0` and `10x^0`)</td>
                     <td className="p-2 align-top">`4x` and `4y`<br/>(Different variables)</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2 border-r align-top">`-x` and `4x`<br/>(Same variable `x`, same exponent `1`)</td>
+                    <td className="p-2 align-top">`x^2` and `y^2`<br/>(Different variables)</td>
                   </tr>
                 </tbody>
               </table>
@@ -173,31 +177,34 @@ export default function PolynomialCalculator() {
             <h3 className="text-lg font-semibold text-foreground">Step-by-Step Example: Addition</h3>
             <p>Let's add `(4x^3 + 5x - 2)` and `(x^3 - 2x^2 + 3x + 7)`.</p>
             <ol className="list-decimal list-inside space-y-4">
-                <li><strong>Remove Parentheses:</strong> Since we are adding, the signs don't change. `4x^3 + 5x - 2 + x^3 - 2x^2 + 3x + 7`</li>
-                <li><strong>Group Like Terms:</strong> It's helpful to group the terms by their degree.
+                <li><strong>Remove Parentheses & Identify Like Terms:</strong> Since we are adding, the signs don't change. It's helpful to visually group or underline the like terms.
                     <div className="p-2 bg-muted/50 rounded-lg mt-2 font-mono text-sm">
-                    (4x^3 + x^3) + (-2x^2) + (5x + 3x) + (-2 + 7)
+                    (<span className="text-red-500">4x^3</span> + <span className="text-blue-500">5x</span> - <span className="text-green-500">2</span>) + (<span className="text-red-500">x^3</span> - 2x^2 + <span className="text-blue-500">3x</span> + <span className="text-green-500">7</span>)
                     </div>
                 </li>
-                <li><strong>Combine Coefficients:</strong> Add or subtract the coefficients of the grouped terms.
+                <li><strong>Group the Like Terms:</strong> Rearrange the expression to put all like terms next to each other. This is often called the 'vertical method' when written on paper.
                     <div className="p-2 bg-muted/50 rounded-lg mt-2 font-mono text-sm">
-                    (4+1)x^3 - 2x^2 + (5+3)x + (-2+7)<br/>
-                    5x^3 - 2x^2 + 8x + 5
+                    (<span className="text-red-500">4x^3 + x^3</span>) + (-2x^2) + (<span className="text-blue-500">5x + 3x</span>) + (<span className="text-green-500">-2 + 7</span>)
                     </div>
                 </li>
-                <li><strong>Final Answer:</strong> The sum is `5x^3 - 2x^2 + 8x + 5`.</li>
+                <li><strong>Combine Coefficients:</strong> Add or subtract the coefficients of the grouped terms. The variable and exponent part stays the same.
+                    <div className="p-2 bg-muted/50 rounded-lg mt-2 font-mono text-sm">
+                    (<span className="text-red-500">5x^3</span>) - 2x^2 + (<span className="text-blue-500">8x</span>) + (<span className="text-green-500">5</span>)
+                    </div>
+                </li>
+                <li><strong>Final Answer in Standard Form:</strong> Write the result with terms ordered from the highest degree to the lowest. The sum is `5x^3 - 2x^2 + 8x + 5`.</li>
             </ol>
 
             <h3 className="text-lg font-semibold text-foreground">Step-by-Step Example: Subtraction</h3>
             <p>Let's subtract `(x^2 - 7x + 1)` from `(3x^2 + 2x - 5)`.</p>
             <ol className="list-decimal list-inside space-y-4">
-                <li><strong>Distribute the Negative:</strong> This is the most critical step in subtraction. The minus sign in front of the second parenthesis applies to *every term* inside it.
+                <li><strong>Distribute the Negative:</strong> This is the most critical and error-prone step in subtraction. The minus sign in front of the second parenthesis applies to *every term* inside it, flipping each sign.
                      <div className="p-2 bg-muted/50 rounded-lg mt-2 font-mono text-sm">
                         (3x^2 + 2x - 5) - (x^2 - 7x + 1) <br/>
-                        = 3x^2 + 2x - 5 - x^2 + 7x - 1
+                        = 3x^2 + 2x - 5 <span className="text-red-500">- x^2 + 7x - 1</span>
                     </div>
                 </li>
-                <li><strong>Group Like Terms:</strong>
+                <li><strong>Group Like Terms:</strong> Now that the subtraction is converted to addition, we proceed as before.
                      <div className="p-2 bg-muted/50 rounded-lg mt-2 font-mono text-sm">
                         (3x^2 - x^2) + (2x + 7x) + (-5 - 1)
                     </div>
@@ -222,39 +229,46 @@ export default function PolynomialCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>What is the 'degree' of a polynomial?</AccordionTrigger>
               <AccordionContent>
-                <p>The degree of a single term is its exponent. The degree of the entire polynomial is the highest degree of any of its terms. For example, the degree of `5x^3 - 2x^2 + 8x + 5` is 3.</p>
+                <p>The degree of a single term is its exponent. The degree of the entire polynomial is the highest degree of any of its terms. For example, the degree of `5x^3 - 2x^2 + 8x + 5` is 3. This determines the overall behavior of the polynomial's graph.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Does the order of the terms matter when I enter them?</AccordionTrigger>
               <AccordionContent>
-                <p>No, the calculator will parse the terms regardless of their order. You can enter `5 + 2x` or `2x + 5`. However, the final result is typically written in "standard form," with the terms ordered from the highest degree to the lowest degree.</p>
+                <p>No, the calculator will parse the terms correctly regardless of their order. You can enter `5 + 2x - 3x^2` and it will be understood. However, the final result is always presented in "standard form," with the terms ordered from the highest degree to the lowest, which is the conventional way to write polynomials.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
               <AccordionTrigger>What happens if a term cancels out completely?</AccordionTrigger>
               <AccordionContent>
-                <p>If combining like terms results in a coefficient of zero (e.g., `5x - 5x = 0x`), that term is simply omitted from the final result. For example, `(x^2 + 5x) + (-x^2 + 2x)` results in `7x`.</p>
+                <p>If combining like terms results in a coefficient of zero (e.g., `5x - 5x = 0x`), that term is simply omitted from the final result because anything multiplied by zero is zero. For example, `(x^2 + 5x) + (-x^2 + 2x)` results in `7x`, as the `x^2` terms cancel out.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-4">
               <AccordionTrigger>How do I enter a term like `-x^2`?</AccordionTrigger>
               <AccordionContent>
-                <p>You can enter it as `-x^2`. The calculator understands that a missing number coefficient means the coefficient is 1 (or -1 if there's a minus sign).</p>
+                <p>You can enter it exactly like that: `-x^2`. The calculator understands that a missing numerical coefficient implies a coefficient of 1 or -1. So, `x^2` is treated as `1x^2`, and `-x^2` is treated as `-1x^2`.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-5">
               <AccordionTrigger>Can this calculator handle multiplication or division?</AccordionTrigger>
               <AccordionContent>
-                <p>No, this tool is specifically designed for addition and subtraction. Polynomial multiplication (like the FOIL or Box method) and division (like long division or synthetic division) are different, more complex processes.</p>
+                <p>No, this tool is specifically designed for addition and subtraction. Polynomial multiplication (often done with the FOIL or Box method) and division (using long division or synthetic division) are different, more complex processes that require their own dedicated methods and calculators.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+            <CardTitle>Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">This calculator simplifies the process of adding and subtracting polynomials by automating the crucial steps of identifying, grouping, and combining like terms. For subtraction, it correctly handles the distribution of the negative sign before combining terms. By showing the step-by-step process, it serves as an educational tool for understanding the core principles of polynomial arithmetic, ensuring that results are accurate and presented in conventional standard form.</p>
         </CardContent>
       </Card>
 
     </div>
   );
 }
-
-    
