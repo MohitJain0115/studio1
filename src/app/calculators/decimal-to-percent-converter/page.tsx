@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { HelpCircle, Percent, ArrowRightLeft, Sigma } from 'lucide-react';
 
 const formSchema = z.object({
-  decimal: z.coerce.number(),
+  decimal: z.coerce.number({invalid_type_error: "Please enter a valid number."}),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -63,7 +63,7 @@ export default function DecimalToPercentConverter() {
                   <FormItem>
                     <FormLabel>Decimal Number</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 0.75" {...field} value={field.value ?? ''} />
+                      <Input type="number" placeholder="e.g., 0.75" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
