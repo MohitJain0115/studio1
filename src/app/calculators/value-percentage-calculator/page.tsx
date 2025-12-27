@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/accordion';
 import Link from 'next/link';
 import { HelpCircle, Percent, Sigma, Info } from 'lucide-react';
+import { useCountUp } from '@/hooks/use-count-up';
 
 const formSchema = z.object({
   percentage: z.coerce.number().min(0, "Percentage can't be negative."),
@@ -41,10 +42,12 @@ type FormValues = z.infer<typeof formSchema>;
 const relatedCalculators: { name: string; href: string }[] = [
   { name: 'Historic Change', href: '/calculators/historic-change-calculator' },
   { name: 'Investment Growth', href: '/calculators/investment-growth-calculator' },
+  { name: 'Comparative Difference', href: '/calculators/comparative-difference-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function ValuePercentageCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateValuePercentage> | null>(null);
+  const animatedValue = useCountUp(result ? parseFloat(result.value) : 0);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -58,6 +61,12 @@ export default function ValuePercentageCalculator() {
     const res = calculateValuePercentage(data.percentage, data.totalValue);
     setResult(res);
   };
+  
+  useEffect(() => {
+    if (result) {
+      // Trigger count-up animation
+    }
+  }, [result]);
 
   return (
     <div className="space-y-8">
@@ -113,7 +122,7 @@ export default function ValuePercentageCalculator() {
           <CardContent className="text-center">
              <div className="p-6 bg-primary/10 rounded-lg">
                 <p className="text-sm text-muted-foreground">{form.getValues('percentage')}% of {form.getValues('totalValue')} is</p>
-                <p className="text-4xl font-bold text-primary">{result.value}</p>
+                <p className="text-4xl font-bold text-primary">{animatedValue}</p>
             </div>
           </CardContent>
         </Card>
@@ -226,3 +235,5 @@ export default function ValuePercentageCalculator() {
     </div>
   );
 }
+
+    

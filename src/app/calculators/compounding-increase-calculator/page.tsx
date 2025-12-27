@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -41,6 +41,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from '@/components/ui/chart-components';
+import { useCountUp } from '@/hooks/use-count-up';
 
 const formSchema = z.object({
   initialValue: z.coerce.number().positive('Initial value must be positive.'),
@@ -58,6 +59,14 @@ const relatedCalculators: { name: string; href: string }[] = [
 
 export default function CompoundingIncreaseCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateCompoundingIncrease> | null>(null);
+  
+  const initialValue = result ? parseFloat(form.getValues('initialValue').toString()) : 0;
+  const finalValue = result ? parseFloat(result.finalValue) : 0;
+  const totalGrowth = result ? parseFloat(result.totalGrowth) : 0;
+
+  const animatedFinalValue = useCountUp(finalValue);
+  const animatedInitialValue = useCountUp(initialValue);
+  const animatedTotalGrowth = useCountUp(totalGrowth);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -72,6 +81,12 @@ export default function CompoundingIncreaseCalculator() {
     const res = calculateCompoundingIncrease(data.initialValue, data.percentageIncrease, data.periods);
     setResult(res);
   };
+  
+  useEffect(() => {
+    if (result) {
+      // Trigger count-up animation
+    }
+  }, [result]);
 
   return (
     <div className="space-y-8">
@@ -140,15 +155,15 @@ export default function CompoundingIncreaseCalculator() {
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <div className="p-6 bg-primary/10 rounded-lg">
               <p className="text-sm text-muted-foreground">Final Value</p>
-              <p className="text-4xl font-bold text-primary">${result.finalValue}</p>
+              <p className="text-4xl font-bold text-primary">${animatedFinalValue}</p>
             </div>
             <div className="p-6 bg-muted rounded-lg">
               <p className="text-sm text-muted-foreground">Initial Value</p>
-              <p className="text-4xl font-bold">${form.getValues('initialValue')}</p>
+              <p className="text-4xl font-bold">${animatedInitialValue}</p>
             </div>
             <div className="p-6 bg-accent/20 rounded-lg">
               <p className="text-sm text-muted-foreground">Total Growth</p>
-              <p className="text-4xl font-bold text-accent">${result.totalGrowth}</p>
+              <p className="text-4xl font-bold text-accent">${animatedTotalGrowth}</p>
             </div>
           </CardContent>
         </Card>
@@ -298,3 +313,5 @@ export default function CompoundingIncreaseCalculator() {
     </div>
   );
 }
+
+    

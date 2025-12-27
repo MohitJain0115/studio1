@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/accordion';
 import Link from 'next/link';
 import { HelpCircle, TrendingUp, TrendingDown, Percent, ArrowDown, ArrowUp, ArrowRight } from 'lucide-react';
+import { useCountUp } from '@/hooks/use-count-up';
 
 const formSchema = z.object({
   oldValue: z.coerce.number().refine(val => val !== 0, {message: 'Original value cannot be zero.'}),
@@ -46,6 +47,7 @@ const relatedCalculators: { name: string; href: string }[] = [
 
 export default function HistoricChangeCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateHistoricChange> | null>(null);
+  const animatedChange = useCountUp(result ? parseFloat(result.change) : 0);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -59,6 +61,12 @@ export default function HistoricChangeCalculator() {
     const res = calculateHistoricChange(data.oldValue, data.newValue);
     setResult(res);
   };
+  
+  useEffect(() => {
+    if (result) {
+      // Trigger count-up animation
+    }
+  }, [result]);
 
   return (
     <div className="space-y-8">
@@ -115,7 +123,7 @@ export default function HistoricChangeCalculator() {
              <div className="p-6 bg-primary/10 rounded-lg flex items-center justify-center gap-4">
                 <div>
                     <p className="text-sm text-muted-foreground">Percentage Change</p>
-                    <p className={`text-4xl font-bold ${result.direction === 'increase' ? 'text-accent' : result.direction === 'decrease' ? 'text-destructive' : 'text-primary'}`}>{result.change}%</p>
+                    <p className={`text-4xl font-bold ${result.direction === 'increase' ? 'text-accent' : result.direction === 'decrease' ? 'text-destructive' : 'text-primary'}`}>{animatedChange}%</p>
                 </div>
                 {result.direction === 'increase' && <ArrowUp className="w-12 h-12 text-accent" />}
                 {result.direction === 'decrease' && <ArrowDown className="w-12 h-12 text-destructive" />}
@@ -242,3 +250,5 @@ export default function HistoricChangeCalculator() {
     </div>
   );
 }
+
+    
