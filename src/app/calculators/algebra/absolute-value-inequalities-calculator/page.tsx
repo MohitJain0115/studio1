@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -236,29 +237,29 @@ export default function AbsoluteValueInequalityCalculator() {
             <AccordionItem value="item-1">
               <AccordionTrigger>What happens if I have to multiply or divide by a negative number to solve for `x`?</AccordionTrigger>
               <AccordionContent>
-                <p>This is a critical rule in all inequalities. When you multiply or divide all parts of an inequality by a negative number, you **must flip the direction of the inequality sign(s)**. For example, if you have `-2x < 6`, dividing by -2 gives `x > -3`. The calculator handles this automatically based on the sign of `a`.</p>
+                <p>This is a critical rule in all inequalities. When you multiply or divide all parts of an inequality by a negative number, you **must flip the direction of the inequality sign(s)**. For example, if you have `-2x &lt; 6`, dividing by -2 gives `x &gt; -3`. The calculator handles this automatically based on the sign of `a`.</p>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>What's the difference between `&lt;` and `&le;` in the solution?</AccordionTrigger>
               <AccordionContent>
-                <p>A strict inequality (`<` or `>`) results in an "open" interval, meaning the endpoints are not included in the solution set. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`≤` or `≥`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
+                <p>A strict inequality (`&lt;` or `&gt;`) results in an "open" interval, meaning the endpoints are not included in the solution set. This is shown with parentheses in interval notation, e.g., `(-2, 5)`. A non-strict inequality (`≤` or `≥`) results in a "closed" interval, meaning the endpoints are included. This is shown with square brackets, e.g., `[-2, 5]`.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-3">
               <AccordionTrigger>How are the solutions written?</AccordionTrigger>
               <AccordionContent>
-                 <p>The calculator provides solutions in standard inequality notation (e.g., `x > 5 or x < -5`) and also provides the corresponding interval notation in the explanation text. The symbol `U` is used in interval notation to represent the "union" of two separate sets, which is how we write "OR" solutions.</p>
+                 <p>The calculator provides solutions in standard inequality notation (e.g., `x &gt; 5 or x &lt; -5`) and also provides the corresponding interval notation in the explanation text. The symbol `U` is used in interval notation to represent the "union" of two separate sets, which is how we write "OR" solutions.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-4">
-              <AccordionTrigger>Why does `|x| < -5` have no solution?</AccordionTrigger>
+              <AccordionTrigger>Why does `|x| &lt; -5` have no solution?</AccordionTrigger>
               <AccordionContent>
                 <p>The expression `|x|` represents a distance, which can only be positive or zero. It is logically impossible for a positive value or zero to be less than a negative value like -5. Therefore, no value of `x` can ever satisfy this statement.</p>
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-5">
-              <AccordionTrigger>Why is `|x| > -5` true for all real numbers?</AccordionTrigger>
+              <AccordionTrigger>Why is `|x| &gt; -5` true for all real numbers?</AccordionTrigger>
               <AccordionContent>
                 <p>Since `|x|` must always be non-negative (0 or positive), it will always be greater than any negative number. No matter what real number you plug in for `x`, its absolute value will be greater than -5, making the statement universally true.</p>
               </AccordionContent>
@@ -279,3 +280,5 @@ export default function AbsoluteValueInequalityCalculator() {
     </div>
   );
 }
+
+    
