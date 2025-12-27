@@ -256,7 +256,7 @@ export default function AbsoluteValueEquationCalculator() {
           <CardTitle>Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">The Absolute Value Equation Calculator is a tool designed to solve equations of the form `|ax + b| = c`. The core methodology involves isolating the absolute value expression and splitting the problem into two separate linear equations, reflecting the positive and negative possibilities of the expression inside the bars. This calculator provides a quick way to find both potential solutions and highlights special cases, such as when there is one unique solution (`c=0`) or no solution at all (`c<0`), making it a useful resource for students and educators in algebra.</p>
+          <p className="text-muted-foreground">The Absolute Value Equation Calculator is a tool designed to solve equations of the form `|ax + b| = c`. The core methodology involves isolating the absolute value expression and splitting the problem into two separate linear equations, reflecting the positive and negative possibilities of the expression inside the bars. This calculator provides a quick way to find both potential solutions and highlights special cases, such as when there is one unique solution (`c=0`) or no solution at all (`c&lt;0`), making it a useful resource for students and educators in algebra.</p>
         </CardContent>
       </Card>
     </div>
