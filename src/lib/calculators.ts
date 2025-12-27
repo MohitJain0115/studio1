@@ -42,10 +42,10 @@ export function calculateInvestmentGrowth(initialAmount: number, finalAmount: nu
 
 export function calculateCompoundingIncrease(initialValue: number, percentageIncrease: number, periods: number) {
     let finalValue = initialValue;
-    const history = [{ period: 0, value: initialValue.toFixed(2) }];
+    const history = [{ period: 0, value: parseFloat(initialValue.toFixed(2)) }];
     for (let i = 1; i <= periods; i++) {
         finalValue = finalValue * (1 + percentageIncrease / 100);
-        history.push({ period: i, value: finalValue.toFixed(2) });
+        history.push({ period: i, value: parseFloat(finalValue.toFixed(2)) });
     }
     const totalGrowth = finalValue - initialValue;
     return {
@@ -95,5 +95,56 @@ export function calculateFuelCost(distance: number, distanceUnit: 'kilometers' |
     return {
         totalCost: totalCost.toFixed(2),
         fuelNeeded: fuelNeededDisplay,
+    };
+}
+
+
+export function calculateAveragePercentage(percentages: number[]) {
+    const sum = percentages.reduce((acc, val) => acc + val, 0);
+    const average = sum / percentages.length;
+    return {
+        average: average.toFixed(2),
+    };
+}
+
+export function calculateFractionToPercent(numerator: number, denominator: number) {
+    if (denominator === 0) return { percentage: 'N/A' };
+    const percentage = (numerator / denominator) * 100;
+    return {
+        percentage: percentage.toFixed(2),
+    };
+}
+
+export function calculateDecimalToPercent(decimal: number) {
+    const percentage = decimal * 100;
+    return {
+        percentage: percentage.toFixed(2),
+    };
+}
+
+export function calculateDoublingTime(growthRate: number) {
+    if (growthRate <= 0) return { exactTime: 'N/A', ruleOf72Time: 'N/A' };
+    const rateDecimal = growthRate / 100;
+    const exactTime = Math.log(2) / Math.log(1 + rateDecimal);
+    const ruleOf72Time = 72 / growthRate;
+    return {
+        exactTime: exactTime.toFixed(2),
+        ruleOf72Time: ruleOf72Time.toFixed(2),
+    };
+}
+
+export function calculatePercentageOfPercentage(percentage1: number, percentage2: number) {
+    const decimal1 = percentage1 / 100;
+    const decimal2 = percentage2 / 100;
+    const result = decimal1 * decimal2 * 100;
+    return {
+        result: result.toFixed(2),
+    };
+}
+
+export function calculatePercentagePoint(percentage1: number, percentage2: number) {
+    const difference = percentage2 - percentage1;
+    return {
+        difference: difference.toFixed(2),
     };
 }

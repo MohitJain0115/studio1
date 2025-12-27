@@ -40,9 +40,17 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const relatedCalculators: { name: string; href: string }[] = [
-  { name: 'Investment Growth', href: '/calculators/investment-growth-calculator' },
-  { name: 'Comparative Difference', href: '/calculators/comparative-difference-calculator' },
-  { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
+    { name: 'Average Percentage', href: '/calculators/average-percentage-calculator' },
+    { name: 'Comparative Difference', href: '/calculators/comparative-difference-calculator' },
+    { name: 'Compounding Increase', href: '/calculators/compounding-increase-calculator' },
+    { name: 'Decimal to Percent Converter', href: '/calculators/decimal-to-percent-converter' },
+    { name: 'Doubling Time', href: '/calculators/doubling-time-calculator' },
+    { name: 'Fraction to Percent', href: '/calculators/fraction-to-percent-calculator' },
+    { name: 'Fuel Cost', href: '/calculators/fuel-cost-calculator' },
+    { name: 'Investment Growth', href: '/calculators/investment-growth-calculator' },
+    { name: 'Percentage of a Percentage', href: '/calculators/percentage-of-a-percentage-calculator' },
+    { name: 'Percentage Point', href: '/calculators/percentage-point-calculator' },
+    { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 export default function HistoricChangeCalculator() {
@@ -250,5 +258,3 @@ export default function HistoricChangeCalculator() {
     </div>
   );
 }
-
-    

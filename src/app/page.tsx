@@ -9,23 +9,20 @@ import {
 import {
   Percent,
   TrendingUp,
-  TrendingDown,
   ArrowRightLeft,
   ChevronsRight,
   Calculator,
+  Divide,
+  Clock,
+  Minus
 } from 'lucide-react';
 import Link from 'next/link';
 
 const calculatorLinks = [
   {
-    href: '/calculators/value-percentage-calculator',
-    label: 'Value Percentage Calculator',
-    icon: <Percent className="w-8 h-8" />,
-  },
-  {
-    href: '/calculators/historic-change-calculator',
-    label: 'Historic Change Calculator',
-    icon: <TrendingUp className="w-8 h-8" />,
+    href: '/calculators/average-percentage-calculator',
+    label: 'Average Percentage Calculator',
+    icon: <Calculator className="w-8 h-8" />,
   },
   {
     href: '/calculators/comparative-difference-calculator',
@@ -33,19 +30,54 @@ const calculatorLinks = [
     icon: <ArrowRightLeft className="w-8 h-8" />,
   },
   {
-    href: '/calculators/investment-growth-calculator',
-    label: 'Investment Growth Calculator',
-    icon: <ChevronsRight className="w-8 h-8" />,
-  },
-  {
     href: '/calculators/compounding-increase-calculator',
     label: 'Compounding Increase Calculator',
-    icon: <Calculator className="w-8 h-8" />,
+    icon: <TrendingUp className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/decimal-to-percent-converter',
+    label: 'Decimal to Percent Converter',
+    icon: <ArrowRightLeft className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/doubling-time-calculator',
+    label: 'Doubling Time Calculator',
+    icon: <Clock className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/fraction-to-percent-calculator',
+    label: 'Fraction to Percent Calculator',
+    icon: <Divide className="w-8 h-8" />,
   },
   {
     href: '/calculators/fuel-cost-calculator',
     label: 'Fuel Cost Calculator',
     icon: <Calculator className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/historic-change-calculator',
+    label: 'Historic Change Calculator',
+    icon: <TrendingUp className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/investment-growth-calculator',
+    label: 'Investment Growth Calculator',
+    icon: <ChevronsRight className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/percentage-of-a-percentage-calculator',
+    label: 'Percentage of a Percentage Calculator',
+    icon: <Percent className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/percentage-point-calculator',
+    label: 'Percentage Point Calculator',
+    icon: <Minus className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/value-percentage-calculator',
+    label: 'Value Percentage Calculator',
+    icon: <Percent className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
