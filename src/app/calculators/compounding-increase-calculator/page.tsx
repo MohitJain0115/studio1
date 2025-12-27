@@ -188,7 +188,7 @@ export default function CompoundingIncreaseCalculator() {
           </div>
           <div>
             <h3 className="font-semibold text-lg">Number of Periods</h3>
-            <p className="text-muted-foreground">This is the total number of times the percentage increase will be applied. The 'period' could be a year, a month, a day, or any other consistent unit of time.</p>p>
+            <p className="text-muted-foreground">This is the total number of times the percentage increase will be applied. The 'period' could be a year, a month, a day, or any other consistent unit of time.</p>
           </div>
         </CardContent>
       </Card>
