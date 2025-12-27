@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Link from 'next/link';
 import { HelpCircle, TrendingUp, TrendingDown, ArrowDown, ArrowUp, ArrowRight, Sigma } from 'lucide-react';
+import { useCountUp } from '@/hooks/use-count-up';
 
 const formSchema = z.object({
   oldValue: z.coerce.number().refine(n => n !== 0, 'Original value cannot be zero.'),
@@ -40,6 +41,7 @@ const relatedCalculators: { name: string; href: string }[] = [
 
 export default function RelativeChangeCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateRelativeChange> | null>(null);
+  const animatedChange = useCountUp(result ? parseFloat(result.change) : 0);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -50,6 +52,12 @@ export default function RelativeChangeCalculator() {
     const res = calculateRelativeChange(data.oldValue, data.newValue);
     setResult(res);
   };
+  
+  useEffect(() => {
+    if (result) {
+      // Trigger count-up animation
+    }
+  }, [result]);
 
   return (
     <div className="space-y-8">
@@ -104,7 +112,7 @@ export default function RelativeChangeCalculator() {
             <div className={`p-6 rounded-lg ${result.direction === 'increase' ? 'bg-accent/20' : result.direction === 'decrease' ? 'bg-destructive/10' : 'bg-primary/10'}`}>
               <p className="text-sm text-muted-foreground">Relative Change</p>
               <div className="flex items-center justify-center gap-2">
-                <p className={`text-4xl font-bold ${result.direction === 'increase' ? 'text-accent' : result.direction === 'decrease' ? 'text-destructive' : 'text-primary'}`}>{result.change}%</p>
+                <p className={`text-4xl font-bold ${result.direction === 'increase' ? 'text-accent' : result.direction === 'decrease' ? 'text-destructive' : 'text-primary'}`}>{animatedChange}%</p>
                 {result.direction === 'increase' && <TrendingUp className="w-8 h-8 text-accent" />}
                 {result.direction === 'decrease' && <TrendingDown className="w-8 h-8 text-destructive" />}
               </div>
@@ -254,3 +262,5 @@ export default function RelativeChangeCalculator() {
     </div>
   );
 }
+
+    
