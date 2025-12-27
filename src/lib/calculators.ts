@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 export function calculateValuePercentage(percentage: number, totalValue: number) {
@@ -60,3 +61,50 @@ export function calculateCompoundingIncrease(initialValue: number, percentageInc
     const totalGrowth = finalValue - initialValue;
     return {
         finalValue: finalValue.toFixed(2),
+        totalGrowth: totalGrowth.toFixed(2),
+        history: history,
+    };
+}
+
+export function calculateFuelCost(distance: number, distanceUnit: 'kilometers' | 'miles', efficiency: number, efficiencyUnit: 'mpg' | 'lp100km', fuelPrice: number, priceUnit: 'per_gallon' | 'per_liter') {
+    // Conversion constants
+    const milesToKm = 1.60934;
+    const kmToMiles = 1 / milesToKm;
+    const gallonsToLiters = 3.78541;
+    const litersToGallons = 1 / gallonsToLiters;
+
+    // Normalize everything to a common standard: distance in km, efficiency in L/100km, price in $/L
+    let distanceInKm = distance;
+    if (distanceUnit === 'miles') {
+        distanceInKm = distance * milesToKm;
+    }
+
+    let efficiencyInLp100km = efficiency;
+    if (efficiencyUnit === 'mpg') {
+        efficiencyInLp100km = 235.215 / efficiency;
+    }
+    
+    let pricePerLiter = fuelPrice;
+    if (priceUnit === 'per_gallon') {
+        pricePerLiter = fuelPrice / gallonsToLiters;
+    }
+
+    // Calculate total fuel needed in liters
+    const fuelNeededInLiters = (distanceInKm / 100) * efficiencyInLp100km;
+    
+    // Calculate total cost
+    const totalCost = fuelNeededInLiters * pricePerLiter;
+    
+    // Determine which unit to display fuel needed in
+    let fuelNeededDisplay: string;
+    if (efficiencyUnit === 'mpg') {
+      fuelNeededDisplay = `${(fuelNeededInLiters * litersToGallons).toFixed(2)} gallons`;
+    } else {
+      fuelNeededDisplay = `${fuelNeededInLiters.toFixed(2)} liters`;
+    }
+
+    return {
+        totalCost: totalCost.toFixed(2),
+        fuelNeeded: fuelNeededDisplay,
+    };
+}
