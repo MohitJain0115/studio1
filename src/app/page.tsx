@@ -14,7 +14,10 @@ import {
   Calculator,
   Divide,
   Clock,
-  Minus
+  Minus,
+  Target,
+  Thermometer,
+  AreaChart,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -73,6 +76,31 @@ const calculatorLinks = [
     href: '/calculators/value-percentage-calculator',
     label: 'Value Percentage Calculator',
     icon: <Percent className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/percent-error-calculator',
+    label: 'Percent Error Calculator',
+    icon: <Thermometer className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/percent-to-goal-calculator',
+    label: 'Percent to Goal Calculator',
+    icon: <Target className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/relative-change-calculator',
+    label: 'Relative Change Calculator',
+    icon: <TrendingUp className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/slope-percentage-calculator',
+    label: 'Slope Percentage Calculator',
+    icon: <AreaChart className="w-8 h-8" />,
+  },
+  {
+    href: '/calculators/time-percentage-calculator',
+    label: 'Time Percentage Calculator',
+    icon: <Clock className="w-8 h-8" />,
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
 

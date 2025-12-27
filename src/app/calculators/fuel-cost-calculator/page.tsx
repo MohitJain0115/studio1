@@ -61,6 +61,11 @@ const relatedCalculators: { name: string; href: string }[] = [
     { name: 'Percentage of a Percentage', href: '/calculators/percentage-of-a-percentage-calculator' },
     { name: 'Percentage Point', href: '/calculators/percentage-point-calculator' },
     { name: 'Value Percentage', href: '/calculators/value-percentage-calculator' },
+    { name: 'Percent Error', href: '/calculators/percent-error-calculator' },
+    { name: 'Percent to Goal', href: '/calculators/percent-to-goal-calculator' },
+    { name: 'Relative Change', href: '/calculators/relative-change-calculator' },
+    { name: 'Slope Percentage', href: '/calculators/slope-percentage-calculator' },
+    { name: 'Time Percentage', href: '/calculators/time-percentage-calculator' },
 ].sort((a,b) => a.name.localeCompare(b.name));
 
 

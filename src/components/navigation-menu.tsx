@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Home, Percent, TrendingUp, ArrowRightLeft, ChevronsRight, Calculator, Fuel, Divide, Clock, Minus } from 'lucide-react';
+import { Home, Percent, TrendingUp, ArrowRightLeft, ChevronsRight, Calculator, Fuel, Divide, Clock, Minus, Target, Thermometer, AreaChart } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const menuItems = [
@@ -23,6 +23,11 @@ const menuItems = [
   { href: '/calculators/percentage-of-a-percentage-calculator', label: 'Percent of Percent', icon: Percent },
   { href: '/calculators/percentage-point-calculator', label: 'Percentage Point', icon: Minus },
   { href: '/calculators/value-percentage-calculator', label: 'Value Percentage', icon: Percent },
+  { href: '/calculators/percent-error-calculator', label: 'Percent Error', icon: Thermometer },
+  { href: '/calculators/percent-to-goal-calculator', label: 'Percent to Goal', icon: Target },
+  { href: '/calculators/relative-change-calculator', label: 'Relative Change', icon: TrendingUp },
+  { href: '/calculators/slope-percentage-calculator', label: 'Slope Percentage', icon: AreaChart },
+  { href: '/calculators/time-percentage-calculator', label: 'Time Percentage', icon: Clock },
 ].sort((a,b) => a.href === '/' ? -1 : b.href === '/' ? 1 : a.label.localeCompare(b.label));
 
 export default function NavigationMenu() {

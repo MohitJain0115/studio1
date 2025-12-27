@@ -141,3 +141,44 @@ export function calculatePercentagePoint(percentage1: number, percentage2: numbe
         difference: difference.toFixed(2),
     };
 }
+
+export function calculatePercentError(observedValue: number, trueValue: number) {
+    if (trueValue === 0) return { error: 'N/A' };
+    const error = (Math.abs(observedValue - trueValue) / trueValue) * 100;
+    return {
+        error: error.toFixed(2),
+    };
+}
+
+export function calculateTimePercentage(partialTime: number, totalTime: number) {
+    if (totalTime === 0) return { percentage: 'N/A' };
+    const percentage = (partialTime / totalTime) * 100;
+    return {
+        percentage: percentage.toFixed(2),
+    };
+}
+
+export function calculatePercentToGoal(currentValue: number, goalValue: number) {
+    if (goalValue === 0) return { percentage: 'N/A' };
+    const percentage = (currentValue / goalValue) * 100;
+    return {
+        percentage: percentage.toFixed(2),
+    };
+}
+
+export function calculateRelativeChange(oldValue: number, newValue: number) {
+    if (oldValue === 0) return { change: 'N/A', direction: 'none' };
+    const change = ((newValue - oldValue) / oldValue) * 100;
+    return {
+        change: change.toFixed(2),
+        direction: change > 0 ? 'increase' : change < 0 ? 'decrease' : 'none',
+    };
+}
+
+export function calculateSlopePercentage(rise: number, run: number) {
+    if (run === 0) return { slope: 'N/A' };
+    const slope = (rise / run) * 100;
+    return {
+        slope: slope.toFixed(2),
+    };
+}
