@@ -175,7 +175,7 @@ export default function AveragePercentageCalculator() {
         <CardContent className="space-y-6 text-muted-foreground leading-relaxed">
             <h2 className="text-xl font-bold text-foreground">Understanding Averages: Simple vs. Weighted</h2>
             <p>Averaging percentages seems simple, but there's a critical distinction that can dramatically affect your results. This calculator computes a **simple average**, which is appropriate in some cases but highly misleading in others. The key lies in understanding the 'weight' behind each percentage.</p>
-            
+
             <h3 className="text-lg font-semibold text-foreground">When a Simple Average is Correct</h3>
             <p>A simple arithmetic average is the right tool when each percentage value you're averaging holds equal importance or represents a group of the same size. In this case, no single percentage has more influence than another.</p>
             <ul className="list-disc pl-5 space-y-2">
@@ -185,13 +185,55 @@ export default function AveragePercentageCalculator() {
 
             <h3 className="text-lg font-semibold text-foreground">When a Simple Average is Misleading: The Case for a Weighted Average</h3>
             <p>You must NOT use a simple average when the percentages relate to groups of different sizes or importance. Doing so gives disproportionate influence to smaller groups, a statistical trap famously illustrated by **Simpson's Paradox**.</p>
-            <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Example: Unequal-Sized Groups.</strong> A company has two departments. The Sales department (10 employees) had a satisfaction rating of 50%. The Engineering department (90 employees) had a satisfaction rating of 90%.
-                <br/>A simple average would misleadingly suggest an overall satisfaction of `(50 + 90) / 2 = 70%`.
-                <br/>The correct method is a **weighted average**. First, convert percentages to actual numbers: 5 Sales employees are satisfied (50% of 10), and 81 Engineering employees are satisfied (90% of 90). The total number of satisfied employees is 86 out of 100 total employees. The true average satisfaction rate is `86 / 100 = 86%`.
-                <br/>The simple average was skewed by the small, less-satisfied group, whereas the weighted average correctly reflects the opinion of the majority of the company.</li>
-            </ul>
-             <h3 className="text-lg font-semibold text-foreground">How to Calculate a Weighted Average</h3>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-left font-semibold text-foreground">
+                  <tr>
+                    <th className="p-2 border-b">Scenario</th>
+                    <th className="p-2 border-b">Simple Average (Incorrect)</th>
+                    <th className="p-2 border-b">Weighted Average (Correct)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2 align-top">
+                      A company has two departments.
+                      <ul className="list-disc pl-5 mt-1">
+                        <li>Sales (10 employees): 50% satisfaction</li>
+                        <li>Engineering (90 employees): 90% satisfaction</li>
+                      </ul>
+                    </td>
+                    <td className="p-2 align-top">
+                      `(50 + 90) / 2 = 70%`<br/>
+                      <span className="text-destructive text-xs">(Highly misleading)</span>
+                    </td>
+                    <td className="p-2 align-top">
+                      `((50*10) + (90*90)) / (10+90) = 86%`<br/>
+                      <span className="text-accent text-xs">(Accurately reflects overall satisfaction)</span>
+                    </td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 align-top">
+                      You have two investments.
+                      <ul className="list-disc pl-5 mt-1">
+                          <li>Stock A ($1,000): 10% gain</li>
+                          <li>Stock B ($10,000): 1% gain</li>
+                      </ul>
+                    </td>
+                    <td className="p-2 align-top">
+                      `(10 + 1) / 2 = 5.5%`<br/>
+                      <span className="text-destructive text-xs">(Suggests a healthy average return)</span>
+                    </td>
+                    <td className="p-2 align-top">
+                      `((10*1000) + (1*10000)) / (1000+10000) = 1.82%`<br/>
+                      <span className="text-accent text-xs">(The small gain on the large investment dominates the return)</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 className="text-lg font-semibold text-foreground">How to Calculate a Weighted Average Manually</h3>
             <p>While this tool doesn't compute weighted averages, the formula is essential to know:</p>
             <p className="p-4 bg-muted/50 rounded-lg mt-2 text-center font-mono font-bold text-primary">Weighted Avg = Σ(Percentage_i × Weight_i) / Σ(Weight_i)</p>
             <p>This means you multiply each percentage by its corresponding size (weight), sum up these products, and then divide by the total sum of all weights.</p>

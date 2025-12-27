@@ -175,6 +175,35 @@ export default function PercentageOfPercentageCalculator() {
             <h3 className="text-lg font-semibold text-foreground">Another Application: Cascading Financial Effects</h3>
             <p>This concept is also vital in finance. Imagine a company's revenue is 25% of the total market, and their profit margin on that revenue is 15%. To find their profit as a percentage of the total market, you would calculate 15% of 25%.</p>
             <p>`(15 * 25) / 100 = 3.75%`. The company's profit represents 3.75% of the entire market's value.</p>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[400px] text-sm mt-4">
+                <caption className="caption-bottom text-xs text-muted-foreground mt-2">Table: Examples of cascading percentages.</caption>
+                <thead className="text-left font-semibold text-foreground">
+                  <tr>
+                    <th className="p-2 border-b">Scenario</th>
+                    <th className="p-2 border-b">Calculation</th>
+                    <th className="p-2 border-b">Final Percentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2">50% of 50%</td>
+                    <td className="p-2 font-mono">(50 * 50) / 100</td>
+                    <td className="p-2 font-bold">25%</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2">10% of 75%</td>
+                    <td className="p-2 font-mono">(10 * 75) / 100</td>
+                    <td className="p-2 font-bold">7.5%</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">80% of a 20% market share</td>
+                    <td className="p-2 font-mono">(80 * 20) / 100</td>
+                    <td className="p-2 font-bold">16% of the total market</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         </CardContent>
       </Card>
       

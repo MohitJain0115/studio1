@@ -179,7 +179,43 @@ export default function PercentagePointCalculator() {
             </div>
 
             <p className="font-bold text-foreground text-center text-base pt-2">Both statements are correct but describe different things: "The rate increased by **2 percentage points**," which was a **20 percent increase** from its original level.</p>
-            <p>News headlines often use the larger number (the percent change) because it sounds more dramatic ("Inflation Surges 20%!"), but analysts and professionals almost always use percentage points to describe changes in rates because it is clearer and less ambiguous.</p>
+            
+            <h3 className="text-lg font-semibold text-foreground">Why the Distinction Matters</h3>
+            <p>Using the wrong term can be highly misleading. News headlines often use the larger number (the percent change) because it sounds more dramatic ("Inflation Surges 20%!"), but analysts and professionals almost always use percentage points to describe changes in rates because it is clearer and less ambiguous.</p>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[500px] text-sm mt-4">
+                <caption className="caption-bottom text-xs text-muted-foreground mt-2">Table: Comparing Percentage Points and Percent Change</caption>
+                <thead className="text-left font-semibold text-foreground">
+                  <tr>
+                    <th className="p-2 border-b">Scenario</th>
+                    <th className="p-2 border-b">Change in Percentage Points</th>
+                    <th className="p-2 border-b">Percent Change</th>
+                    <th className="p-2 border-b">Correct Terminology</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2">Unemployment rate moves from 5% to 6%</td>
+                    <td className="p-2 font-bold">1 percentage point</td>
+                    <td className="p-2 font-bold">20%</td>
+                    <td className="p-2">"The unemployment rate increased by 1 percentage point."</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2">A political candidate's approval rises from 40% to 45%</td>
+                    <td className="p-2 font-bold">5 percentage points</td>
+                    <td className="p-2 font-bold">12.5%</td>
+                    <td className="p-2">"The candidate's approval rose by 5 percentage points."</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">A company's profit margin decreases from 15% to 12%</td>
+                    <td className="p-2 font-bold">-3 percentage points</td>
+                    <td className="p-2 font-bold">-20%</td>
+                    <td className="p-2">"The profit margin fell by 3 percentage points."</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
         </CardContent>
       </Card>
       
@@ -217,6 +253,12 @@ export default function PercentagePointCalculator() {
               <AccordionTrigger>Can I just subtract the numbers?</AccordionTrigger>
               <AccordionContent>
                 <p>Yes. That is exactly what this calculator does. The term "percentage points" is the correct unit to use when describing the result of that subtraction.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-6">
+              <AccordionTrigger>Does the order of the numbers matter?</AccordionTrigger>
+              <AccordionContent>
+                <p>Yes, it does. The calculator computes `Final - Initial`. Reversing the numbers will give you the same magnitude but with the opposite sign. A change from 10% to 12% is +2 percentage points, while a change from 12% to 10% is -2 percentage points.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

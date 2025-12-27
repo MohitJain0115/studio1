@@ -156,7 +156,26 @@ export default function DoublingTimeCalculator() {
                 <li>If inflation is **3%** per year, the cost of goods will double (and the value of your money will halve) in approximately `72 / 3 = 24` years.</li>
                 <li>A national debt growing at **4%** a year will double in `72 / 4 = 18` years.</li>
             </ul>
-            <p>As you can see from the calculator results, this rule isn't perfect, but its simplicity makes it incredibly effective for quick decision-making and for developing an intuitive understanding of the long-term impact of a growth rate.</p>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[400px] text-sm mt-4">
+                <thead className="text-left font-semibold text-foreground">
+                  <tr>
+                    <th className="p-2 border-b">Growth Rate</th>
+                    <th className="p-2 border-b">Rule of 72 Estimate (Years)</th>
+                    <th className="p-2 border-b">Exact Time (Years)</th>
+                    <th className="p-2 border-b">Accuracy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b"><td className="p-2">2%</td><td className="p-2">36.0</td><td className="p-2">35.00</td><td className="p-2">Good</td></tr>
+                  <tr className="border-b"><td className="p-2">5%</td><td className="p-2">14.4</td><td className="p-2">14.21</td><td className="p-2">Very Good</td></tr>
+                  <tr className="border-b"><td className="p-2">8%</td><td className="p-2">9.0</td><td className="p-2">9.01</td><td className="p-2">Excellent</td></tr>
+                  <tr className="border-b"><td className="p-2">10%</td><td className="p-2">7.2</td><td className="p-2">7.27</td><td className="p-2">Very Good</td></tr>
+                  <tr className="border-b"><td className="p-2">15%</td><td className="p-2">4.8</td><td className="p-2">4.96</td><td className="p-2">Good</td></tr>
+                  <tr><td className="p-2">20%</td><td className="p-2">3.6</td><td className="p-2">3.80</td><td className="p-2">Fair</td></tr>
+                </tbody>
+              </table>
+            </div>
 
             <h3 className="text-lg font-semibold text-foreground">Applications Beyond Finance</h3>
             <p>The concept of doubling time is not limited to money. It's a fundamental measure of exponential processes in many fields:</p>
@@ -203,6 +222,12 @@ export default function DoublingTimeCalculator() {
               <AccordionTrigger>Can I use this for halving time (decay)?</AccordionTrigger>
               <AccordionContent>
                 <p>Yes, the same logic applies. If you have a quantity that decreases by a certain percentage per period (like radioactive decay), you can use the Rule of 72 to estimate its half-life. For example, if a value decreases by 5% per year, its halving time is approximately `72 / 5 = 14.4` years.</p>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-6">
+              <AccordionTrigger>What are the limitations of this calculation?</AccordionTrigger>
+              <AccordionContent>
+                <p>The primary limitation is the assumption of a *constant* growth rate. In the real world, investment returns, population growth, and other metrics fluctuate over time. This calculator provides a useful projection based on a steady rate, but it is not a prediction of the future. It's a tool for understanding the power of a specific growth rate, not for guaranteeing future outcomes.</p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

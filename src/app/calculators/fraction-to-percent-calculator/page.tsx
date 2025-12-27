@@ -173,6 +173,27 @@ export default function FractionToPercentCalculator() {
               <li>A **proper fraction** has a numerator smaller than its denominator (e.g., 3/4). The resulting percentage will always be less than 100%.</li>
               <li>An **improper fraction** has a numerator larger than or equal to its denominator (e.g., 5/4). This represents more than one whole, and the resulting percentage will be 100% or greater (in this case, 125%).</li>
             </ul>
+            
+            <h3 className="text-lg font-semibold text-foreground">Common Fraction to Percent Conversions</h3>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[300px] text-sm">
+                <thead className="text-left font-semibold text-foreground">
+                  <tr>
+                    <th className="p-2 border-b">Fraction</th>
+                    <th className="p-2 border-b">Decimal</th>
+                    <th className="p-2 border-b">Percentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b"><td className="p-2">1/2</td><td className="p-2">0.5</td><td className="p-2">50%</td></tr>
+                  <tr className="border-b"><td className="p-2">1/3</td><td className="p-2">0.333...</td><td className="p-2">33.33%</td></tr>
+                  <tr className="border-b"><td className="p-2">1/4</td><td className="p-2">0.25</td><td className="p-2">25%</td></tr>
+                  <tr className="border-b"><td className="p-2">1/5</td><td className="p-2">0.20</td><td className="p-2">20%</td></tr>
+                  <tr className="border-b"><td className="p-2">3/4</td><td className="p-2">0.75</td><td className="p-2">75%</td></tr>
+                  <tr><td className="p-2">5/4</td><td className="p-2">1.25</td><td className="p-2">125%</td></tr>
+                </tbody>
+              </table>
+            </div>
         </CardContent>
       </Card>
       
