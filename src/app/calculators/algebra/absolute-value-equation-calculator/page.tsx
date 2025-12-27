@@ -120,8 +120,8 @@ export default function AbsoluteValueEquationCalculator() {
           </div>
           <p className="mt-2">For the equation `|ax + b| = c`, we substitute `X` with `ax + b` to get our two cases:</p>
           <div className="p-4 bg-muted/50 rounded-lg space-y-2 mt-4 text-center">
-            <p className="font-mono text-sm md:text-base"><b>Case 1:</b> ax + b = c  =>  ax = c - b  =>  x = (c - b) / a</p>
-            <p className="font-mono text-sm md:text-base"><b>Case 2:</b> ax + b = -c =>  ax = -c - b =>  x = (-c - b) / a</p>
+            <p className="font-mono text-sm md:text-base"><b>Case 1:</b> ax + b = c  =&gt;  ax = c - b  =&gt;  x = (c - b) / a</p>
+            <p className="font-mono text-sm md:text-base"><b>Case 2:</b> ax + b = -c =&gt;  ax = -c - b =&gt;  x = (-c - b) / a</p>
           </div>
           <p className="mt-2 text-muted-foreground">The calculator solves for `x` in both of these equations to find the two possible solutions.</p>
         </CardContent>
@@ -196,7 +196,7 @@ export default function AbsoluteValueEquationCalculator() {
                   <AlertTitle>Case 1: Equation equals zero</AlertTitle>
                   <AlertDescription>
                     If you have an equation like `|4x + 8| = 0`, there is only one case to solve, because +0 and -0 are the same.
-                    <br/><span className="font-mono">4x + 8 = 0  =>  4x = -8  =>  x = -2</span>.
+                    <br/><span className="font-mono">4x + 8 = 0  =&gt;  4x = -8  =&gt;  x = -2</span>.
                     There is only one solution.
                   </AlertDescription>
                 </Alert>
